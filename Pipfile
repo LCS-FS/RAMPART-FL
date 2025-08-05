@@ -1,0 +1,21 @@
+[[source]]
+url = "https://pypi.org/simple"
+verify_ssl = true
+name = "pypi"
+
+[packages]
+pyyaml = "*"
+scikit-learn = "*"
+flwr = "1.15.2"
+torch = "*"
+psutil = "*"
+matplotlib = "*"
+seaborn = "*"
+pandas = "*"
+bibtexparser = "*"
+ratelimit = "*"
+
+[dev-packages]
+
+[requires]
+# python_version = "3.13"  # Commented out or removed

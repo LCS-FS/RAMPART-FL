@@ -1,0 +1,485 @@
+version: '3.8'
+services:
+  superlink:
+    image: flwr/superlink:1.15.2
+    container_name: superlink
+    command:
+    - --insecure
+    - --isolation
+    - process
+    ports:
+    - 9091:9091
+    - 9092:9092
+    - 9093:9093
+    networks:
+    - flwr-network
+    restart: unless-stopped
+    volumes:
+    - logs:/app/logs:rw
+  serverapp:
+    build:
+      context: .
+      dockerfile: serverapp.Dockerfile
+    image: flwr_serverapp:0.0.1
+    container_name: serverapp
+    command:
+    - --insecure
+    - --serverappio-api-address
+    - superlink:9091
+    networks:
+    - flwr-network
+    restart: unless-stopped
+    volumes:
+    - logs:/app/logs:rw
+    environment:
+      LOG_DIR: /app/logs
+  supernode-1:
+    image: flwr/supernode:1.15.2
+    container_name: supernode-1
+    command:
+    - --insecure
+    - --superlink
+    - superlink:9092
+    - --node-config
+    - partition-id=0 num-partitions=10
+    - --clientappio-api-address
+    - 0.0.0.0:9094
+    - --isolation
+    - process
+    ports:
+    - 9094:9094
+    networks:
+    - flwr-network
+    restart: unless-stopped
+    volumes:
+    - logs:/app/logs:rw
+  clientapp-1:
+    build:
+      context: .
+      dockerfile: clientapp.Dockerfile
+    image: flwr_clientapp:0.0.1
+    container_name: clientapp-1
+    command:
+    - --insecure
+    - --clientappio-api-address
+    - supernode-1:9094
+    networks:
+    - flwr-network
+    restart: unless-stopped
+    cpus: '1.0'
+    shm_size: 2gb
+    mem_limit: 2000m
+    environment:
+      ALLOCATED_CORES: '1'
+      NUM_CLIENTS: '10'
+      LOG_DIR: /app/logs
+      PARTITION_ID: '0'
+      PROFILE_NAME: Low-End IoT
+    volumes:
+    - logs:/app/logs:rw
+  supernode-2:
+    image: flwr/supernode:1.15.2
+    container_name: supernode-2
+    command:
+    - --insecure
+    - --superlink
+    - superlink:9092
+    - --node-config
+    - partition-id=1 num-partitions=10
+    - --clientappio-api-address
+    - 0.0.0.0:9095
+    - --isolation
+    - process
+    ports:
+    - 9095:9095
+    networks:
+    - flwr-network
+    restart: unless-stopped
+    volumes:
+    - logs:/app/logs:rw
+  clientapp-2:
+    build:
+      context: .
+      dockerfile: clientapp.Dockerfile
+    image: flwr_clientapp:0.0.1
+    container_name: clientapp-2
+    command:
+    - --insecure
+    - --clientappio-api-address
+    - supernode-2:9095
+    networks:
+    - flwr-network
+    restart: unless-stopped
+    cpus: '2.0'
+    shm_size: 2gb
+    mem_limit: 2000m
+    environment:
+      ALLOCATED_CORES: '2'
+      NUM_CLIENTS: '10'
+      LOG_DIR: /app/logs
+      PARTITION_ID: '1'
+      PROFILE_NAME: Mid-Range Edge
+    volumes:
+    - logs:/app/logs:rw
+  supernode-3:
+    image: flwr/supernode:1.15.2
+    container_name: supernode-3
+    command:
+    - --insecure
+    - --superlink
+    - superlink:9092
+    - --node-config
+    - partition-id=2 num-partitions=10
+    - --clientappio-api-address
+    - 0.0.0.0:9096
+    - --isolation
+    - process
+    ports:
+    - 9096:9096
+    networks:
+    - flwr-network
+    restart: unless-stopped
+    volumes:
+    - logs:/app/logs:rw
+  clientapp-3:
+    build:
+      context: .
+      dockerfile: clientapp.Dockerfile
+    image: flwr_clientapp:0.0.1
+    container_name: clientapp-3
+    command:
+    - --insecure
+    - --clientappio-api-address
+    - supernode-3:9096
+    networks:
+    - flwr-network
+    restart: unless-stopped
+    cpus: '5.0'
+    shm_size: 2gb
+    mem_limit: 2000m
+    environment:
+      ALLOCATED_CORES: '5'
+      NUM_CLIENTS: '10'
+      LOG_DIR: /app/logs
+      PARTITION_ID: '2'
+      PROFILE_NAME: High-End Edge CPU
+    volumes:
+    - logs:/app/logs:rw
+  supernode-4:
+    image: flwr/supernode:1.15.2
+    container_name: supernode-4
+    command:
+    - --insecure
+    - --superlink
+    - superlink:9092
+    - --node-config
+    - partition-id=3 num-partitions=10
+    - --clientappio-api-address
+    - 0.0.0.0:9097
+    - --isolation
+    - process
+    ports:
+    - 9097:9097
+    networks:
+    - flwr-network
+    restart: unless-stopped
+    volumes:
+    - logs:/app/logs:rw
+  clientapp-4:
+    build:
+      context: .
+      dockerfile: clientapp.Dockerfile
+    image: flwr_clientapp:0.0.1
+    container_name: clientapp-4
+    command:
+    - --insecure
+    - --clientappio-api-address
+    - supernode-4:9097
+    networks:
+    - flwr-network
+    restart: unless-stopped
+    cpus: '2.0'
+    shm_size: 2gb
+    mem_limit: 2000m
+    environment:
+      ALLOCATED_CORES: '2'
+      NUM_CLIENTS: '10'
+      LOG_DIR: /app/logs
+      PARTITION_ID: '3'
+      PROFILE_NAME: Low-End IoT
+    volumes:
+    - logs:/app/logs:rw
+  supernode-5:
+    image: flwr/supernode:1.15.2
+    container_name: supernode-5
+    command:
+    - --insecure
+    - --superlink
+    - superlink:9092
+    - --node-config
+    - partition-id=4 num-partitions=10
+    - --clientappio-api-address
+    - 0.0.0.0:9098
+    - --isolation
+    - process
+    ports:
+    - 9098:9098
+    networks:
+    - flwr-network
+    restart: unless-stopped
+    volumes:
+    - logs:/app/logs:rw
+  clientapp-5:
+    build:
+      context: .
+      dockerfile: clientapp.Dockerfile
+    image: flwr_clientapp:0.0.1
+    container_name: clientapp-5
+    command:
+    - --insecure
+    - --clientappio-api-address
+    - supernode-5:9098
+    networks:
+    - flwr-network
+    restart: unless-stopped
+    cpus: '3.0'
+    shm_size: 2gb
+    mem_limit: 2000m
+    environment:
+      ALLOCATED_CORES: '3'
+      NUM_CLIENTS: '10'
+      LOG_DIR: /app/logs
+      PARTITION_ID: '4'
+      PROFILE_NAME: Mid-Range Edge
+    volumes:
+    - logs:/app/logs:rw
+  supernode-6:
+    image: flwr/supernode:1.15.2
+    container_name: supernode-6
+    command:
+    - --insecure
+    - --superlink
+    - superlink:9092
+    - --node-config
+    - partition-id=5 num-partitions=10
+    - --clientappio-api-address
+    - 0.0.0.0:9099
+    - --isolation
+    - process
+    ports:
+    - 9099:9099
+    networks:
+    - flwr-network
+    restart: unless-stopped
+    volumes:
+    - logs:/app/logs:rw
+  clientapp-6:
+    build:
+      context: .
+      dockerfile: clientapp.Dockerfile
+    image: flwr_clientapp:0.0.1
+    container_name: clientapp-6
+    command:
+    - --insecure
+    - --clientappio-api-address
+    - supernode-6:9099
+    networks:
+    - flwr-network
+    restart: unless-stopped
+    cpus: '8.0'
+    shm_size: 2gb
+    mem_limit: 2000m
+    environment:
+      ALLOCATED_CORES: '8'
+      NUM_CLIENTS: '10'
+      LOG_DIR: /app/logs
+      PARTITION_ID: '5'
+      PROFILE_NAME: High-End Edge CPU
+    volumes:
+    - logs:/app/logs:rw
+  supernode-7:
+    image: flwr/supernode:1.15.2
+    container_name: supernode-7
+    command:
+    - --insecure
+    - --superlink
+    - superlink:9092
+    - --node-config
+    - partition-id=6 num-partitions=10
+    - --clientappio-api-address
+    - 0.0.0.0:9100
+    - --isolation
+    - process
+    ports:
+    - 9100:9100
+    networks:
+    - flwr-network
+    restart: unless-stopped
+    volumes:
+    - logs:/app/logs:rw
+  clientapp-7:
+    build:
+      context: .
+      dockerfile: clientapp.Dockerfile
+    image: flwr_clientapp:0.0.1
+    container_name: clientapp-7
+    command:
+    - --insecure
+    - --clientappio-api-address
+    - supernode-7:9100
+    networks:
+    - flwr-network
+    restart: unless-stopped
+    cpus: '2.0'
+    shm_size: 2gb
+    mem_limit: 2000m
+    environment:
+      ALLOCATED_CORES: '2'
+      NUM_CLIENTS: '10'
+      LOG_DIR: /app/logs
+      PARTITION_ID: '6'
+      PROFILE_NAME: Low-End IoT
+    volumes:
+    - logs:/app/logs:rw
+  supernode-8:
+    image: flwr/supernode:1.15.2
+    container_name: supernode-8
+    command:
+    - --insecure
+    - --superlink
+    - superlink:9092
+    - --node-config
+    - partition-id=7 num-partitions=10
+    - --clientappio-api-address
+    - 0.0.0.0:9101
+    - --isolation
+    - process
+    ports:
+    - 9101:9101
+    networks:
+    - flwr-network
+    restart: unless-stopped
+    volumes:
+    - logs:/app/logs:rw
+  clientapp-8:
+    build:
+      context: .
+      dockerfile: clientapp.Dockerfile
+    image: flwr_clientapp:0.0.1
+    container_name: clientapp-8
+    command:
+    - --insecure
+    - --clientappio-api-address
+    - supernode-8:9101
+    networks:
+    - flwr-network
+    restart: unless-stopped
+    cpus: '4.0'
+    shm_size: 2gb
+    mem_limit: 2000m
+    environment:
+      ALLOCATED_CORES: '4'
+      NUM_CLIENTS: '10'
+      LOG_DIR: /app/logs
+      PARTITION_ID: '7'
+      PROFILE_NAME: Mid-Range Edge
+    volumes:
+    - logs:/app/logs:rw
+  supernode-9:
+    image: flwr/supernode:1.15.2
+    container_name: supernode-9
+    command:
+    - --insecure
+    - --superlink
+    - superlink:9092
+    - --node-config
+    - partition-id=8 num-partitions=10
+    - --clientappio-api-address
+    - 0.0.0.0:9102
+    - --isolation
+    - process
+    ports:
+    - 9102:9102
+    networks:
+    - flwr-network
+    restart: unless-stopped
+    volumes:
+    - logs:/app/logs:rw
+  clientapp-9:
+    build:
+      context: .
+      dockerfile: clientapp.Dockerfile
+    image: flwr_clientapp:0.0.1
+    container_name: clientapp-9
+    command:
+    - --insecure
+    - --clientappio-api-address
+    - supernode-9:9102
+    networks:
+    - flwr-network
+    restart: unless-stopped
+    cpus: '5.0'
+    shm_size: 2gb
+    mem_limit: 2000m
+    environment:
+      ALLOCATED_CORES: '5'
+      NUM_CLIENTS: '10'
+      LOG_DIR: /app/logs
+      PARTITION_ID: '8'
+      PROFILE_NAME: High-End Edge CPU
+    volumes:
+    - logs:/app/logs:rw
+  supernode-10:
+    image: flwr/supernode:1.15.2
+    container_name: supernode-10
+    command:
+    - --insecure
+    - --superlink
+    - superlink:9092
+    - --node-config
+    - partition-id=9 num-partitions=10
+    - --clientappio-api-address
+    - 0.0.0.0:9103
+    - --isolation
+    - process
+    ports:
+    - 9103:9103
+    networks:
+    - flwr-network
+    restart: unless-stopped
+    volumes:
+    - logs:/app/logs:rw
+  clientapp-10:
+    build:
+      context: .
+      dockerfile: clientapp.Dockerfile
+    image: flwr_clientapp:0.0.1
+    container_name: clientapp-10
+    command:
+    - --insecure
+    - --clientappio-api-address
+    - supernode-10:9103
+    networks:
+    - flwr-network
+    restart: unless-stopped
+    cpus: '1.0'
+    shm_size: 2gb
+    mem_limit: 2000m
+    environment:
+      ALLOCATED_CORES: '1'
+      NUM_CLIENTS: '10'
+      LOG_DIR: /app/logs
+      PARTITION_ID: '9'
+      PROFILE_NAME: Low-End IoT
+    volumes:
+    - logs:/app/logs:rw
+networks:
+  flwr-network:
+    driver: bridge
+volumes:
+  logs:
+    driver: local
+    driver_opts:
+      type: none
+      o: bind
+      device: logs

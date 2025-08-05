@@ -1,0 +1,1332 @@
+2025-08-04 21:00:17,498 - ClientAppLogger [Client 9] - INFO - ClientApp starting for partition_id: 9. Instance log dir: /app/logs/20250804_2100
+2025-08-04 21:00:17,498 - ClientAppLogger [Client 9] - INFO - ALLOCATED_CORES='1' found. Setting PyTorch threads to 1.
+2025-08-04 21:00:17,499 - ClientAppLogger [Client 9] - INFO - Called torch.set_num_threads(1). Current PyTorch intra-op threads: 1. Client will operate with 1 core(s).
+2025-08-04 21:00:17,499 - ClientAppLogger [Client 9] - INFO - Loading data for partition 9/10...
+2025-08-04 21:00:17,499 - ClientAppLogger [Client 9] - INFO - [LoadData 9] Starting load_data function.
+2025-08-04 21:00:17,499 - ClientAppLogger [Client 9] - INFO - [LoadData 9] Attempting to read CSV from src/datasets/Train_Test_datasets/Train_Test_Network_dataset/train_test_network.csv with columns: ['src_port', 'dst_port', 'duration', 'src_bytes', 'dst_bytes', 'missed_bytes', 'src_pkts', 'src_ip_bytes', 'dst_pkts', 'dst_ip_bytes', 'dns_qclass', 'dns_qtype', 'dns_rcode', 'http_trans_depth', 'http_request_body_len', 'http_response_body_len', 'http_status_code', 'label', 'type']
+2025-08-04 21:00:17,907 - ClientAppLogger [Client 9] - INFO - [LoadData 9] CSV read successfully. DataFrame shape: (211043, 19)
+2025-08-04 21:00:17,907 - ClientAppLogger [Client 9] - INFO - [LoadData 9] Starting '-' replacement and numeric conversion.
+2025-08-04 21:00:18,004 - ClientAppLogger [Client 9] - INFO - [LoadData 9] Numeric conversion completed.
+2025-08-04 21:00:18,054 - ClientAppLogger [Client 9] - INFO - [LoadData 9] NA values filled.
+2025-08-04 21:00:18,055 - ClientAppLogger [Client 9] - INFO - Splitting off 15.0% of data for global hold-out test set.
+2025-08-04 21:00:18,201 - ClientAppLogger [Client 9] - INFO - Proceeding with federated dataset of size 179386.
+2025-08-04 21:00:18,208 - ClientAppLogger [Client 9] - INFO - [LoadData 9] X and y created. X shape: (179386, 17), y shape: (179386,)
+2025-08-04 21:00:18,208 - ClientAppLogger [Client 9] - INFO - Fitting MinMaxScaler on X with shape (179386, 17)
+2025-08-04 21:00:18,214 - ClientAppLogger [Client 9] - INFO - [LoadData 9] Scaler fitting process completed.
+2025-08-04 21:00:18,221 - ClientAppLogger [Client 9] - INFO - [LoadData 9] X_scaled successfully. Shape: (179386, 17)
+2025-08-04 21:00:18,221 - ClientAppLogger [Client 9] - INFO - [LoadData 9] Starting semi-supervised data splitting logic.
+2025-08-04 21:00:18,222 - ClientAppLogger [Client 9] - INFO - Initial number of anomaly samples (positions in sampled data): 136886
+2025-08-04 21:00:18,222 - ClientAppLogger [Client 9] - INFO - [LoadData 9] Initial normal indices count: 42500, anomaly indices count: 136886
+2025-08-04 21:00:18,222 - ClientAppLogger [Client 9] - INFO - [LoadData 9] Starting anomaly reduction logic.
+2025-08-04 21:00:18,234 - ClientAppLogger [Client 9] - INFO - Found attack types in initial sampled anomalies: ['scanning' 'injection' 'ransomware' 'password' 'ddos' 'xss' 'dos'
+ 'backdoor' 'mitm']
+2025-08-04 21:00:18,237 - ClientAppLogger [Client 9] - INFO -   Attack type 'scanning': Had 16967 instances (in sampled), selected 5655 (target: 5655).
+2025-08-04 21:00:18,243 - ClientAppLogger [Client 9] - INFO -   Attack type 'injection': Had 17064 instances (in sampled), selected 5688 (target: 5688).
+2025-08-04 21:00:18,246 - ClientAppLogger [Client 9] - INFO -   Attack type 'ransomware': Had 17091 instances (in sampled), selected 5697 (target: 5697).
+2025-08-04 21:00:18,249 - ClientAppLogger [Client 9] - INFO -   Attack type 'password': Had 17013 instances (in sampled), selected 5671 (target: 5671).
+2025-08-04 21:00:18,251 - ClientAppLogger [Client 9] - INFO -   Attack type 'ddos': Had 16995 instances (in sampled), selected 5665 (target: 5665).
+2025-08-04 21:00:18,254 - ClientAppLogger [Client 9] - INFO -   Attack type 'xss': Had 16967 instances (in sampled), selected 5655 (target: 5655).
+2025-08-04 21:00:18,257 - ClientAppLogger [Client 9] - INFO -   Attack type 'dos': Had 16938 instances (in sampled), selected 5646 (target: 5646).
+2025-08-04 21:00:18,259 - ClientAppLogger [Client 9] - INFO -   Attack type 'backdoor': Had 16963 instances (in sampled), selected 5654 (target: 5654).
+2025-08-04 21:00:18,262 - ClientAppLogger [Client 9] - INFO -   Attack type 'mitm': Had 888 instances (in sampled), selected 296 (target: 296).
+2025-08-04 21:00:18,264 - ClientAppLogger [Client 9] - INFO - Total number of anomaly samples (positions) after reduction: 45627
+2025-08-04 21:00:18,274 - ClientAppLogger [Client 9] - INFO -   Distribution of remaining attack types: 
+type
+ransomware    5697
+injection     5688
+password      5671
+ddos          5665
+scanning      5655
+xss           5655
+backdoor      5654
+dos           5646
+mitm           296
+Name: count, dtype: int64
+2025-08-04 21:00:18,274 - ClientAppLogger [Client 9] - INFO - [LoadData 9] Anomaly reduction logic completed.
+2025-08-04 21:00:18,278 - ClientAppLogger [Client 9] - INFO - [LoadData 9] Normal and anomaly indices shuffled.
+2025-08-04 21:00:18,279 - ClientAppLogger [Client 9] - INFO - [LoadData 9] Creating unlabeled training base.
+2025-08-04 21:00:18,284 - ClientAppLogger [Client 9] - INFO - Unlabeled normal data for AE training base: 34000 samples.
+2025-08-04 21:00:18,284 - ClientAppLogger [Client 9] - INFO - [LoadData 9] Creating labeled pool.
+2025-08-04 21:00:18,297 - ClientAppLogger [Client 9] - INFO - Labeled Pool (for train augmentation, val, test): 54127 samples.
+2025-08-04 21:00:18,297 - ClientAppLogger [Client 9] - INFO - [LoadData 9] Labeled pool creation completed.
+2025-08-04 21:00:18,298 - ClientAppLogger [Client 9] - INFO - [LoadData 9] Splitting labeled pool for train_aug, val, test.
+2025-08-04 21:00:18,315 - ClientAppLogger [Client 9] - INFO - Labeled data for AE training augmentation: 37888 samples.
+2025-08-04 21:00:18,320 - ClientAppLogger [Client 9] - INFO - [LoadData 9] Combining data for final AE training set.
+2025-08-04 21:00:18,326 - ClientAppLogger [Client 9] - INFO - [LoadData 9] Final AE training data combination completed.
+2025-08-04 21:00:18,326 - ClientAppLogger [Client 9] - INFO - [LoadData 9] Logging final dataset sizes and distributions pre-partitioning.
+2025-08-04 21:00:18,326 - ClientAppLogger [Client 9] - INFO - Data Splitting Summary (Semi-Supervised AE):
+2025-08-04 21:00:18,326 - ClientAppLogger [Client 9] - INFO -   AE Training (X_train_combined): 71888 samples.
+2025-08-04 21:00:18,326 - ClientAppLogger [Client 9] - INFO -   Validation (X_val): 8119 samples.
+2025-08-04 21:00:18,327 - ClientAppLogger [Client 9] - INFO -   Test (X_test_final): 8120 samples.
+2025-08-04 21:00:18,327 - ClientAppLogger [Client 9] - INFO - [Partitioning Debug 9] START of partitioning block.
+2025-08-04 21:00:18,327 - ClientAppLogger [Client 9] - INFO - [LoadData 9] Starting Dirichlet-based partitioning with minimum sample guarantee.
+2025-08-04 21:00:18,327 - ClientAppLogger [Client 9] - INFO - [Partitioning Debug 9] Step 1: Full indices created.
+2025-08-04 21:00:18,327 - ClientAppLogger [Client 9] - INFO - [LoadData 9] Partitioning: Full train/val/test indices created.
+2025-08-04 21:00:18,329 - ClientAppLogger [Client 9] - INFO - [Partitioning Debug 9] Step 2: Full indices shuffled.
+2025-08-04 21:00:18,329 - ClientAppLogger [Client 9] - INFO - [LoadData 9] Partitioning: Full indices shuffled.
+2025-08-04 21:00:18,330 - ClientAppLogger [Client 9] - INFO - [Partitioning Debug 9] Step 5d: Counts calculated. Final sums: Train=71888, Val=8119, Test=8120
+2025-08-04 21:00:18,330 - ClientAppLogger [Client 9] - INFO - [LoadData 9] Partitioning: Remainder distribution completed.
+2025-08-04 21:00:18,330 - ClientAppLogger [Client 9] - INFO - [Partitioning Debug 9] Step 5e: Final train_counts example: [117, 38174, 12359, 1183, 1086]
+2025-08-04 21:00:18,330 - ClientAppLogger [Client 9] - INFO - [Partitioning Debug 9] Step 5f: Final val_counts example: [575, 417, 122, 132, 3018]
+2025-08-04 21:00:18,330 - ClientAppLogger [Client 9] - INFO - [Partitioning Debug 9] Step 5g: Final test_counts example: [161, 226, 392, 3433, 379]
+2025-08-04 21:00:18,330 - ClientAppLogger [Client 9] - INFO - [Partitioning Debug 9] Step 6: Start indices calculated. train_start=54318
+2025-08-04 21:00:18,330 - ClientAppLogger [Client 9] - INFO - [LoadData 9] Partitioning: Start indices calculated. Train_start=54318, Val_start=7543, Test_start=8016
+2025-08-04 21:00:18,331 - ClientAppLogger [Client 9] - INFO - [Partitioning Debug 9] Step 7: End indices calculated. train_end=71888
+2025-08-04 21:00:18,331 - ClientAppLogger [Client 9] - INFO - [LoadData 9] Partitioning: End indices calculated. Train_end=71888, Val_end=8119, Test_end=8120
+2025-08-04 21:00:18,331 - ClientAppLogger [Client 9] - INFO - [Partitioning Debug 9] Step 8: Partition-specific indices extracted. Num train indices: 17570
+2025-08-04 21:00:18,331 - ClientAppLogger [Client 9] - INFO - [LoadData 9] Partitioning: Specific indices extracted. Train idx: 17570, Val idx: 576, Test idx: 104
+2025-08-04 21:00:18,333 - ClientAppLogger [Client 9] - INFO - [Partitioning Debug 9] Step 9a: Train data sliced for partition. X_train_part_full shape: (17570, 17)
+2025-08-04 21:00:18,333 - ClientAppLogger [Client 9] - INFO - [LoadData 9] Partitioning: Train data sliced. Shape: (17570, 17)
+2025-08-04 21:00:18,333 - ClientAppLogger [Client 9] - INFO - [Partitioning Debug 9] Step 9b: Validation data sliced for partition. X_val_part shape: (576, 17)
+2025-08-04 21:00:18,333 - ClientAppLogger [Client 9] - INFO - [LoadData 9] Partitioning: Validation data sliced. Shape: (576, 17)
+2025-08-04 21:00:18,333 - ClientAppLogger [Client 9] - INFO - [Partitioning Debug 9] Step 9c: Test data sliced for partition. X_test_part shape: (104, 17)
+2025-08-04 21:00:18,334 - ClientAppLogger [Client 9] - INFO - [LoadData 9] Partitioning: Test data sliced. Shape: (104, 17)
+2025-08-04 21:00:18,334 - ClientAppLogger [Client 9] - INFO - [Partitioning Debug 9] Step 10: Creating TonIoTDataset for train_dataset_full_potential.
+2025-08-04 21:00:18,334 - ClientAppLogger [Client 9] - INFO - [LoadData 9] Creating TonIoTDataset objects.
+2025-08-04 21:00:18,334 - ClientAppLogger [Client 9] - INFO - [Partitioning Debug 9] Step 11: Creating TonIoTDataset for val_dataset_static.
+2025-08-04 21:00:18,335 - ClientAppLogger [Client 9] - INFO - [Partitioning Debug 9] Step 12: Creating TonIoTDataset for test_dataset_static.
+2025-08-04 21:00:18,335 - ClientAppLogger [Client 9] - INFO - [Partitioning Debug 9] Step 13: All TonIoTDataset objects created.
+2025-08-04 21:00:18,335 - ClientAppLogger [Client 9] - INFO - [LoadData 9] TonIoTDataset objects created.
+2025-08-04 21:00:18,335 - ClientAppLogger [Client 9] - INFO - Partition 9 (Static Datasets): Train Potential 17570, Val 576, Test 104
+2025-08-04 21:00:18,335 - ClientAppLogger [Client 9] - INFO - [Partitioning Debug 9] END of partitioning block, returning datasets.
+2025-08-04 21:00:18,335 - ClientAppLogger [Client 9] - INFO - [LoadData 9] load_data function completed.
+2025-08-04 21:00:18,340 - ClientAppLogger [Client 9] - INFO - Data loaded for partition 9: Train samples: 17570, Val samples: 576
+2025-08-04 21:00:18,340 - ClientAppLogger [Client 9] - INFO - Instantiating GAN models: G(latent_dim=100, h1=128, h2=32), D(h1=128, h2=32)
+2025-08-04 21:00:18,341 - ClientAppLogger [Client 9] - INFO - [Client] Generator model has 6 parameter tensors.
+2025-08-04 21:00:18,341 - ClientAppLogger [Client 9] - INFO - [Client] Initialized. Device: cpu. Operating with 1 allocated core(s) for PyTorch tasks. Current PyTorch intra-op threads: 1.
+2025-08-04 21:00:18,343 - ClientAppLogger [Client 9] - INFO - [Client] Evaluate method started for round -1 using Discriminator.
+2025-08-04 21:00:18,343 - ClientAppLogger [Client 9] - INFO - [Client] set_parameters called with 12 total parameter tensors.
+2025-08-04 21:00:18,343 - ClientAppLogger [Client 9] - INFO - [Client] Splitting parameters: 6 for G, 6 for D.
+2025-08-04 21:00:18,344 - ClientAppLogger [Client 9] - INFO - [Client] Starting evaluation with Discriminator...
+2025-08-04 21:00:18,358 - ClientAppLogger [Client 9] - INFO - [Task] Test Evaluation: Samples (valid for metrics)=576, Avg Anomaly Score (all samples)=0.5379, Threshold=0.5928, Accuracy=0.7309, F1=0.8135, Precision=0.9797, Recall=0.6955
+2025-08-04 21:00:18,358 - ClientAppLogger [Client 9] - INFO - [Client] Evaluation finished. Samples: 576, Acc: 0.7309, F1: 0.8135, Prec: 0.9797, Rec: 0.6955, Avg Anomaly Score: 0.5379
+2025-08-04 21:00:41,646 - ClientAppLogger [Client 9] - INFO - ClientApp starting for partition_id: 9. Instance log dir: /app/logs/20250804_2100
+2025-08-04 21:00:41,646 - ClientAppLogger [Client 9] - INFO - ALLOCATED_CORES='1' found. Setting PyTorch threads to 1.
+2025-08-04 21:00:41,646 - ClientAppLogger [Client 9] - INFO - Called torch.set_num_threads(1). Current PyTorch intra-op threads: 1. Client will operate with 1 core(s).
+2025-08-04 21:00:41,646 - ClientAppLogger [Client 9] - INFO - Loading data for partition 9/10...
+2025-08-04 21:00:41,646 - ClientAppLogger [Client 9] - INFO - [LoadData 9] Starting load_data function.
+2025-08-04 21:00:41,647 - ClientAppLogger [Client 9] - INFO - [LoadData 9] Attempting to read CSV from src/datasets/Train_Test_datasets/Train_Test_Network_dataset/train_test_network.csv with columns: ['src_port', 'dst_port', 'duration', 'src_bytes', 'dst_bytes', 'missed_bytes', 'src_pkts', 'src_ip_bytes', 'dst_pkts', 'dst_ip_bytes', 'dns_qclass', 'dns_qtype', 'dns_rcode', 'http_trans_depth', 'http_request_body_len', 'http_response_body_len', 'http_status_code', 'label', 'type']
+2025-08-04 21:00:42,038 - ClientAppLogger [Client 9] - INFO - [LoadData 9] CSV read successfully. DataFrame shape: (211043, 19)
+2025-08-04 21:00:42,038 - ClientAppLogger [Client 9] - INFO - [LoadData 9] Starting '-' replacement and numeric conversion.
+2025-08-04 21:00:42,129 - ClientAppLogger [Client 9] - INFO - [LoadData 9] Numeric conversion completed.
+2025-08-04 21:00:42,170 - ClientAppLogger [Client 9] - INFO - [LoadData 9] NA values filled.
+2025-08-04 21:00:42,170 - ClientAppLogger [Client 9] - INFO - Splitting off 15.0% of data for global hold-out test set.
+2025-08-04 21:00:42,299 - ClientAppLogger [Client 9] - INFO - Proceeding with federated dataset of size 179386.
+2025-08-04 21:00:42,306 - ClientAppLogger [Client 9] - INFO - [LoadData 9] X and y created. X shape: (179386, 17), y shape: (179386,)
+2025-08-04 21:00:42,306 - ClientAppLogger [Client 9] - INFO - Fitting MinMaxScaler on X with shape (179386, 17)
+2025-08-04 21:00:42,312 - ClientAppLogger [Client 9] - INFO - [LoadData 9] Scaler fitting process completed.
+2025-08-04 21:00:42,321 - ClientAppLogger [Client 9] - INFO - [LoadData 9] X_scaled successfully. Shape: (179386, 17)
+2025-08-04 21:00:42,321 - ClientAppLogger [Client 9] - INFO - [LoadData 9] Starting semi-supervised data splitting logic.
+2025-08-04 21:00:42,322 - ClientAppLogger [Client 9] - INFO - Initial number of anomaly samples (positions in sampled data): 136886
+2025-08-04 21:00:42,322 - ClientAppLogger [Client 9] - INFO - [LoadData 9] Initial normal indices count: 42500, anomaly indices count: 136886
+2025-08-04 21:00:42,322 - ClientAppLogger [Client 9] - INFO - [LoadData 9] Starting anomaly reduction logic.
+2025-08-04 21:00:42,332 - ClientAppLogger [Client 9] - INFO - Found attack types in initial sampled anomalies: ['scanning' 'injection' 'ransomware' 'password' 'ddos' 'xss' 'dos'
+ 'backdoor' 'mitm']
+2025-08-04 21:00:42,335 - ClientAppLogger [Client 9] - INFO -   Attack type 'scanning': Had 16967 instances (in sampled), selected 5655 (target: 5655).
+2025-08-04 21:00:42,338 - ClientAppLogger [Client 9] - INFO -   Attack type 'injection': Had 17064 instances (in sampled), selected 5688 (target: 5688).
+2025-08-04 21:00:42,340 - ClientAppLogger [Client 9] - INFO -   Attack type 'ransomware': Had 17091 instances (in sampled), selected 5697 (target: 5697).
+2025-08-04 21:00:42,343 - ClientAppLogger [Client 9] - INFO -   Attack type 'password': Had 17013 instances (in sampled), selected 5671 (target: 5671).
+2025-08-04 21:00:42,345 - ClientAppLogger [Client 9] - INFO -   Attack type 'ddos': Had 16995 instances (in sampled), selected 5665 (target: 5665).
+2025-08-04 21:00:42,348 - ClientAppLogger [Client 9] - INFO -   Attack type 'xss': Had 16967 instances (in sampled), selected 5655 (target: 5655).
+2025-08-04 21:00:42,351 - ClientAppLogger [Client 9] - INFO -   Attack type 'dos': Had 16938 instances (in sampled), selected 5646 (target: 5646).
+2025-08-04 21:00:42,354 - ClientAppLogger [Client 9] - INFO -   Attack type 'backdoor': Had 16963 instances (in sampled), selected 5654 (target: 5654).
+2025-08-04 21:00:42,356 - ClientAppLogger [Client 9] - INFO -   Attack type 'mitm': Had 888 instances (in sampled), selected 296 (target: 296).
+2025-08-04 21:00:42,358 - ClientAppLogger [Client 9] - INFO - Total number of anomaly samples (positions) after reduction: 45627
+2025-08-04 21:00:42,368 - ClientAppLogger [Client 9] - INFO -   Distribution of remaining attack types: 
+type
+ransomware    5697
+injection     5688
+password      5671
+ddos          5665
+scanning      5655
+xss           5655
+backdoor      5654
+dos           5646
+mitm           296
+Name: count, dtype: int64
+2025-08-04 21:00:42,368 - ClientAppLogger [Client 9] - INFO - [LoadData 9] Anomaly reduction logic completed.
+2025-08-04 21:00:42,372 - ClientAppLogger [Client 9] - INFO - [LoadData 9] Normal and anomaly indices shuffled.
+2025-08-04 21:00:42,373 - ClientAppLogger [Client 9] - INFO - [LoadData 9] Creating unlabeled training base.
+2025-08-04 21:00:42,378 - ClientAppLogger [Client 9] - INFO - Unlabeled normal data for AE training base: 34000 samples.
+2025-08-04 21:00:42,378 - ClientAppLogger [Client 9] - INFO - [LoadData 9] Creating labeled pool.
+2025-08-04 21:00:42,387 - ClientAppLogger [Client 9] - INFO - Labeled Pool (for train augmentation, val, test): 54127 samples.
+2025-08-04 21:00:42,388 - ClientAppLogger [Client 9] - INFO - [LoadData 9] Labeled pool creation completed.
+2025-08-04 21:00:42,388 - ClientAppLogger [Client 9] - INFO - [LoadData 9] Splitting labeled pool for train_aug, val, test.
+2025-08-04 21:00:42,405 - ClientAppLogger [Client 9] - INFO - Labeled data for AE training augmentation: 37888 samples.
+2025-08-04 21:00:42,410 - ClientAppLogger [Client 9] - INFO - [LoadData 9] Combining data for final AE training set.
+2025-08-04 21:00:42,415 - ClientAppLogger [Client 9] - INFO - [LoadData 9] Final AE training data combination completed.
+2025-08-04 21:00:42,415 - ClientAppLogger [Client 9] - INFO - [LoadData 9] Logging final dataset sizes and distributions pre-partitioning.
+2025-08-04 21:00:42,415 - ClientAppLogger [Client 9] - INFO - Data Splitting Summary (Semi-Supervised AE):
+2025-08-04 21:00:42,416 - ClientAppLogger [Client 9] - INFO -   AE Training (X_train_combined): 71888 samples.
+2025-08-04 21:00:42,416 - ClientAppLogger [Client 9] - INFO -   Validation (X_val): 8119 samples.
+2025-08-04 21:00:42,416 - ClientAppLogger [Client 9] - INFO -   Test (X_test_final): 8120 samples.
+2025-08-04 21:00:42,417 - ClientAppLogger [Client 9] - INFO - [Partitioning Debug 9] START of partitioning block.
+2025-08-04 21:00:42,417 - ClientAppLogger [Client 9] - INFO - [LoadData 9] Starting Dirichlet-based partitioning with minimum sample guarantee.
+2025-08-04 21:00:42,417 - ClientAppLogger [Client 9] - INFO - [Partitioning Debug 9] Step 1: Full indices created.
+2025-08-04 21:00:42,417 - ClientAppLogger [Client 9] - INFO - [LoadData 9] Partitioning: Full train/val/test indices created.
+2025-08-04 21:00:42,419 - ClientAppLogger [Client 9] - INFO - [Partitioning Debug 9] Step 2: Full indices shuffled.
+2025-08-04 21:00:42,419 - ClientAppLogger [Client 9] - INFO - [LoadData 9] Partitioning: Full indices shuffled.
+2025-08-04 21:00:42,419 - ClientAppLogger [Client 9] - INFO - [Partitioning Debug 9] Step 5d: Counts calculated. Final sums: Train=71888, Val=8119, Test=8120
+2025-08-04 21:00:42,420 - ClientAppLogger [Client 9] - INFO - [LoadData 9] Partitioning: Remainder distribution completed.
+2025-08-04 21:00:42,420 - ClientAppLogger [Client 9] - INFO - [Partitioning Debug 9] Step 5e: Final train_counts example: [117, 38174, 12359, 1183, 1086]
+2025-08-04 21:00:42,420 - ClientAppLogger [Client 9] - INFO - [Partitioning Debug 9] Step 5f: Final val_counts example: [575, 417, 122, 132, 3018]
+2025-08-04 21:00:42,420 - ClientAppLogger [Client 9] - INFO - [Partitioning Debug 9] Step 5g: Final test_counts example: [161, 226, 392, 3433, 379]
+2025-08-04 21:00:42,420 - ClientAppLogger [Client 9] - INFO - [Partitioning Debug 9] Step 6: Start indices calculated. train_start=54318
+2025-08-04 21:00:42,420 - ClientAppLogger [Client 9] - INFO - [LoadData 9] Partitioning: Start indices calculated. Train_start=54318, Val_start=7543, Test_start=8016
+2025-08-04 21:00:42,420 - ClientAppLogger [Client 9] - INFO - [Partitioning Debug 9] Step 7: End indices calculated. train_end=71888
+2025-08-04 21:00:42,421 - ClientAppLogger [Client 9] - INFO - [LoadData 9] Partitioning: End indices calculated. Train_end=71888, Val_end=8119, Test_end=8120
+2025-08-04 21:00:42,421 - ClientAppLogger [Client 9] - INFO - [Partitioning Debug 9] Step 8: Partition-specific indices extracted. Num train indices: 17570
+2025-08-04 21:00:42,421 - ClientAppLogger [Client 9] - INFO - [LoadData 9] Partitioning: Specific indices extracted. Train idx: 17570, Val idx: 576, Test idx: 104
+2025-08-04 21:00:42,422 - ClientAppLogger [Client 9] - INFO - [Partitioning Debug 9] Step 9a: Train data sliced for partition. X_train_part_full shape: (17570, 17)
+2025-08-04 21:00:42,422 - ClientAppLogger [Client 9] - INFO - [LoadData 9] Partitioning: Train data sliced. Shape: (17570, 17)
+2025-08-04 21:00:42,422 - ClientAppLogger [Client 9] - INFO - [Partitioning Debug 9] Step 9b: Validation data sliced for partition. X_val_part shape: (576, 17)
+2025-08-04 21:00:42,423 - ClientAppLogger [Client 9] - INFO - [LoadData 9] Partitioning: Validation data sliced. Shape: (576, 17)
+2025-08-04 21:00:42,423 - ClientAppLogger [Client 9] - INFO - [Partitioning Debug 9] Step 9c: Test data sliced for partition. X_test_part shape: (104, 17)
+2025-08-04 21:00:42,423 - ClientAppLogger [Client 9] - INFO - [LoadData 9] Partitioning: Test data sliced. Shape: (104, 17)
+2025-08-04 21:00:42,423 - ClientAppLogger [Client 9] - INFO - [Partitioning Debug 9] Step 10: Creating TonIoTDataset for train_dataset_full_potential.
+2025-08-04 21:00:42,423 - ClientAppLogger [Client 9] - INFO - [LoadData 9] Creating TonIoTDataset objects.
+2025-08-04 21:00:42,424 - ClientAppLogger [Client 9] - INFO - [Partitioning Debug 9] Step 11: Creating TonIoTDataset for val_dataset_static.
+2025-08-04 21:00:42,424 - ClientAppLogger [Client 9] - INFO - [Partitioning Debug 9] Step 12: Creating TonIoTDataset for test_dataset_static.
+2025-08-04 21:00:42,424 - ClientAppLogger [Client 9] - INFO - [Partitioning Debug 9] Step 13: All TonIoTDataset objects created.
+2025-08-04 21:00:42,424 - ClientAppLogger [Client 9] - INFO - [LoadData 9] TonIoTDataset objects created.
+2025-08-04 21:00:42,424 - ClientAppLogger [Client 9] - INFO - Partition 9 (Static Datasets): Train Potential 17570, Val 576, Test 104
+2025-08-04 21:00:42,424 - ClientAppLogger [Client 9] - INFO - [Partitioning Debug 9] END of partitioning block, returning datasets.
+2025-08-04 21:00:42,425 - ClientAppLogger [Client 9] - INFO - [LoadData 9] load_data function completed.
+2025-08-04 21:00:42,433 - ClientAppLogger [Client 9] - INFO - Data loaded for partition 9: Train samples: 17570, Val samples: 576
+2025-08-04 21:00:42,434 - ClientAppLogger [Client 9] - INFO - Instantiating GAN models: G(latent_dim=100, h1=128, h2=32), D(h1=128, h2=32)
+2025-08-04 21:00:42,435 - ClientAppLogger [Client 9] - INFO - [Client] Generator model has 6 parameter tensors.
+2025-08-04 21:00:42,435 - ClientAppLogger [Client 9] - INFO - [Client] Initialized. Device: cpu. Operating with 1 allocated core(s) for PyTorch tasks. Current PyTorch intra-op threads: 1.
+2025-08-04 21:00:42,437 - ClientAppLogger [Client 9] - INFO - [Client] Evaluate method started for round -1 using Discriminator.
+2025-08-04 21:00:42,437 - ClientAppLogger [Client 9] - INFO - [Client] set_parameters called with 12 total parameter tensors.
+2025-08-04 21:00:42,437 - ClientAppLogger [Client 9] - INFO - [Client] Splitting parameters: 6 for G, 6 for D.
+2025-08-04 21:00:42,438 - ClientAppLogger [Client 9] - INFO - [Client] Starting evaluation with Discriminator...
+2025-08-04 21:00:42,450 - ClientAppLogger [Client 9] - INFO - [Task] Test Evaluation: Samples (valid for metrics)=576, Avg Anomaly Score (all samples)=0.5222, Threshold=0.5702, Accuracy=0.7309, F1=0.8135, Precision=0.9797, Recall=0.6955
+2025-08-04 21:00:42,451 - ClientAppLogger [Client 9] - INFO - [Client] Evaluation finished. Samples: 576, Acc: 0.7309, F1: 0.8135, Prec: 0.9797, Rec: 0.6955, Avg Anomaly Score: 0.5222
+2025-08-04 21:01:02,743 - ClientAppLogger [Client 9] - INFO - ClientApp starting for partition_id: 9. Instance log dir: /app/logs/20250804_2100
+2025-08-04 21:01:02,743 - ClientAppLogger [Client 9] - INFO - ALLOCATED_CORES='1' found. Setting PyTorch threads to 1.
+2025-08-04 21:01:02,744 - ClientAppLogger [Client 9] - INFO - Called torch.set_num_threads(1). Current PyTorch intra-op threads: 1. Client will operate with 1 core(s).
+2025-08-04 21:01:02,744 - ClientAppLogger [Client 9] - INFO - Loading data for partition 9/10...
+2025-08-04 21:01:02,744 - ClientAppLogger [Client 9] - INFO - [LoadData 9] Starting load_data function.
+2025-08-04 21:01:02,744 - ClientAppLogger [Client 9] - INFO - [LoadData 9] Attempting to read CSV from src/datasets/Train_Test_datasets/Train_Test_Network_dataset/train_test_network.csv with columns: ['src_port', 'dst_port', 'duration', 'src_bytes', 'dst_bytes', 'missed_bytes', 'src_pkts', 'src_ip_bytes', 'dst_pkts', 'dst_ip_bytes', 'dns_qclass', 'dns_qtype', 'dns_rcode', 'http_trans_depth', 'http_request_body_len', 'http_response_body_len', 'http_status_code', 'label', 'type']
+2025-08-04 21:01:03,159 - ClientAppLogger [Client 9] - INFO - [LoadData 9] CSV read successfully. DataFrame shape: (211043, 19)
+2025-08-04 21:01:03,159 - ClientAppLogger [Client 9] - INFO - [LoadData 9] Starting '-' replacement and numeric conversion.
+2025-08-04 21:01:03,250 - ClientAppLogger [Client 9] - INFO - [LoadData 9] Numeric conversion completed.
+2025-08-04 21:01:03,304 - ClientAppLogger [Client 9] - INFO - [LoadData 9] NA values filled.
+2025-08-04 21:01:03,304 - ClientAppLogger [Client 9] - INFO - Splitting off 15.0% of data for global hold-out test set.
+2025-08-04 21:01:03,469 - ClientAppLogger [Client 9] - INFO - Proceeding with federated dataset of size 179386.
+2025-08-04 21:01:03,478 - ClientAppLogger [Client 9] - INFO - [LoadData 9] X and y created. X shape: (179386, 17), y shape: (179386,)
+2025-08-04 21:01:03,478 - ClientAppLogger [Client 9] - INFO - Fitting MinMaxScaler on X with shape (179386, 17)
+2025-08-04 21:01:03,484 - ClientAppLogger [Client 9] - INFO - [LoadData 9] Scaler fitting process completed.
+2025-08-04 21:01:03,490 - ClientAppLogger [Client 9] - INFO - [LoadData 9] X_scaled successfully. Shape: (179386, 17)
+2025-08-04 21:01:03,490 - ClientAppLogger [Client 9] - INFO - [LoadData 9] Starting semi-supervised data splitting logic.
+2025-08-04 21:01:03,491 - ClientAppLogger [Client 9] - INFO - Initial number of anomaly samples (positions in sampled data): 136886
+2025-08-04 21:01:03,491 - ClientAppLogger [Client 9] - INFO - [LoadData 9] Initial normal indices count: 42500, anomaly indices count: 136886
+2025-08-04 21:01:03,491 - ClientAppLogger [Client 9] - INFO - [LoadData 9] Starting anomaly reduction logic.
+2025-08-04 21:01:03,500 - ClientAppLogger [Client 9] - INFO - Found attack types in initial sampled anomalies: ['scanning' 'injection' 'ransomware' 'password' 'ddos' 'xss' 'dos'
+ 'backdoor' 'mitm']
+2025-08-04 21:01:03,504 - ClientAppLogger [Client 9] - INFO -   Attack type 'scanning': Had 16967 instances (in sampled), selected 5655 (target: 5655).
+2025-08-04 21:01:03,506 - ClientAppLogger [Client 9] - INFO -   Attack type 'injection': Had 17064 instances (in sampled), selected 5688 (target: 5688).
+2025-08-04 21:01:03,508 - ClientAppLogger [Client 9] - INFO -   Attack type 'ransomware': Had 17091 instances (in sampled), selected 5697 (target: 5697).
+2025-08-04 21:01:03,511 - ClientAppLogger [Client 9] - INFO -   Attack type 'password': Had 17013 instances (in sampled), selected 5671 (target: 5671).
+2025-08-04 21:01:03,513 - ClientAppLogger [Client 9] - INFO -   Attack type 'ddos': Had 16995 instances (in sampled), selected 5665 (target: 5665).
+2025-08-04 21:01:03,516 - ClientAppLogger [Client 9] - INFO -   Attack type 'xss': Had 16967 instances (in sampled), selected 5655 (target: 5655).
+2025-08-04 21:01:03,519 - ClientAppLogger [Client 9] - INFO -   Attack type 'dos': Had 16938 instances (in sampled), selected 5646 (target: 5646).
+2025-08-04 21:01:03,522 - ClientAppLogger [Client 9] - INFO -   Attack type 'backdoor': Had 16963 instances (in sampled), selected 5654 (target: 5654).
+2025-08-04 21:01:03,523 - ClientAppLogger [Client 9] - INFO -   Attack type 'mitm': Had 888 instances (in sampled), selected 296 (target: 296).
+2025-08-04 21:01:03,526 - ClientAppLogger [Client 9] - INFO - Total number of anomaly samples (positions) after reduction: 45627
+2025-08-04 21:01:03,536 - ClientAppLogger [Client 9] - INFO -   Distribution of remaining attack types: 
+type
+ransomware    5697
+injection     5688
+password      5671
+ddos          5665
+scanning      5655
+xss           5655
+backdoor      5654
+dos           5646
+mitm           296
+Name: count, dtype: int64
+2025-08-04 21:01:03,536 - ClientAppLogger [Client 9] - INFO - [LoadData 9] Anomaly reduction logic completed.
+2025-08-04 21:01:03,541 - ClientAppLogger [Client 9] - INFO - [LoadData 9] Normal and anomaly indices shuffled.
+2025-08-04 21:01:03,541 - ClientAppLogger [Client 9] - INFO - [LoadData 9] Creating unlabeled training base.
+2025-08-04 21:01:03,547 - ClientAppLogger [Client 9] - INFO - Unlabeled normal data for AE training base: 34000 samples.
+2025-08-04 21:01:03,547 - ClientAppLogger [Client 9] - INFO - [LoadData 9] Creating labeled pool.
+2025-08-04 21:01:03,558 - ClientAppLogger [Client 9] - INFO - Labeled Pool (for train augmentation, val, test): 54127 samples.
+2025-08-04 21:01:03,558 - ClientAppLogger [Client 9] - INFO - [LoadData 9] Labeled pool creation completed.
+2025-08-04 21:01:03,558 - ClientAppLogger [Client 9] - INFO - [LoadData 9] Splitting labeled pool for train_aug, val, test.
+2025-08-04 21:01:03,575 - ClientAppLogger [Client 9] - INFO - Labeled data for AE training augmentation: 37888 samples.
+2025-08-04 21:01:03,580 - ClientAppLogger [Client 9] - INFO - [LoadData 9] Combining data for final AE training set.
+2025-08-04 21:01:03,587 - ClientAppLogger [Client 9] - INFO - [LoadData 9] Final AE training data combination completed.
+2025-08-04 21:01:03,587 - ClientAppLogger [Client 9] - INFO - [LoadData 9] Logging final dataset sizes and distributions pre-partitioning.
+2025-08-04 21:01:03,587 - ClientAppLogger [Client 9] - INFO - Data Splitting Summary (Semi-Supervised AE):
+2025-08-04 21:01:03,587 - ClientAppLogger [Client 9] - INFO -   AE Training (X_train_combined): 71888 samples.
+2025-08-04 21:01:03,588 - ClientAppLogger [Client 9] - INFO -   Validation (X_val): 8119 samples.
+2025-08-04 21:01:03,588 - ClientAppLogger [Client 9] - INFO -   Test (X_test_final): 8120 samples.
+2025-08-04 21:01:03,589 - ClientAppLogger [Client 9] - INFO - [Partitioning Debug 9] START of partitioning block.
+2025-08-04 21:01:03,589 - ClientAppLogger [Client 9] - INFO - [LoadData 9] Starting Dirichlet-based partitioning with minimum sample guarantee.
+2025-08-04 21:01:03,589 - ClientAppLogger [Client 9] - INFO - [Partitioning Debug 9] Step 1: Full indices created.
+2025-08-04 21:01:03,589 - ClientAppLogger [Client 9] - INFO - [LoadData 9] Partitioning: Full train/val/test indices created.
+2025-08-04 21:01:03,591 - ClientAppLogger [Client 9] - INFO - [Partitioning Debug 9] Step 2: Full indices shuffled.
+2025-08-04 21:01:03,591 - ClientAppLogger [Client 9] - INFO - [LoadData 9] Partitioning: Full indices shuffled.
+2025-08-04 21:01:03,591 - ClientAppLogger [Client 9] - INFO - [Partitioning Debug 9] Step 5d: Counts calculated. Final sums: Train=71888, Val=8119, Test=8120
+2025-08-04 21:01:03,592 - ClientAppLogger [Client 9] - INFO - [LoadData 9] Partitioning: Remainder distribution completed.
+2025-08-04 21:01:03,592 - ClientAppLogger [Client 9] - INFO - [Partitioning Debug 9] Step 5e: Final train_counts example: [117, 38174, 12359, 1183, 1086]
+2025-08-04 21:01:03,592 - ClientAppLogger [Client 9] - INFO - [Partitioning Debug 9] Step 5f: Final val_counts example: [575, 417, 122, 132, 3018]
+2025-08-04 21:01:03,592 - ClientAppLogger [Client 9] - INFO - [Partitioning Debug 9] Step 5g: Final test_counts example: [161, 226, 392, 3433, 379]
+2025-08-04 21:01:03,592 - ClientAppLogger [Client 9] - INFO - [Partitioning Debug 9] Step 6: Start indices calculated. train_start=54318
+2025-08-04 21:01:03,592 - ClientAppLogger [Client 9] - INFO - [LoadData 9] Partitioning: Start indices calculated. Train_start=54318, Val_start=7543, Test_start=8016
+2025-08-04 21:01:03,593 - ClientAppLogger [Client 9] - INFO - [Partitioning Debug 9] Step 7: End indices calculated. train_end=71888
+2025-08-04 21:01:03,593 - ClientAppLogger [Client 9] - INFO - [LoadData 9] Partitioning: End indices calculated. Train_end=71888, Val_end=8119, Test_end=8120
+2025-08-04 21:01:03,593 - ClientAppLogger [Client 9] - INFO - [Partitioning Debug 9] Step 8: Partition-specific indices extracted. Num train indices: 17570
+2025-08-04 21:01:03,593 - ClientAppLogger [Client 9] - INFO - [LoadData 9] Partitioning: Specific indices extracted. Train idx: 17570, Val idx: 576, Test idx: 104
+2025-08-04 21:01:03,594 - ClientAppLogger [Client 9] - INFO - [Partitioning Debug 9] Step 9a: Train data sliced for partition. X_train_part_full shape: (17570, 17)
+2025-08-04 21:01:03,594 - ClientAppLogger [Client 9] - INFO - [LoadData 9] Partitioning: Train data sliced. Shape: (17570, 17)
+2025-08-04 21:01:03,594 - ClientAppLogger [Client 9] - INFO - [Partitioning Debug 9] Step 9b: Validation data sliced for partition. X_val_part shape: (576, 17)
+2025-08-04 21:01:03,594 - ClientAppLogger [Client 9] - INFO - [LoadData 9] Partitioning: Validation data sliced. Shape: (576, 17)
+2025-08-04 21:01:03,594 - ClientAppLogger [Client 9] - INFO - [Partitioning Debug 9] Step 9c: Test data sliced for partition. X_test_part shape: (104, 17)
+2025-08-04 21:01:03,595 - ClientAppLogger [Client 9] - INFO - [LoadData 9] Partitioning: Test data sliced. Shape: (104, 17)
+2025-08-04 21:01:03,595 - ClientAppLogger [Client 9] - INFO - [Partitioning Debug 9] Step 10: Creating TonIoTDataset for train_dataset_full_potential.
+2025-08-04 21:01:03,595 - ClientAppLogger [Client 9] - INFO - [LoadData 9] Creating TonIoTDataset objects.
+2025-08-04 21:01:03,595 - ClientAppLogger [Client 9] - INFO - [Partitioning Debug 9] Step 11: Creating TonIoTDataset for val_dataset_static.
+2025-08-04 21:01:03,596 - ClientAppLogger [Client 9] - INFO - [Partitioning Debug 9] Step 12: Creating TonIoTDataset for test_dataset_static.
+2025-08-04 21:01:03,596 - ClientAppLogger [Client 9] - INFO - [Partitioning Debug 9] Step 13: All TonIoTDataset objects created.
+2025-08-04 21:01:03,596 - ClientAppLogger [Client 9] - INFO - [LoadData 9] TonIoTDataset objects created.
+2025-08-04 21:01:03,596 - ClientAppLogger [Client 9] - INFO - Partition 9 (Static Datasets): Train Potential 17570, Val 576, Test 104
+2025-08-04 21:01:03,596 - ClientAppLogger [Client 9] - INFO - [Partitioning Debug 9] END of partitioning block, returning datasets.
+2025-08-04 21:01:03,596 - ClientAppLogger [Client 9] - INFO - [LoadData 9] load_data function completed.
+2025-08-04 21:01:03,603 - ClientAppLogger [Client 9] - INFO - Data loaded for partition 9: Train samples: 17570, Val samples: 576
+2025-08-04 21:01:03,603 - ClientAppLogger [Client 9] - INFO - Instantiating GAN models: G(latent_dim=100, h1=128, h2=32), D(h1=128, h2=32)
+2025-08-04 21:01:03,604 - ClientAppLogger [Client 9] - INFO - [Client] Generator model has 6 parameter tensors.
+2025-08-04 21:01:03,604 - ClientAppLogger [Client 9] - INFO - [Client] Initialized. Device: cpu. Operating with 1 allocated core(s) for PyTorch tasks. Current PyTorch intra-op threads: 1.
+2025-08-04 21:01:03,606 - ClientAppLogger [Client 9] - INFO - [Client] Evaluate method started for round -1 using Discriminator.
+2025-08-04 21:01:03,606 - ClientAppLogger [Client 9] - INFO - [Client] set_parameters called with 12 total parameter tensors.
+2025-08-04 21:01:03,606 - ClientAppLogger [Client 9] - INFO - [Client] Splitting parameters: 6 for G, 6 for D.
+2025-08-04 21:01:03,607 - ClientAppLogger [Client 9] - INFO - [Client] Starting evaluation with Discriminator...
+2025-08-04 21:01:03,620 - ClientAppLogger [Client 9] - INFO - [Task] Test Evaluation: Samples (valid for metrics)=576, Avg Anomaly Score (all samples)=0.5407, Threshold=0.5927, Accuracy=0.7309, F1=0.8135, Precision=0.9797, Recall=0.6955
+2025-08-04 21:01:03,620 - ClientAppLogger [Client 9] - INFO - [Client] Evaluation finished. Samples: 576, Acc: 0.7309, F1: 0.8135, Prec: 0.9797, Rec: 0.6955, Avg Anomaly Score: 0.5407
+2025-08-04 21:01:23,908 - ClientAppLogger [Client 9] - INFO - ClientApp starting for partition_id: 9. Instance log dir: /app/logs/20250804_2100
+2025-08-04 21:01:23,909 - ClientAppLogger [Client 9] - INFO - ALLOCATED_CORES='1' found. Setting PyTorch threads to 1.
+2025-08-04 21:01:23,909 - ClientAppLogger [Client 9] - INFO - Called torch.set_num_threads(1). Current PyTorch intra-op threads: 1. Client will operate with 1 core(s).
+2025-08-04 21:01:23,909 - ClientAppLogger [Client 9] - INFO - Loading data for partition 9/10...
+2025-08-04 21:01:23,909 - ClientAppLogger [Client 9] - INFO - [LoadData 9] Starting load_data function.
+2025-08-04 21:01:23,909 - ClientAppLogger [Client 9] - INFO - [LoadData 9] Attempting to read CSV from src/datasets/Train_Test_datasets/Train_Test_Network_dataset/train_test_network.csv with columns: ['src_port', 'dst_port', 'duration', 'src_bytes', 'dst_bytes', 'missed_bytes', 'src_pkts', 'src_ip_bytes', 'dst_pkts', 'dst_ip_bytes', 'dns_qclass', 'dns_qtype', 'dns_rcode', 'http_trans_depth', 'http_request_body_len', 'http_response_body_len', 'http_status_code', 'label', 'type']
+2025-08-04 21:01:24,327 - ClientAppLogger [Client 9] - INFO - [LoadData 9] CSV read successfully. DataFrame shape: (211043, 19)
+2025-08-04 21:01:24,327 - ClientAppLogger [Client 9] - INFO - [LoadData 9] Starting '-' replacement and numeric conversion.
+2025-08-04 21:01:24,420 - ClientAppLogger [Client 9] - INFO - [LoadData 9] Numeric conversion completed.
+2025-08-04 21:01:24,472 - ClientAppLogger [Client 9] - INFO - [LoadData 9] NA values filled.
+2025-08-04 21:01:24,472 - ClientAppLogger [Client 9] - INFO - Splitting off 15.0% of data for global hold-out test set.
+2025-08-04 21:01:24,661 - ClientAppLogger [Client 9] - INFO - Proceeding with federated dataset of size 179386.
+2025-08-04 21:01:24,668 - ClientAppLogger [Client 9] - INFO - [LoadData 9] X and y created. X shape: (179386, 17), y shape: (179386,)
+2025-08-04 21:01:24,668 - ClientAppLogger [Client 9] - INFO - Fitting MinMaxScaler on X with shape (179386, 17)
+2025-08-04 21:01:24,675 - ClientAppLogger [Client 9] - INFO - [LoadData 9] Scaler fitting process completed.
+2025-08-04 21:01:24,682 - ClientAppLogger [Client 9] - INFO - [LoadData 9] X_scaled successfully. Shape: (179386, 17)
+2025-08-04 21:01:24,683 - ClientAppLogger [Client 9] - INFO - [LoadData 9] Starting semi-supervised data splitting logic.
+2025-08-04 21:01:24,683 - ClientAppLogger [Client 9] - INFO - Initial number of anomaly samples (positions in sampled data): 136886
+2025-08-04 21:01:24,683 - ClientAppLogger [Client 9] - INFO - [LoadData 9] Initial normal indices count: 42500, anomaly indices count: 136886
+2025-08-04 21:01:24,684 - ClientAppLogger [Client 9] - INFO - [LoadData 9] Starting anomaly reduction logic.
+2025-08-04 21:01:24,694 - ClientAppLogger [Client 9] - INFO - Found attack types in initial sampled anomalies: ['scanning' 'injection' 'ransomware' 'password' 'ddos' 'xss' 'dos'
+ 'backdoor' 'mitm']
+2025-08-04 21:01:24,698 - ClientAppLogger [Client 9] - INFO -   Attack type 'scanning': Had 16967 instances (in sampled), selected 5655 (target: 5655).
+2025-08-04 21:01:24,701 - ClientAppLogger [Client 9] - INFO -   Attack type 'injection': Had 17064 instances (in sampled), selected 5688 (target: 5688).
+2025-08-04 21:01:24,703 - ClientAppLogger [Client 9] - INFO -   Attack type 'ransomware': Had 17091 instances (in sampled), selected 5697 (target: 5697).
+2025-08-04 21:01:24,706 - ClientAppLogger [Client 9] - INFO -   Attack type 'password': Had 17013 instances (in sampled), selected 5671 (target: 5671).
+2025-08-04 21:01:24,709 - ClientAppLogger [Client 9] - INFO -   Attack type 'ddos': Had 16995 instances (in sampled), selected 5665 (target: 5665).
+2025-08-04 21:01:24,712 - ClientAppLogger [Client 9] - INFO -   Attack type 'xss': Had 16967 instances (in sampled), selected 5655 (target: 5655).
+2025-08-04 21:01:24,715 - ClientAppLogger [Client 9] - INFO -   Attack type 'dos': Had 16938 instances (in sampled), selected 5646 (target: 5646).
+2025-08-04 21:01:24,717 - ClientAppLogger [Client 9] - INFO -   Attack type 'backdoor': Had 16963 instances (in sampled), selected 5654 (target: 5654).
+2025-08-04 21:01:24,719 - ClientAppLogger [Client 9] - INFO -   Attack type 'mitm': Had 888 instances (in sampled), selected 296 (target: 296).
+2025-08-04 21:01:24,722 - ClientAppLogger [Client 9] - INFO - Total number of anomaly samples (positions) after reduction: 45627
+2025-08-04 21:01:24,734 - ClientAppLogger [Client 9] - INFO -   Distribution of remaining attack types: 
+type
+ransomware    5697
+injection     5688
+password      5671
+ddos          5665
+scanning      5655
+xss           5655
+backdoor      5654
+dos           5646
+mitm           296
+Name: count, dtype: int64
+2025-08-04 21:01:24,734 - ClientAppLogger [Client 9] - INFO - [LoadData 9] Anomaly reduction logic completed.
+2025-08-04 21:01:24,739 - ClientAppLogger [Client 9] - INFO - [LoadData 9] Normal and anomaly indices shuffled.
+2025-08-04 21:01:24,740 - ClientAppLogger [Client 9] - INFO - [LoadData 9] Creating unlabeled training base.
+2025-08-04 21:01:24,746 - ClientAppLogger [Client 9] - INFO - Unlabeled normal data for AE training base: 34000 samples.
+2025-08-04 21:01:24,746 - ClientAppLogger [Client 9] - INFO - [LoadData 9] Creating labeled pool.
+2025-08-04 21:01:24,760 - ClientAppLogger [Client 9] - INFO - Labeled Pool (for train augmentation, val, test): 54127 samples.
+2025-08-04 21:01:24,760 - ClientAppLogger [Client 9] - INFO - [LoadData 9] Labeled pool creation completed.
+2025-08-04 21:01:24,760 - ClientAppLogger [Client 9] - INFO - [LoadData 9] Splitting labeled pool for train_aug, val, test.
+2025-08-04 21:01:24,779 - ClientAppLogger [Client 9] - INFO - Labeled data for AE training augmentation: 37888 samples.
+2025-08-04 21:01:24,785 - ClientAppLogger [Client 9] - INFO - [LoadData 9] Combining data for final AE training set.
+2025-08-04 21:01:24,794 - ClientAppLogger [Client 9] - INFO - [LoadData 9] Final AE training data combination completed.
+2025-08-04 21:01:24,794 - ClientAppLogger [Client 9] - INFO - [LoadData 9] Logging final dataset sizes and distributions pre-partitioning.
+2025-08-04 21:01:24,794 - ClientAppLogger [Client 9] - INFO - Data Splitting Summary (Semi-Supervised AE):
+2025-08-04 21:01:24,794 - ClientAppLogger [Client 9] - INFO -   AE Training (X_train_combined): 71888 samples.
+2025-08-04 21:01:24,795 - ClientAppLogger [Client 9] - INFO -   Validation (X_val): 8119 samples.
+2025-08-04 21:01:24,795 - ClientAppLogger [Client 9] - INFO -   Test (X_test_final): 8120 samples.
+2025-08-04 21:01:24,795 - ClientAppLogger [Client 9] - INFO - [Partitioning Debug 9] START of partitioning block.
+2025-08-04 21:01:24,795 - ClientAppLogger [Client 9] - INFO - [LoadData 9] Starting Dirichlet-based partitioning with minimum sample guarantee.
+2025-08-04 21:01:24,795 - ClientAppLogger [Client 9] - INFO - [Partitioning Debug 9] Step 1: Full indices created.
+2025-08-04 21:01:24,796 - ClientAppLogger [Client 9] - INFO - [LoadData 9] Partitioning: Full train/val/test indices created.
+2025-08-04 21:01:24,797 - ClientAppLogger [Client 9] - INFO - [Partitioning Debug 9] Step 2: Full indices shuffled.
+2025-08-04 21:01:24,797 - ClientAppLogger [Client 9] - INFO - [LoadData 9] Partitioning: Full indices shuffled.
+2025-08-04 21:01:24,798 - ClientAppLogger [Client 9] - INFO - [Partitioning Debug 9] Step 5d: Counts calculated. Final sums: Train=71888, Val=8119, Test=8120
+2025-08-04 21:01:24,798 - ClientAppLogger [Client 9] - INFO - [LoadData 9] Partitioning: Remainder distribution completed.
+2025-08-04 21:01:24,798 - ClientAppLogger [Client 9] - INFO - [Partitioning Debug 9] Step 5e: Final train_counts example: [117, 38174, 12359, 1183, 1086]
+2025-08-04 21:01:24,798 - ClientAppLogger [Client 9] - INFO - [Partitioning Debug 9] Step 5f: Final val_counts example: [575, 417, 122, 132, 3018]
+2025-08-04 21:01:24,798 - ClientAppLogger [Client 9] - INFO - [Partitioning Debug 9] Step 5g: Final test_counts example: [161, 226, 392, 3433, 379]
+2025-08-04 21:01:24,798 - ClientAppLogger [Client 9] - INFO - [Partitioning Debug 9] Step 6: Start indices calculated. train_start=54318
+2025-08-04 21:01:24,799 - ClientAppLogger [Client 9] - INFO - [LoadData 9] Partitioning: Start indices calculated. Train_start=54318, Val_start=7543, Test_start=8016
+2025-08-04 21:01:24,799 - ClientAppLogger [Client 9] - INFO - [Partitioning Debug 9] Step 7: End indices calculated. train_end=71888
+2025-08-04 21:01:24,799 - ClientAppLogger [Client 9] - INFO - [LoadData 9] Partitioning: End indices calculated. Train_end=71888, Val_end=8119, Test_end=8120
+2025-08-04 21:01:24,799 - ClientAppLogger [Client 9] - INFO - [Partitioning Debug 9] Step 8: Partition-specific indices extracted. Num train indices: 17570
+2025-08-04 21:01:24,799 - ClientAppLogger [Client 9] - INFO - [LoadData 9] Partitioning: Specific indices extracted. Train idx: 17570, Val idx: 576, Test idx: 104
+2025-08-04 21:01:24,801 - ClientAppLogger [Client 9] - INFO - [Partitioning Debug 9] Step 9a: Train data sliced for partition. X_train_part_full shape: (17570, 17)
+2025-08-04 21:01:24,801 - ClientAppLogger [Client 9] - INFO - [LoadData 9] Partitioning: Train data sliced. Shape: (17570, 17)
+2025-08-04 21:01:24,802 - ClientAppLogger [Client 9] - INFO - [Partitioning Debug 9] Step 9b: Validation data sliced for partition. X_val_part shape: (576, 17)
+2025-08-04 21:01:24,802 - ClientAppLogger [Client 9] - INFO - [LoadData 9] Partitioning: Validation data sliced. Shape: (576, 17)
+2025-08-04 21:01:24,802 - ClientAppLogger [Client 9] - INFO - [Partitioning Debug 9] Step 9c: Test data sliced for partition. X_test_part shape: (104, 17)
+2025-08-04 21:01:24,802 - ClientAppLogger [Client 9] - INFO - [LoadData 9] Partitioning: Test data sliced. Shape: (104, 17)
+2025-08-04 21:01:24,802 - ClientAppLogger [Client 9] - INFO - [Partitioning Debug 9] Step 10: Creating TonIoTDataset for train_dataset_full_potential.
+2025-08-04 21:01:24,802 - ClientAppLogger [Client 9] - INFO - [LoadData 9] Creating TonIoTDataset objects.
+2025-08-04 21:01:24,803 - ClientAppLogger [Client 9] - INFO - [Partitioning Debug 9] Step 11: Creating TonIoTDataset for val_dataset_static.
+2025-08-04 21:01:24,803 - ClientAppLogger [Client 9] - INFO - [Partitioning Debug 9] Step 12: Creating TonIoTDataset for test_dataset_static.
+2025-08-04 21:01:24,803 - ClientAppLogger [Client 9] - INFO - [Partitioning Debug 9] Step 13: All TonIoTDataset objects created.
+2025-08-04 21:01:24,803 - ClientAppLogger [Client 9] - INFO - [LoadData 9] TonIoTDataset objects created.
+2025-08-04 21:01:24,804 - ClientAppLogger [Client 9] - INFO - Partition 9 (Static Datasets): Train Potential 17570, Val 576, Test 104
+2025-08-04 21:01:24,804 - ClientAppLogger [Client 9] - INFO - [Partitioning Debug 9] END of partitioning block, returning datasets.
+2025-08-04 21:01:24,804 - ClientAppLogger [Client 9] - INFO - [LoadData 9] load_data function completed.
+2025-08-04 21:01:24,811 - ClientAppLogger [Client 9] - INFO - Data loaded for partition 9: Train samples: 17570, Val samples: 576
+2025-08-04 21:01:24,811 - ClientAppLogger [Client 9] - INFO - Instantiating GAN models: G(latent_dim=100, h1=128, h2=32), D(h1=128, h2=32)
+2025-08-04 21:01:24,813 - ClientAppLogger [Client 9] - INFO - [Client] Generator model has 6 parameter tensors.
+2025-08-04 21:01:24,813 - ClientAppLogger [Client 9] - INFO - [Client] Initialized. Device: cpu. Operating with 1 allocated core(s) for PyTorch tasks. Current PyTorch intra-op threads: 1.
+2025-08-04 21:01:24,814 - ClientAppLogger [Client 9] - INFO - [Client] Evaluate method started for round -1 using Discriminator.
+2025-08-04 21:01:24,815 - ClientAppLogger [Client 9] - INFO - [Client] set_parameters called with 12 total parameter tensors.
+2025-08-04 21:01:24,815 - ClientAppLogger [Client 9] - INFO - [Client] Splitting parameters: 6 for G, 6 for D.
+2025-08-04 21:01:24,816 - ClientAppLogger [Client 9] - INFO - [Client] Starting evaluation with Discriminator...
+2025-08-04 21:01:24,834 - ClientAppLogger [Client 9] - INFO - [Task] Test Evaluation: Samples (valid for metrics)=576, Avg Anomaly Score (all samples)=0.5127, Threshold=0.5599, Accuracy=0.7378, F1=0.8183, Precision=0.9855, Recall=0.6996
+2025-08-04 21:01:24,834 - ClientAppLogger [Client 9] - INFO - [Client] Evaluation finished. Samples: 576, Acc: 0.7378, F1: 0.8183, Prec: 0.9855, Rec: 0.6996, Avg Anomaly Score: 0.5127
+2025-08-04 21:01:36,103 - ClientAppLogger [Client 9] - INFO - ClientApp starting for partition_id: 9. Instance log dir: /app/logs/20250804_2100
+2025-08-04 21:01:36,103 - ClientAppLogger [Client 9] - INFO - ALLOCATED_CORES='1' found. Setting PyTorch threads to 1.
+2025-08-04 21:01:36,103 - ClientAppLogger [Client 9] - INFO - Called torch.set_num_threads(1). Current PyTorch intra-op threads: 1. Client will operate with 1 core(s).
+2025-08-04 21:01:36,103 - ClientAppLogger [Client 9] - INFO - Loading data for partition 9/10...
+2025-08-04 21:01:36,103 - ClientAppLogger [Client 9] - INFO - [LoadData 9] Starting load_data function.
+2025-08-04 21:01:36,103 - ClientAppLogger [Client 9] - INFO - [LoadData 9] Attempting to read CSV from src/datasets/Train_Test_datasets/Train_Test_Network_dataset/train_test_network.csv with columns: ['src_port', 'dst_port', 'duration', 'src_bytes', 'dst_bytes', 'missed_bytes', 'src_pkts', 'src_ip_bytes', 'dst_pkts', 'dst_ip_bytes', 'dns_qclass', 'dns_qtype', 'dns_rcode', 'http_trans_depth', 'http_request_body_len', 'http_response_body_len', 'http_status_code', 'label', 'type']
+2025-08-04 21:01:36,497 - ClientAppLogger [Client 9] - INFO - [LoadData 9] CSV read successfully. DataFrame shape: (211043, 19)
+2025-08-04 21:01:36,498 - ClientAppLogger [Client 9] - INFO - [LoadData 9] Starting '-' replacement and numeric conversion.
+2025-08-04 21:01:36,587 - ClientAppLogger [Client 9] - INFO - [LoadData 9] Numeric conversion completed.
+2025-08-04 21:01:36,636 - ClientAppLogger [Client 9] - INFO - [LoadData 9] NA values filled.
+2025-08-04 21:01:36,636 - ClientAppLogger [Client 9] - INFO - Splitting off 15.0% of data for global hold-out test set.
+2025-08-04 21:01:36,815 - ClientAppLogger [Client 9] - INFO - Proceeding with federated dataset of size 179386.
+2025-08-04 21:01:36,825 - ClientAppLogger [Client 9] - INFO - [LoadData 9] X and y created. X shape: (179386, 17), y shape: (179386,)
+2025-08-04 21:01:36,825 - ClientAppLogger [Client 9] - INFO - Fitting MinMaxScaler on X with shape (179386, 17)
+2025-08-04 21:01:36,832 - ClientAppLogger [Client 9] - INFO - [LoadData 9] Scaler fitting process completed.
+2025-08-04 21:01:36,860 - ClientAppLogger [Client 9] - INFO - [LoadData 9] X_scaled successfully. Shape: (179386, 17)
+2025-08-04 21:01:36,861 - ClientAppLogger [Client 9] - INFO - [LoadData 9] Starting semi-supervised data splitting logic.
+2025-08-04 21:01:36,861 - ClientAppLogger [Client 9] - INFO - Initial number of anomaly samples (positions in sampled data): 136886
+2025-08-04 21:01:36,862 - ClientAppLogger [Client 9] - INFO - [LoadData 9] Initial normal indices count: 42500, anomaly indices count: 136886
+2025-08-04 21:01:36,862 - ClientAppLogger [Client 9] - INFO - [LoadData 9] Starting anomaly reduction logic.
+2025-08-04 21:01:36,872 - ClientAppLogger [Client 9] - INFO - Found attack types in initial sampled anomalies: ['scanning' 'injection' 'ransomware' 'password' 'ddos' 'xss' 'dos'
+ 'backdoor' 'mitm']
+2025-08-04 21:01:36,875 - ClientAppLogger [Client 9] - INFO -   Attack type 'scanning': Had 16967 instances (in sampled), selected 5655 (target: 5655).
+2025-08-04 21:01:36,877 - ClientAppLogger [Client 9] - INFO -   Attack type 'injection': Had 17064 instances (in sampled), selected 5688 (target: 5688).
+2025-08-04 21:01:36,880 - ClientAppLogger [Client 9] - INFO -   Attack type 'ransomware': Had 17091 instances (in sampled), selected 5697 (target: 5697).
+2025-08-04 21:01:36,883 - ClientAppLogger [Client 9] - INFO -   Attack type 'password': Had 17013 instances (in sampled), selected 5671 (target: 5671).
+2025-08-04 21:01:36,885 - ClientAppLogger [Client 9] - INFO -   Attack type 'ddos': Had 16995 instances (in sampled), selected 5665 (target: 5665).
+2025-08-04 21:01:36,888 - ClientAppLogger [Client 9] - INFO -   Attack type 'xss': Had 16967 instances (in sampled), selected 5655 (target: 5655).
+2025-08-04 21:01:36,891 - ClientAppLogger [Client 9] - INFO -   Attack type 'dos': Had 16938 instances (in sampled), selected 5646 (target: 5646).
+2025-08-04 21:01:36,894 - ClientAppLogger [Client 9] - INFO -   Attack type 'backdoor': Had 16963 instances (in sampled), selected 5654 (target: 5654).
+2025-08-04 21:01:36,896 - ClientAppLogger [Client 9] - INFO -   Attack type 'mitm': Had 888 instances (in sampled), selected 296 (target: 296).
+2025-08-04 21:01:36,900 - ClientAppLogger [Client 9] - INFO - Total number of anomaly samples (positions) after reduction: 45627
+2025-08-04 21:01:36,911 - ClientAppLogger [Client 9] - INFO -   Distribution of remaining attack types: 
+type
+ransomware    5697
+injection     5688
+password      5671
+ddos          5665
+scanning      5655
+xss           5655
+backdoor      5654
+dos           5646
+mitm           296
+Name: count, dtype: int64
+2025-08-04 21:01:36,911 - ClientAppLogger [Client 9] - INFO - [LoadData 9] Anomaly reduction logic completed.
+2025-08-04 21:01:36,917 - ClientAppLogger [Client 9] - INFO - [LoadData 9] Normal and anomaly indices shuffled.
+2025-08-04 21:01:36,917 - ClientAppLogger [Client 9] - INFO - [LoadData 9] Creating unlabeled training base.
+2025-08-04 21:01:36,923 - ClientAppLogger [Client 9] - INFO - Unlabeled normal data for AE training base: 34000 samples.
+2025-08-04 21:01:36,924 - ClientAppLogger [Client 9] - INFO - [LoadData 9] Creating labeled pool.
+2025-08-04 21:01:36,937 - ClientAppLogger [Client 9] - INFO - Labeled Pool (for train augmentation, val, test): 54127 samples.
+2025-08-04 21:01:36,937 - ClientAppLogger [Client 9] - INFO - [LoadData 9] Labeled pool creation completed.
+2025-08-04 21:01:36,937 - ClientAppLogger [Client 9] - INFO - [LoadData 9] Splitting labeled pool for train_aug, val, test.
+2025-08-04 21:01:36,955 - ClientAppLogger [Client 9] - INFO - Labeled data for AE training augmentation: 37888 samples.
+2025-08-04 21:01:36,961 - ClientAppLogger [Client 9] - INFO - [LoadData 9] Combining data for final AE training set.
+2025-08-04 21:01:36,969 - ClientAppLogger [Client 9] - INFO - [LoadData 9] Final AE training data combination completed.
+2025-08-04 21:01:36,970 - ClientAppLogger [Client 9] - INFO - [LoadData 9] Logging final dataset sizes and distributions pre-partitioning.
+2025-08-04 21:01:36,970 - ClientAppLogger [Client 9] - INFO - Data Splitting Summary (Semi-Supervised AE):
+2025-08-04 21:01:36,970 - ClientAppLogger [Client 9] - INFO -   AE Training (X_train_combined): 71888 samples.
+2025-08-04 21:01:36,970 - ClientAppLogger [Client 9] - INFO -   Validation (X_val): 8119 samples.
+2025-08-04 21:01:36,971 - ClientAppLogger [Client 9] - INFO -   Test (X_test_final): 8120 samples.
+2025-08-04 21:01:36,971 - ClientAppLogger [Client 9] - INFO - [Partitioning Debug 9] START of partitioning block.
+2025-08-04 21:01:36,971 - ClientAppLogger [Client 9] - INFO - [LoadData 9] Starting Dirichlet-based partitioning with minimum sample guarantee.
+2025-08-04 21:01:36,971 - ClientAppLogger [Client 9] - INFO - [Partitioning Debug 9] Step 1: Full indices created.
+2025-08-04 21:01:36,971 - ClientAppLogger [Client 9] - INFO - [LoadData 9] Partitioning: Full train/val/test indices created.
+2025-08-04 21:01:36,973 - ClientAppLogger [Client 9] - INFO - [Partitioning Debug 9] Step 2: Full indices shuffled.
+2025-08-04 21:01:36,973 - ClientAppLogger [Client 9] - INFO - [LoadData 9] Partitioning: Full indices shuffled.
+2025-08-04 21:01:36,974 - ClientAppLogger [Client 9] - INFO - [Partitioning Debug 9] Step 5d: Counts calculated. Final sums: Train=71888, Val=8119, Test=8120
+2025-08-04 21:01:36,974 - ClientAppLogger [Client 9] - INFO - [LoadData 9] Partitioning: Remainder distribution completed.
+2025-08-04 21:01:36,974 - ClientAppLogger [Client 9] - INFO - [Partitioning Debug 9] Step 5e: Final train_counts example: [117, 38174, 12359, 1183, 1086]
+2025-08-04 21:01:36,974 - ClientAppLogger [Client 9] - INFO - [Partitioning Debug 9] Step 5f: Final val_counts example: [575, 417, 122, 132, 3018]
+2025-08-04 21:01:36,974 - ClientAppLogger [Client 9] - INFO - [Partitioning Debug 9] Step 5g: Final test_counts example: [161, 226, 392, 3433, 379]
+2025-08-04 21:01:36,974 - ClientAppLogger [Client 9] - INFO - [Partitioning Debug 9] Step 6: Start indices calculated. train_start=54318
+2025-08-04 21:01:36,975 - ClientAppLogger [Client 9] - INFO - [LoadData 9] Partitioning: Start indices calculated. Train_start=54318, Val_start=7543, Test_start=8016
+2025-08-04 21:01:36,975 - ClientAppLogger [Client 9] - INFO - [Partitioning Debug 9] Step 7: End indices calculated. train_end=71888
+2025-08-04 21:01:36,975 - ClientAppLogger [Client 9] - INFO - [LoadData 9] Partitioning: End indices calculated. Train_end=71888, Val_end=8119, Test_end=8120
+2025-08-04 21:01:36,975 - ClientAppLogger [Client 9] - INFO - [Partitioning Debug 9] Step 8: Partition-specific indices extracted. Num train indices: 17570
+2025-08-04 21:01:36,975 - ClientAppLogger [Client 9] - INFO - [LoadData 9] Partitioning: Specific indices extracted. Train idx: 17570, Val idx: 576, Test idx: 104
+2025-08-04 21:01:36,977 - ClientAppLogger [Client 9] - INFO - [Partitioning Debug 9] Step 9a: Train data sliced for partition. X_train_part_full shape: (17570, 17)
+2025-08-04 21:01:36,977 - ClientAppLogger [Client 9] - INFO - [LoadData 9] Partitioning: Train data sliced. Shape: (17570, 17)
+2025-08-04 21:01:36,978 - ClientAppLogger [Client 9] - INFO - [Partitioning Debug 9] Step 9b: Validation data sliced for partition. X_val_part shape: (576, 17)
+2025-08-04 21:01:36,978 - ClientAppLogger [Client 9] - INFO - [LoadData 9] Partitioning: Validation data sliced. Shape: (576, 17)
+2025-08-04 21:01:36,978 - ClientAppLogger [Client 9] - INFO - [Partitioning Debug 9] Step 9c: Test data sliced for partition. X_test_part shape: (104, 17)
+2025-08-04 21:01:36,978 - ClientAppLogger [Client 9] - INFO - [LoadData 9] Partitioning: Test data sliced. Shape: (104, 17)
+2025-08-04 21:01:36,978 - ClientAppLogger [Client 9] - INFO - [Partitioning Debug 9] Step 10: Creating TonIoTDataset for train_dataset_full_potential.
+2025-08-04 21:01:36,979 - ClientAppLogger [Client 9] - INFO - [LoadData 9] Creating TonIoTDataset objects.
+2025-08-04 21:01:36,979 - ClientAppLogger [Client 9] - INFO - [Partitioning Debug 9] Step 11: Creating TonIoTDataset for val_dataset_static.
+2025-08-04 21:01:36,979 - ClientAppLogger [Client 9] - INFO - [Partitioning Debug 9] Step 12: Creating TonIoTDataset for test_dataset_static.
+2025-08-04 21:01:36,980 - ClientAppLogger [Client 9] - INFO - [Partitioning Debug 9] Step 13: All TonIoTDataset objects created.
+2025-08-04 21:01:36,980 - ClientAppLogger [Client 9] - INFO - [LoadData 9] TonIoTDataset objects created.
+2025-08-04 21:01:36,980 - ClientAppLogger [Client 9] - INFO - Partition 9 (Static Datasets): Train Potential 17570, Val 576, Test 104
+2025-08-04 21:01:36,980 - ClientAppLogger [Client 9] - INFO - [Partitioning Debug 9] END of partitioning block, returning datasets.
+2025-08-04 21:01:36,980 - ClientAppLogger [Client 9] - INFO - [LoadData 9] load_data function completed.
+2025-08-04 21:01:36,988 - ClientAppLogger [Client 9] - INFO - Data loaded for partition 9: Train samples: 17570, Val samples: 576
+2025-08-04 21:01:36,989 - ClientAppLogger [Client 9] - INFO - Instantiating GAN models: G(latent_dim=100, h1=128, h2=32), D(h1=128, h2=32)
+2025-08-04 21:01:36,991 - ClientAppLogger [Client 9] - INFO - [Client] Generator model has 6 parameter tensors.
+2025-08-04 21:01:36,991 - ClientAppLogger [Client 9] - INFO - [Client] Initialized. Device: cpu. Operating with 1 allocated core(s) for PyTorch tasks. Current PyTorch intra-op threads: 1.
+2025-08-04 21:01:36,992 - ClientAppLogger [Client 9] - INFO - [Client] Evaluate method started for round -1 using Discriminator.
+2025-08-04 21:01:36,992 - ClientAppLogger [Client 9] - INFO - [Client] set_parameters called with 12 total parameter tensors.
+2025-08-04 21:01:36,993 - ClientAppLogger [Client 9] - INFO - [Client] Splitting parameters: 6 for G, 6 for D.
+2025-08-04 21:01:36,994 - ClientAppLogger [Client 9] - INFO - [Client] Starting evaluation with Discriminator...
+2025-08-04 21:01:37,011 - ClientAppLogger [Client 9] - INFO - [Task] Test Evaluation: Samples (valid for metrics)=576, Avg Anomaly Score (all samples)=0.5633, Threshold=0.6384, Accuracy=0.7274, F1=0.8111, Precision=0.9768, Recall=0.6934
+2025-08-04 21:01:37,011 - ClientAppLogger [Client 9] - INFO - [Client] Evaluation finished. Samples: 576, Acc: 0.7274, F1: 0.8111, Prec: 0.9768, Rec: 0.6934, Avg Anomaly Score: 0.5633
+2025-08-04 21:01:48,291 - ClientAppLogger [Client 9] - INFO - ClientApp starting for partition_id: 9. Instance log dir: /app/logs/20250804_2100
+2025-08-04 21:01:48,292 - ClientAppLogger [Client 9] - INFO - ALLOCATED_CORES='1' found. Setting PyTorch threads to 1.
+2025-08-04 21:01:48,292 - ClientAppLogger [Client 9] - INFO - Called torch.set_num_threads(1). Current PyTorch intra-op threads: 1. Client will operate with 1 core(s).
+2025-08-04 21:01:48,292 - ClientAppLogger [Client 9] - INFO - Loading data for partition 9/10...
+2025-08-04 21:01:48,292 - ClientAppLogger [Client 9] - INFO - [LoadData 9] Starting load_data function.
+2025-08-04 21:01:48,292 - ClientAppLogger [Client 9] - INFO - [LoadData 9] Attempting to read CSV from src/datasets/Train_Test_datasets/Train_Test_Network_dataset/train_test_network.csv with columns: ['src_port', 'dst_port', 'duration', 'src_bytes', 'dst_bytes', 'missed_bytes', 'src_pkts', 'src_ip_bytes', 'dst_pkts', 'dst_ip_bytes', 'dns_qclass', 'dns_qtype', 'dns_rcode', 'http_trans_depth', 'http_request_body_len', 'http_response_body_len', 'http_status_code', 'label', 'type']
+2025-08-04 21:01:48,659 - ClientAppLogger [Client 9] - INFO - [LoadData 9] CSV read successfully. DataFrame shape: (211043, 19)
+2025-08-04 21:01:48,659 - ClientAppLogger [Client 9] - INFO - [LoadData 9] Starting '-' replacement and numeric conversion.
+2025-08-04 21:01:48,749 - ClientAppLogger [Client 9] - INFO - [LoadData 9] Numeric conversion completed.
+2025-08-04 21:01:48,775 - ClientAppLogger [Client 9] - INFO - [LoadData 9] NA values filled.
+2025-08-04 21:01:48,776 - ClientAppLogger [Client 9] - INFO - Splitting off 15.0% of data for global hold-out test set.
+2025-08-04 21:01:48,907 - ClientAppLogger [Client 9] - INFO - Proceeding with federated dataset of size 179386.
+2025-08-04 21:01:48,914 - ClientAppLogger [Client 9] - INFO - [LoadData 9] X and y created. X shape: (179386, 17), y shape: (179386,)
+2025-08-04 21:01:48,914 - ClientAppLogger [Client 9] - INFO - Fitting MinMaxScaler on X with shape (179386, 17)
+2025-08-04 21:01:48,924 - ClientAppLogger [Client 9] - INFO - [LoadData 9] Scaler fitting process completed.
+2025-08-04 21:01:48,953 - ClientAppLogger [Client 9] - INFO - [LoadData 9] X_scaled successfully. Shape: (179386, 17)
+2025-08-04 21:01:48,953 - ClientAppLogger [Client 9] - INFO - [LoadData 9] Starting semi-supervised data splitting logic.
+2025-08-04 21:01:48,954 - ClientAppLogger [Client 9] - INFO - Initial number of anomaly samples (positions in sampled data): 136886
+2025-08-04 21:01:48,954 - ClientAppLogger [Client 9] - INFO - [LoadData 9] Initial normal indices count: 42500, anomaly indices count: 136886
+2025-08-04 21:01:48,954 - ClientAppLogger [Client 9] - INFO - [LoadData 9] Starting anomaly reduction logic.
+2025-08-04 21:01:48,967 - ClientAppLogger [Client 9] - INFO - Found attack types in initial sampled anomalies: ['scanning' 'injection' 'ransomware' 'password' 'ddos' 'xss' 'dos'
+ 'backdoor' 'mitm']
+2025-08-04 21:01:48,971 - ClientAppLogger [Client 9] - INFO -   Attack type 'scanning': Had 16967 instances (in sampled), selected 5655 (target: 5655).
+2025-08-04 21:01:48,973 - ClientAppLogger [Client 9] - INFO -   Attack type 'injection': Had 17064 instances (in sampled), selected 5688 (target: 5688).
+2025-08-04 21:01:48,976 - ClientAppLogger [Client 9] - INFO -   Attack type 'ransomware': Had 17091 instances (in sampled), selected 5697 (target: 5697).
+2025-08-04 21:01:48,980 - ClientAppLogger [Client 9] - INFO -   Attack type 'password': Had 17013 instances (in sampled), selected 5671 (target: 5671).
+2025-08-04 21:01:48,983 - ClientAppLogger [Client 9] - INFO -   Attack type 'ddos': Had 16995 instances (in sampled), selected 5665 (target: 5665).
+2025-08-04 21:01:48,985 - ClientAppLogger [Client 9] - INFO -   Attack type 'xss': Had 16967 instances (in sampled), selected 5655 (target: 5655).
+2025-08-04 21:01:48,988 - ClientAppLogger [Client 9] - INFO -   Attack type 'dos': Had 16938 instances (in sampled), selected 5646 (target: 5646).
+2025-08-04 21:01:48,991 - ClientAppLogger [Client 9] - INFO -   Attack type 'backdoor': Had 16963 instances (in sampled), selected 5654 (target: 5654).
+2025-08-04 21:01:48,993 - ClientAppLogger [Client 9] - INFO -   Attack type 'mitm': Had 888 instances (in sampled), selected 296 (target: 296).
+2025-08-04 21:01:48,996 - ClientAppLogger [Client 9] - INFO - Total number of anomaly samples (positions) after reduction: 45627
+2025-08-04 21:01:49,007 - ClientAppLogger [Client 9] - INFO -   Distribution of remaining attack types: 
+type
+ransomware    5697
+injection     5688
+password      5671
+ddos          5665
+scanning      5655
+xss           5655
+backdoor      5654
+dos           5646
+mitm           296
+Name: count, dtype: int64
+2025-08-04 21:01:49,008 - ClientAppLogger [Client 9] - INFO - [LoadData 9] Anomaly reduction logic completed.
+2025-08-04 21:01:49,014 - ClientAppLogger [Client 9] - INFO - [LoadData 9] Normal and anomaly indices shuffled.
+2025-08-04 21:01:49,014 - ClientAppLogger [Client 9] - INFO - [LoadData 9] Creating unlabeled training base.
+2025-08-04 21:01:49,021 - ClientAppLogger [Client 9] - INFO - Unlabeled normal data for AE training base: 34000 samples.
+2025-08-04 21:01:49,021 - ClientAppLogger [Client 9] - INFO - [LoadData 9] Creating labeled pool.
+2025-08-04 21:01:49,035 - ClientAppLogger [Client 9] - INFO - Labeled Pool (for train augmentation, val, test): 54127 samples.
+2025-08-04 21:01:49,035 - ClientAppLogger [Client 9] - INFO - [LoadData 9] Labeled pool creation completed.
+2025-08-04 21:01:49,036 - ClientAppLogger [Client 9] - INFO - [LoadData 9] Splitting labeled pool for train_aug, val, test.
+2025-08-04 21:01:49,052 - ClientAppLogger [Client 9] - INFO - Labeled data for AE training augmentation: 37888 samples.
+2025-08-04 21:01:49,058 - ClientAppLogger [Client 9] - INFO - [LoadData 9] Combining data for final AE training set.
+2025-08-04 21:01:49,064 - ClientAppLogger [Client 9] - INFO - [LoadData 9] Final AE training data combination completed.
+2025-08-04 21:01:49,064 - ClientAppLogger [Client 9] - INFO - [LoadData 9] Logging final dataset sizes and distributions pre-partitioning.
+2025-08-04 21:01:49,065 - ClientAppLogger [Client 9] - INFO - Data Splitting Summary (Semi-Supervised AE):
+2025-08-04 21:01:49,065 - ClientAppLogger [Client 9] - INFO -   AE Training (X_train_combined): 71888 samples.
+2025-08-04 21:01:49,065 - ClientAppLogger [Client 9] - INFO -   Validation (X_val): 8119 samples.
+2025-08-04 21:01:49,065 - ClientAppLogger [Client 9] - INFO -   Test (X_test_final): 8120 samples.
+2025-08-04 21:01:49,065 - ClientAppLogger [Client 9] - INFO - [Partitioning Debug 9] START of partitioning block.
+2025-08-04 21:01:49,066 - ClientAppLogger [Client 9] - INFO - [LoadData 9] Starting Dirichlet-based partitioning with minimum sample guarantee.
+2025-08-04 21:01:49,066 - ClientAppLogger [Client 9] - INFO - [Partitioning Debug 9] Step 1: Full indices created.
+2025-08-04 21:01:49,066 - ClientAppLogger [Client 9] - INFO - [LoadData 9] Partitioning: Full train/val/test indices created.
+2025-08-04 21:01:49,067 - ClientAppLogger [Client 9] - INFO - [Partitioning Debug 9] Step 2: Full indices shuffled.
+2025-08-04 21:01:49,067 - ClientAppLogger [Client 9] - INFO - [LoadData 9] Partitioning: Full indices shuffled.
+2025-08-04 21:01:49,068 - ClientAppLogger [Client 9] - INFO - [Partitioning Debug 9] Step 5d: Counts calculated. Final sums: Train=71888, Val=8119, Test=8120
+2025-08-04 21:01:49,068 - ClientAppLogger [Client 9] - INFO - [LoadData 9] Partitioning: Remainder distribution completed.
+2025-08-04 21:01:49,068 - ClientAppLogger [Client 9] - INFO - [Partitioning Debug 9] Step 5e: Final train_counts example: [117, 38174, 12359, 1183, 1086]
+2025-08-04 21:01:49,068 - ClientAppLogger [Client 9] - INFO - [Partitioning Debug 9] Step 5f: Final val_counts example: [575, 417, 122, 132, 3018]
+2025-08-04 21:01:49,069 - ClientAppLogger [Client 9] - INFO - [Partitioning Debug 9] Step 5g: Final test_counts example: [161, 226, 392, 3433, 379]
+2025-08-04 21:01:49,069 - ClientAppLogger [Client 9] - INFO - [Partitioning Debug 9] Step 6: Start indices calculated. train_start=54318
+2025-08-04 21:01:49,069 - ClientAppLogger [Client 9] - INFO - [LoadData 9] Partitioning: Start indices calculated. Train_start=54318, Val_start=7543, Test_start=8016
+2025-08-04 21:01:49,069 - ClientAppLogger [Client 9] - INFO - [Partitioning Debug 9] Step 7: End indices calculated. train_end=71888
+2025-08-04 21:01:49,069 - ClientAppLogger [Client 9] - INFO - [LoadData 9] Partitioning: End indices calculated. Train_end=71888, Val_end=8119, Test_end=8120
+2025-08-04 21:01:49,069 - ClientAppLogger [Client 9] - INFO - [Partitioning Debug 9] Step 8: Partition-specific indices extracted. Num train indices: 17570
+2025-08-04 21:01:49,069 - ClientAppLogger [Client 9] - INFO - [LoadData 9] Partitioning: Specific indices extracted. Train idx: 17570, Val idx: 576, Test idx: 104
+2025-08-04 21:01:49,071 - ClientAppLogger [Client 9] - INFO - [Partitioning Debug 9] Step 9a: Train data sliced for partition. X_train_part_full shape: (17570, 17)
+2025-08-04 21:01:49,071 - ClientAppLogger [Client 9] - INFO - [LoadData 9] Partitioning: Train data sliced. Shape: (17570, 17)
+2025-08-04 21:01:49,072 - ClientAppLogger [Client 9] - INFO - [Partitioning Debug 9] Step 9b: Validation data sliced for partition. X_val_part shape: (576, 17)
+2025-08-04 21:01:49,072 - ClientAppLogger [Client 9] - INFO - [LoadData 9] Partitioning: Validation data sliced. Shape: (576, 17)
+2025-08-04 21:01:49,072 - ClientAppLogger [Client 9] - INFO - [Partitioning Debug 9] Step 9c: Test data sliced for partition. X_test_part shape: (104, 17)
+2025-08-04 21:01:49,072 - ClientAppLogger [Client 9] - INFO - [LoadData 9] Partitioning: Test data sliced. Shape: (104, 17)
+2025-08-04 21:01:49,072 - ClientAppLogger [Client 9] - INFO - [Partitioning Debug 9] Step 10: Creating TonIoTDataset for train_dataset_full_potential.
+2025-08-04 21:01:49,072 - ClientAppLogger [Client 9] - INFO - [LoadData 9] Creating TonIoTDataset objects.
+2025-08-04 21:01:49,073 - ClientAppLogger [Client 9] - INFO - [Partitioning Debug 9] Step 11: Creating TonIoTDataset for val_dataset_static.
+2025-08-04 21:01:49,073 - ClientAppLogger [Client 9] - INFO - [Partitioning Debug 9] Step 12: Creating TonIoTDataset for test_dataset_static.
+2025-08-04 21:01:49,073 - ClientAppLogger [Client 9] - INFO - [Partitioning Debug 9] Step 13: All TonIoTDataset objects created.
+2025-08-04 21:01:49,073 - ClientAppLogger [Client 9] - INFO - [LoadData 9] TonIoTDataset objects created.
+2025-08-04 21:01:49,073 - ClientAppLogger [Client 9] - INFO - Partition 9 (Static Datasets): Train Potential 17570, Val 576, Test 104
+2025-08-04 21:01:49,074 - ClientAppLogger [Client 9] - INFO - [Partitioning Debug 9] END of partitioning block, returning datasets.
+2025-08-04 21:01:49,074 - ClientAppLogger [Client 9] - INFO - [LoadData 9] load_data function completed.
+2025-08-04 21:01:49,080 - ClientAppLogger [Client 9] - INFO - Data loaded for partition 9: Train samples: 17570, Val samples: 576
+2025-08-04 21:01:49,080 - ClientAppLogger [Client 9] - INFO - Instantiating GAN models: G(latent_dim=100, h1=128, h2=32), D(h1=128, h2=32)
+2025-08-04 21:01:49,081 - ClientAppLogger [Client 9] - INFO - [Client] Generator model has 6 parameter tensors.
+2025-08-04 21:01:49,081 - ClientAppLogger [Client 9] - INFO - [Client] Initialized. Device: cpu. Operating with 1 allocated core(s) for PyTorch tasks. Current PyTorch intra-op threads: 1.
+2025-08-04 21:01:49,083 - ClientAppLogger [Client 9] - INFO - [Client] Evaluate method started for round -1 using Discriminator.
+2025-08-04 21:01:49,083 - ClientAppLogger [Client 9] - INFO - [Client] set_parameters called with 12 total parameter tensors.
+2025-08-04 21:01:49,083 - ClientAppLogger [Client 9] - INFO - [Client] Splitting parameters: 6 for G, 6 for D.
+2025-08-04 21:01:49,084 - ClientAppLogger [Client 9] - INFO - [Client] Starting evaluation with Discriminator...
+2025-08-04 21:01:49,099 - ClientAppLogger [Client 9] - INFO - [Task] Test Evaluation: Samples (valid for metrics)=576, Avg Anomaly Score (all samples)=0.4972, Threshold=0.5311, Accuracy=0.7378, F1=0.8183, Precision=0.9855, Recall=0.6996
+2025-08-04 21:01:49,099 - ClientAppLogger [Client 9] - INFO - [Client] Evaluation finished. Samples: 576, Acc: 0.7378, F1: 0.8183, Prec: 0.9855, Rec: 0.6996, Avg Anomaly Score: 0.4972
+2025-08-04 21:02:09,393 - ClientAppLogger [Client 9] - INFO - ClientApp starting for partition_id: 9. Instance log dir: /app/logs/20250804_2100
+2025-08-04 21:02:09,393 - ClientAppLogger [Client 9] - INFO - ALLOCATED_CORES='1' found. Setting PyTorch threads to 1.
+2025-08-04 21:02:09,393 - ClientAppLogger [Client 9] - INFO - Called torch.set_num_threads(1). Current PyTorch intra-op threads: 1. Client will operate with 1 core(s).
+2025-08-04 21:02:09,393 - ClientAppLogger [Client 9] - INFO - Loading data for partition 9/10...
+2025-08-04 21:02:09,393 - ClientAppLogger [Client 9] - INFO - [LoadData 9] Starting load_data function.
+2025-08-04 21:02:09,393 - ClientAppLogger [Client 9] - INFO - [LoadData 9] Attempting to read CSV from src/datasets/Train_Test_datasets/Train_Test_Network_dataset/train_test_network.csv with columns: ['src_port', 'dst_port', 'duration', 'src_bytes', 'dst_bytes', 'missed_bytes', 'src_pkts', 'src_ip_bytes', 'dst_pkts', 'dst_ip_bytes', 'dns_qclass', 'dns_qtype', 'dns_rcode', 'http_trans_depth', 'http_request_body_len', 'http_response_body_len', 'http_status_code', 'label', 'type']
+2025-08-04 21:02:09,862 - ClientAppLogger [Client 9] - INFO - [LoadData 9] CSV read successfully. DataFrame shape: (211043, 19)
+2025-08-04 21:02:09,863 - ClientAppLogger [Client 9] - INFO - [LoadData 9] Starting '-' replacement and numeric conversion.
+2025-08-04 21:02:09,991 - ClientAppLogger [Client 9] - INFO - [LoadData 9] Numeric conversion completed.
+2025-08-04 21:02:10,044 - ClientAppLogger [Client 9] - INFO - [LoadData 9] NA values filled.
+2025-08-04 21:02:10,044 - ClientAppLogger [Client 9] - INFO - Splitting off 15.0% of data for global hold-out test set.
+2025-08-04 21:02:10,195 - ClientAppLogger [Client 9] - INFO - Proceeding with federated dataset of size 179386.
+2025-08-04 21:02:10,206 - ClientAppLogger [Client 9] - INFO - [LoadData 9] X and y created. X shape: (179386, 17), y shape: (179386,)
+2025-08-04 21:02:10,206 - ClientAppLogger [Client 9] - INFO - Fitting MinMaxScaler on X with shape (179386, 17)
+2025-08-04 21:02:10,222 - ClientAppLogger [Client 9] - INFO - [LoadData 9] Scaler fitting process completed.
+2025-08-04 21:02:10,247 - ClientAppLogger [Client 9] - INFO - [LoadData 9] X_scaled successfully. Shape: (179386, 17)
+2025-08-04 21:02:10,247 - ClientAppLogger [Client 9] - INFO - [LoadData 9] Starting semi-supervised data splitting logic.
+2025-08-04 21:02:10,248 - ClientAppLogger [Client 9] - INFO - Initial number of anomaly samples (positions in sampled data): 136886
+2025-08-04 21:02:10,248 - ClientAppLogger [Client 9] - INFO - [LoadData 9] Initial normal indices count: 42500, anomaly indices count: 136886
+2025-08-04 21:02:10,248 - ClientAppLogger [Client 9] - INFO - [LoadData 9] Starting anomaly reduction logic.
+2025-08-04 21:02:10,260 - ClientAppLogger [Client 9] - INFO - Found attack types in initial sampled anomalies: ['scanning' 'injection' 'ransomware' 'password' 'ddos' 'xss' 'dos'
+ 'backdoor' 'mitm']
+2025-08-04 21:02:10,264 - ClientAppLogger [Client 9] - INFO -   Attack type 'scanning': Had 16967 instances (in sampled), selected 5655 (target: 5655).
+2025-08-04 21:02:10,266 - ClientAppLogger [Client 9] - INFO -   Attack type 'injection': Had 17064 instances (in sampled), selected 5688 (target: 5688).
+2025-08-04 21:02:10,268 - ClientAppLogger [Client 9] - INFO -   Attack type 'ransomware': Had 17091 instances (in sampled), selected 5697 (target: 5697).
+2025-08-04 21:02:10,271 - ClientAppLogger [Client 9] - INFO -   Attack type 'password': Had 17013 instances (in sampled), selected 5671 (target: 5671).
+2025-08-04 21:02:10,273 - ClientAppLogger [Client 9] - INFO -   Attack type 'ddos': Had 16995 instances (in sampled), selected 5665 (target: 5665).
+2025-08-04 21:02:10,276 - ClientAppLogger [Client 9] - INFO -   Attack type 'xss': Had 16967 instances (in sampled), selected 5655 (target: 5655).
+2025-08-04 21:02:10,279 - ClientAppLogger [Client 9] - INFO -   Attack type 'dos': Had 16938 instances (in sampled), selected 5646 (target: 5646).
+2025-08-04 21:02:10,282 - ClientAppLogger [Client 9] - INFO -   Attack type 'backdoor': Had 16963 instances (in sampled), selected 5654 (target: 5654).
+2025-08-04 21:02:10,284 - ClientAppLogger [Client 9] - INFO -   Attack type 'mitm': Had 888 instances (in sampled), selected 296 (target: 296).
+2025-08-04 21:02:10,287 - ClientAppLogger [Client 9] - INFO - Total number of anomaly samples (positions) after reduction: 45627
+2025-08-04 21:02:10,298 - ClientAppLogger [Client 9] - INFO -   Distribution of remaining attack types: 
+type
+ransomware    5697
+injection     5688
+password      5671
+ddos          5665
+scanning      5655
+xss           5655
+backdoor      5654
+dos           5646
+mitm           296
+Name: count, dtype: int64
+2025-08-04 21:02:10,298 - ClientAppLogger [Client 9] - INFO - [LoadData 9] Anomaly reduction logic completed.
+2025-08-04 21:02:10,303 - ClientAppLogger [Client 9] - INFO - [LoadData 9] Normal and anomaly indices shuffled.
+2025-08-04 21:02:10,304 - ClientAppLogger [Client 9] - INFO - [LoadData 9] Creating unlabeled training base.
+2025-08-04 21:02:10,310 - ClientAppLogger [Client 9] - INFO - Unlabeled normal data for AE training base: 34000 samples.
+2025-08-04 21:02:10,310 - ClientAppLogger [Client 9] - INFO - [LoadData 9] Creating labeled pool.
+2025-08-04 21:02:10,324 - ClientAppLogger [Client 9] - INFO - Labeled Pool (for train augmentation, val, test): 54127 samples.
+2025-08-04 21:02:10,324 - ClientAppLogger [Client 9] - INFO - [LoadData 9] Labeled pool creation completed.
+2025-08-04 21:02:10,324 - ClientAppLogger [Client 9] - INFO - [LoadData 9] Splitting labeled pool for train_aug, val, test.
+2025-08-04 21:02:10,344 - ClientAppLogger [Client 9] - INFO - Labeled data for AE training augmentation: 37888 samples.
+2025-08-04 21:02:10,351 - ClientAppLogger [Client 9] - INFO - [LoadData 9] Combining data for final AE training set.
+2025-08-04 21:02:10,376 - ClientAppLogger [Client 9] - INFO - [LoadData 9] Final AE training data combination completed.
+2025-08-04 21:02:10,376 - ClientAppLogger [Client 9] - INFO - [LoadData 9] Logging final dataset sizes and distributions pre-partitioning.
+2025-08-04 21:02:10,376 - ClientAppLogger [Client 9] - INFO - Data Splitting Summary (Semi-Supervised AE):
+2025-08-04 21:02:10,376 - ClientAppLogger [Client 9] - INFO -   AE Training (X_train_combined): 71888 samples.
+2025-08-04 21:02:10,377 - ClientAppLogger [Client 9] - INFO -   Validation (X_val): 8119 samples.
+2025-08-04 21:02:10,377 - ClientAppLogger [Client 9] - INFO -   Test (X_test_final): 8120 samples.
+2025-08-04 21:02:10,377 - ClientAppLogger [Client 9] - INFO - [Partitioning Debug 9] START of partitioning block.
+2025-08-04 21:02:10,377 - ClientAppLogger [Client 9] - INFO - [LoadData 9] Starting Dirichlet-based partitioning with minimum sample guarantee.
+2025-08-04 21:02:10,378 - ClientAppLogger [Client 9] - INFO - [Partitioning Debug 9] Step 1: Full indices created.
+2025-08-04 21:02:10,378 - ClientAppLogger [Client 9] - INFO - [LoadData 9] Partitioning: Full train/val/test indices created.
+2025-08-04 21:02:10,379 - ClientAppLogger [Client 9] - INFO - [Partitioning Debug 9] Step 2: Full indices shuffled.
+2025-08-04 21:02:10,379 - ClientAppLogger [Client 9] - INFO - [LoadData 9] Partitioning: Full indices shuffled.
+2025-08-04 21:02:10,380 - ClientAppLogger [Client 9] - INFO - [Partitioning Debug 9] Step 5d: Counts calculated. Final sums: Train=71888, Val=8119, Test=8120
+2025-08-04 21:02:10,380 - ClientAppLogger [Client 9] - INFO - [LoadData 9] Partitioning: Remainder distribution completed.
+2025-08-04 21:02:10,380 - ClientAppLogger [Client 9] - INFO - [Partitioning Debug 9] Step 5e: Final train_counts example: [117, 38174, 12359, 1183, 1086]
+2025-08-04 21:02:10,381 - ClientAppLogger [Client 9] - INFO - [Partitioning Debug 9] Step 5f: Final val_counts example: [575, 417, 122, 132, 3018]
+2025-08-04 21:02:10,381 - ClientAppLogger [Client 9] - INFO - [Partitioning Debug 9] Step 5g: Final test_counts example: [161, 226, 392, 3433, 379]
+2025-08-04 21:02:10,381 - ClientAppLogger [Client 9] - INFO - [Partitioning Debug 9] Step 6: Start indices calculated. train_start=54318
+2025-08-04 21:02:10,382 - ClientAppLogger [Client 9] - INFO - [LoadData 9] Partitioning: Start indices calculated. Train_start=54318, Val_start=7543, Test_start=8016
+2025-08-04 21:02:10,382 - ClientAppLogger [Client 9] - INFO - [Partitioning Debug 9] Step 7: End indices calculated. train_end=71888
+2025-08-04 21:02:10,382 - ClientAppLogger [Client 9] - INFO - [LoadData 9] Partitioning: End indices calculated. Train_end=71888, Val_end=8119, Test_end=8120
+2025-08-04 21:02:10,382 - ClientAppLogger [Client 9] - INFO - [Partitioning Debug 9] Step 8: Partition-specific indices extracted. Num train indices: 17570
+2025-08-04 21:02:10,382 - ClientAppLogger [Client 9] - INFO - [LoadData 9] Partitioning: Specific indices extracted. Train idx: 17570, Val idx: 576, Test idx: 104
+2025-08-04 21:02:10,385 - ClientAppLogger [Client 9] - INFO - [Partitioning Debug 9] Step 9a: Train data sliced for partition. X_train_part_full shape: (17570, 17)
+2025-08-04 21:02:10,386 - ClientAppLogger [Client 9] - INFO - [LoadData 9] Partitioning: Train data sliced. Shape: (17570, 17)
+2025-08-04 21:02:10,386 - ClientAppLogger [Client 9] - INFO - [Partitioning Debug 9] Step 9b: Validation data sliced for partition. X_val_part shape: (576, 17)
+2025-08-04 21:02:10,386 - ClientAppLogger [Client 9] - INFO - [LoadData 9] Partitioning: Validation data sliced. Shape: (576, 17)
+2025-08-04 21:02:10,387 - ClientAppLogger [Client 9] - INFO - [Partitioning Debug 9] Step 9c: Test data sliced for partition. X_test_part shape: (104, 17)
+2025-08-04 21:02:10,387 - ClientAppLogger [Client 9] - INFO - [LoadData 9] Partitioning: Test data sliced. Shape: (104, 17)
+2025-08-04 21:02:10,387 - ClientAppLogger [Client 9] - INFO - [Partitioning Debug 9] Step 10: Creating TonIoTDataset for train_dataset_full_potential.
+2025-08-04 21:02:10,387 - ClientAppLogger [Client 9] - INFO - [LoadData 9] Creating TonIoTDataset objects.
+2025-08-04 21:02:10,388 - ClientAppLogger [Client 9] - INFO - [Partitioning Debug 9] Step 11: Creating TonIoTDataset for val_dataset_static.
+2025-08-04 21:02:10,388 - ClientAppLogger [Client 9] - INFO - [Partitioning Debug 9] Step 12: Creating TonIoTDataset for test_dataset_static.
+2025-08-04 21:02:10,388 - ClientAppLogger [Client 9] - INFO - [Partitioning Debug 9] Step 13: All TonIoTDataset objects created.
+2025-08-04 21:02:10,389 - ClientAppLogger [Client 9] - INFO - [LoadData 9] TonIoTDataset objects created.
+2025-08-04 21:02:10,389 - ClientAppLogger [Client 9] - INFO - Partition 9 (Static Datasets): Train Potential 17570, Val 576, Test 104
+2025-08-04 21:02:10,389 - ClientAppLogger [Client 9] - INFO - [Partitioning Debug 9] END of partitioning block, returning datasets.
+2025-08-04 21:02:10,389 - ClientAppLogger [Client 9] - INFO - [LoadData 9] load_data function completed.
+2025-08-04 21:02:10,400 - ClientAppLogger [Client 9] - INFO - Data loaded for partition 9: Train samples: 17570, Val samples: 576
+2025-08-04 21:02:10,400 - ClientAppLogger [Client 9] - INFO - Instantiating GAN models: G(latent_dim=100, h1=128, h2=32), D(h1=128, h2=32)
+2025-08-04 21:02:10,402 - ClientAppLogger [Client 9] - INFO - [Client] Generator model has 6 parameter tensors.
+2025-08-04 21:02:10,403 - ClientAppLogger [Client 9] - INFO - [Client] Initialized. Device: cpu. Operating with 1 allocated core(s) for PyTorch tasks. Current PyTorch intra-op threads: 1.
+2025-08-04 21:02:10,404 - ClientAppLogger [Client 9] - INFO - [Client] Evaluate method started for round -1 using Discriminator.
+2025-08-04 21:02:10,405 - ClientAppLogger [Client 9] - INFO - [Client] set_parameters called with 12 total parameter tensors.
+2025-08-04 21:02:10,405 - ClientAppLogger [Client 9] - INFO - [Client] Splitting parameters: 6 for G, 6 for D.
+2025-08-04 21:02:10,406 - ClientAppLogger [Client 9] - INFO - [Client] Starting evaluation with Discriminator...
+2025-08-04 21:02:10,421 - ClientAppLogger [Client 9] - INFO - [Task] Test Evaluation: Samples (valid for metrics)=576, Avg Anomaly Score (all samples)=0.5392, Threshold=0.5931, Accuracy=0.7309, F1=0.8135, Precision=0.9797, Recall=0.6955
+2025-08-04 21:02:10,421 - ClientAppLogger [Client 9] - INFO - [Client] Evaluation finished. Samples: 576, Acc: 0.7309, F1: 0.8135, Prec: 0.9797, Rec: 0.6955, Avg Anomaly Score: 0.5392
+2025-08-04 21:02:30,707 - ClientAppLogger [Client 9] - INFO - ClientApp starting for partition_id: 9. Instance log dir: /app/logs/20250804_2100
+2025-08-04 21:02:30,707 - ClientAppLogger [Client 9] - INFO - ALLOCATED_CORES='1' found. Setting PyTorch threads to 1.
+2025-08-04 21:02:30,707 - ClientAppLogger [Client 9] - INFO - Called torch.set_num_threads(1). Current PyTorch intra-op threads: 1. Client will operate with 1 core(s).
+2025-08-04 21:02:30,707 - ClientAppLogger [Client 9] - INFO - Loading data for partition 9/10...
+2025-08-04 21:02:30,707 - ClientAppLogger [Client 9] - INFO - [LoadData 9] Starting load_data function.
+2025-08-04 21:02:30,707 - ClientAppLogger [Client 9] - INFO - [LoadData 9] Attempting to read CSV from src/datasets/Train_Test_datasets/Train_Test_Network_dataset/train_test_network.csv with columns: ['src_port', 'dst_port', 'duration', 'src_bytes', 'dst_bytes', 'missed_bytes', 'src_pkts', 'src_ip_bytes', 'dst_pkts', 'dst_ip_bytes', 'dns_qclass', 'dns_qtype', 'dns_rcode', 'http_trans_depth', 'http_request_body_len', 'http_response_body_len', 'http_status_code', 'label', 'type']
+2025-08-04 21:02:31,073 - ClientAppLogger [Client 9] - INFO - [LoadData 9] CSV read successfully. DataFrame shape: (211043, 19)
+2025-08-04 21:02:31,074 - ClientAppLogger [Client 9] - INFO - [LoadData 9] Starting '-' replacement and numeric conversion.
+2025-08-04 21:02:31,174 - ClientAppLogger [Client 9] - INFO - [LoadData 9] Numeric conversion completed.
+2025-08-04 21:02:31,206 - ClientAppLogger [Client 9] - INFO - [LoadData 9] NA values filled.
+2025-08-04 21:02:31,207 - ClientAppLogger [Client 9] - INFO - Splitting off 15.0% of data for global hold-out test set.
+2025-08-04 21:02:31,343 - ClientAppLogger [Client 9] - INFO - Proceeding with federated dataset of size 179386.
+2025-08-04 21:02:31,355 - ClientAppLogger [Client 9] - INFO - [LoadData 9] X and y created. X shape: (179386, 17), y shape: (179386,)
+2025-08-04 21:02:31,355 - ClientAppLogger [Client 9] - INFO - Fitting MinMaxScaler on X with shape (179386, 17)
+2025-08-04 21:02:31,364 - ClientAppLogger [Client 9] - INFO - [LoadData 9] Scaler fitting process completed.
+2025-08-04 21:02:31,404 - ClientAppLogger [Client 9] - INFO - [LoadData 9] X_scaled successfully. Shape: (179386, 17)
+2025-08-04 21:02:31,404 - ClientAppLogger [Client 9] - INFO - [LoadData 9] Starting semi-supervised data splitting logic.
+2025-08-04 21:02:31,405 - ClientAppLogger [Client 9] - INFO - Initial number of anomaly samples (positions in sampled data): 136886
+2025-08-04 21:02:31,405 - ClientAppLogger [Client 9] - INFO - [LoadData 9] Initial normal indices count: 42500, anomaly indices count: 136886
+2025-08-04 21:02:31,405 - ClientAppLogger [Client 9] - INFO - [LoadData 9] Starting anomaly reduction logic.
+2025-08-04 21:02:31,415 - ClientAppLogger [Client 9] - INFO - Found attack types in initial sampled anomalies: ['scanning' 'injection' 'ransomware' 'password' 'ddos' 'xss' 'dos'
+ 'backdoor' 'mitm']
+2025-08-04 21:02:31,419 - ClientAppLogger [Client 9] - INFO -   Attack type 'scanning': Had 16967 instances (in sampled), selected 5655 (target: 5655).
+2025-08-04 21:02:31,421 - ClientAppLogger [Client 9] - INFO -   Attack type 'injection': Had 17064 instances (in sampled), selected 5688 (target: 5688).
+2025-08-04 21:02:31,424 - ClientAppLogger [Client 9] - INFO -   Attack type 'ransomware': Had 17091 instances (in sampled), selected 5697 (target: 5697).
+2025-08-04 21:02:31,427 - ClientAppLogger [Client 9] - INFO -   Attack type 'password': Had 17013 instances (in sampled), selected 5671 (target: 5671).
+2025-08-04 21:02:31,430 - ClientAppLogger [Client 9] - INFO -   Attack type 'ddos': Had 16995 instances (in sampled), selected 5665 (target: 5665).
+2025-08-04 21:02:31,433 - ClientAppLogger [Client 9] - INFO -   Attack type 'xss': Had 16967 instances (in sampled), selected 5655 (target: 5655).
+2025-08-04 21:02:31,436 - ClientAppLogger [Client 9] - INFO -   Attack type 'dos': Had 16938 instances (in sampled), selected 5646 (target: 5646).
+2025-08-04 21:02:31,439 - ClientAppLogger [Client 9] - INFO -   Attack type 'backdoor': Had 16963 instances (in sampled), selected 5654 (target: 5654).
+2025-08-04 21:02:31,442 - ClientAppLogger [Client 9] - INFO -   Attack type 'mitm': Had 888 instances (in sampled), selected 296 (target: 296).
+2025-08-04 21:02:31,446 - ClientAppLogger [Client 9] - INFO - Total number of anomaly samples (positions) after reduction: 45627
+2025-08-04 21:02:31,459 - ClientAppLogger [Client 9] - INFO -   Distribution of remaining attack types: 
+type
+ransomware    5697
+injection     5688
+password      5671
+ddos          5665
+scanning      5655
+xss           5655
+backdoor      5654
+dos           5646
+mitm           296
+Name: count, dtype: int64
+2025-08-04 21:02:31,459 - ClientAppLogger [Client 9] - INFO - [LoadData 9] Anomaly reduction logic completed.
+2025-08-04 21:02:31,465 - ClientAppLogger [Client 9] - INFO - [LoadData 9] Normal and anomaly indices shuffled.
+2025-08-04 21:02:31,466 - ClientAppLogger [Client 9] - INFO - [LoadData 9] Creating unlabeled training base.
+2025-08-04 21:02:31,473 - ClientAppLogger [Client 9] - INFO - Unlabeled normal data for AE training base: 34000 samples.
+2025-08-04 21:02:31,473 - ClientAppLogger [Client 9] - INFO - [LoadData 9] Creating labeled pool.
+2025-08-04 21:02:31,493 - ClientAppLogger [Client 9] - INFO - Labeled Pool (for train augmentation, val, test): 54127 samples.
+2025-08-04 21:02:31,494 - ClientAppLogger [Client 9] - INFO - [LoadData 9] Labeled pool creation completed.
+2025-08-04 21:02:31,494 - ClientAppLogger [Client 9] - INFO - [LoadData 9] Splitting labeled pool for train_aug, val, test.
+2025-08-04 21:02:31,512 - ClientAppLogger [Client 9] - INFO - Labeled data for AE training augmentation: 37888 samples.
+2025-08-04 21:02:31,518 - ClientAppLogger [Client 9] - INFO - [LoadData 9] Combining data for final AE training set.
+2025-08-04 21:02:31,525 - ClientAppLogger [Client 9] - INFO - [LoadData 9] Final AE training data combination completed.
+2025-08-04 21:02:31,525 - ClientAppLogger [Client 9] - INFO - [LoadData 9] Logging final dataset sizes and distributions pre-partitioning.
+2025-08-04 21:02:31,525 - ClientAppLogger [Client 9] - INFO - Data Splitting Summary (Semi-Supervised AE):
+2025-08-04 21:02:31,525 - ClientAppLogger [Client 9] - INFO -   AE Training (X_train_combined): 71888 samples.
+2025-08-04 21:02:31,526 - ClientAppLogger [Client 9] - INFO -   Validation (X_val): 8119 samples.
+2025-08-04 21:02:31,526 - ClientAppLogger [Client 9] - INFO -   Test (X_test_final): 8120 samples.
+2025-08-04 21:02:31,526 - ClientAppLogger [Client 9] - INFO - [Partitioning Debug 9] START of partitioning block.
+2025-08-04 21:02:31,527 - ClientAppLogger [Client 9] - INFO - [LoadData 9] Starting Dirichlet-based partitioning with minimum sample guarantee.
+2025-08-04 21:02:31,527 - ClientAppLogger [Client 9] - INFO - [Partitioning Debug 9] Step 1: Full indices created.
+2025-08-04 21:02:31,527 - ClientAppLogger [Client 9] - INFO - [LoadData 9] Partitioning: Full train/val/test indices created.
+2025-08-04 21:02:31,529 - ClientAppLogger [Client 9] - INFO - [Partitioning Debug 9] Step 2: Full indices shuffled.
+2025-08-04 21:02:31,529 - ClientAppLogger [Client 9] - INFO - [LoadData 9] Partitioning: Full indices shuffled.
+2025-08-04 21:02:31,529 - ClientAppLogger [Client 9] - INFO - [Partitioning Debug 9] Step 5d: Counts calculated. Final sums: Train=71888, Val=8119, Test=8120
+2025-08-04 21:02:31,530 - ClientAppLogger [Client 9] - INFO - [LoadData 9] Partitioning: Remainder distribution completed.
+2025-08-04 21:02:31,530 - ClientAppLogger [Client 9] - INFO - [Partitioning Debug 9] Step 5e: Final train_counts example: [117, 38174, 12359, 1183, 1086]
+2025-08-04 21:02:31,530 - ClientAppLogger [Client 9] - INFO - [Partitioning Debug 9] Step 5f: Final val_counts example: [575, 417, 122, 132, 3018]
+2025-08-04 21:02:31,530 - ClientAppLogger [Client 9] - INFO - [Partitioning Debug 9] Step 5g: Final test_counts example: [161, 226, 392, 3433, 379]
+2025-08-04 21:02:31,530 - ClientAppLogger [Client 9] - INFO - [Partitioning Debug 9] Step 6: Start indices calculated. train_start=54318
+2025-08-04 21:02:31,531 - ClientAppLogger [Client 9] - INFO - [LoadData 9] Partitioning: Start indices calculated. Train_start=54318, Val_start=7543, Test_start=8016
+2025-08-04 21:02:31,531 - ClientAppLogger [Client 9] - INFO - [Partitioning Debug 9] Step 7: End indices calculated. train_end=71888
+2025-08-04 21:02:31,531 - ClientAppLogger [Client 9] - INFO - [LoadData 9] Partitioning: End indices calculated. Train_end=71888, Val_end=8119, Test_end=8120
+2025-08-04 21:02:31,532 - ClientAppLogger [Client 9] - INFO - [Partitioning Debug 9] Step 8: Partition-specific indices extracted. Num train indices: 17570
+2025-08-04 21:02:31,532 - ClientAppLogger [Client 9] - INFO - [LoadData 9] Partitioning: Specific indices extracted. Train idx: 17570, Val idx: 576, Test idx: 104
+2025-08-04 21:02:31,535 - ClientAppLogger [Client 9] - INFO - [Partitioning Debug 9] Step 9a: Train data sliced for partition. X_train_part_full shape: (17570, 17)
+2025-08-04 21:02:31,536 - ClientAppLogger [Client 9] - INFO - [LoadData 9] Partitioning: Train data sliced. Shape: (17570, 17)
+2025-08-04 21:02:31,536 - ClientAppLogger [Client 9] - INFO - [Partitioning Debug 9] Step 9b: Validation data sliced for partition. X_val_part shape: (576, 17)
+2025-08-04 21:02:31,537 - ClientAppLogger [Client 9] - INFO - [LoadData 9] Partitioning: Validation data sliced. Shape: (576, 17)
+2025-08-04 21:02:31,537 - ClientAppLogger [Client 9] - INFO - [Partitioning Debug 9] Step 9c: Test data sliced for partition. X_test_part shape: (104, 17)
+2025-08-04 21:02:31,537 - ClientAppLogger [Client 9] - INFO - [LoadData 9] Partitioning: Test data sliced. Shape: (104, 17)
+2025-08-04 21:02:31,537 - ClientAppLogger [Client 9] - INFO - [Partitioning Debug 9] Step 10: Creating TonIoTDataset for train_dataset_full_potential.
+2025-08-04 21:02:31,537 - ClientAppLogger [Client 9] - INFO - [LoadData 9] Creating TonIoTDataset objects.
+2025-08-04 21:02:31,544 - ClientAppLogger [Client 9] - INFO - [Partitioning Debug 9] Step 11: Creating TonIoTDataset for val_dataset_static.
+2025-08-04 21:02:31,545 - ClientAppLogger [Client 9] - INFO - [Partitioning Debug 9] Step 12: Creating TonIoTDataset for test_dataset_static.
+2025-08-04 21:02:31,545 - ClientAppLogger [Client 9] - INFO - [Partitioning Debug 9] Step 13: All TonIoTDataset objects created.
+2025-08-04 21:02:31,545 - ClientAppLogger [Client 9] - INFO - [LoadData 9] TonIoTDataset objects created.
+2025-08-04 21:02:31,547 - ClientAppLogger [Client 9] - INFO - Partition 9 (Static Datasets): Train Potential 17570, Val 576, Test 104
+2025-08-04 21:02:31,547 - ClientAppLogger [Client 9] - INFO - [Partitioning Debug 9] END of partitioning block, returning datasets.
+2025-08-04 21:02:31,548 - ClientAppLogger [Client 9] - INFO - [LoadData 9] load_data function completed.
+2025-08-04 21:02:31,555 - ClientAppLogger [Client 9] - INFO - Data loaded for partition 9: Train samples: 17570, Val samples: 576
+2025-08-04 21:02:31,555 - ClientAppLogger [Client 9] - INFO - Instantiating GAN models: G(latent_dim=100, h1=128, h2=32), D(h1=128, h2=32)
+2025-08-04 21:02:31,564 - ClientAppLogger [Client 9] - INFO - [Client] Generator model has 6 parameter tensors.
+2025-08-04 21:02:31,565 - ClientAppLogger [Client 9] - INFO - [Client] Initialized. Device: cpu. Operating with 1 allocated core(s) for PyTorch tasks. Current PyTorch intra-op threads: 1.
+2025-08-04 21:02:31,569 - ClientAppLogger [Client 9] - INFO - [Client] Evaluate method started for round -1 using Discriminator.
+2025-08-04 21:02:31,569 - ClientAppLogger [Client 9] - INFO - [Client] set_parameters called with 12 total parameter tensors.
+2025-08-04 21:02:31,569 - ClientAppLogger [Client 9] - INFO - [Client] Splitting parameters: 6 for G, 6 for D.
+2025-08-04 21:02:31,571 - ClientAppLogger [Client 9] - INFO - [Client] Starting evaluation with Discriminator...
+2025-08-04 21:02:31,625 - ClientAppLogger [Client 9] - INFO - [Task] Test Evaluation: Samples (valid for metrics)=576, Avg Anomaly Score (all samples)=0.5514, Threshold=0.6078, Accuracy=0.7309, F1=0.8135, Precision=0.9797, Recall=0.6955
+2025-08-04 21:02:31,625 - ClientAppLogger [Client 9] - INFO - [Client] Evaluation finished. Samples: 576, Acc: 0.7309, F1: 0.8135, Prec: 0.9797, Rec: 0.6955, Avg Anomaly Score: 0.5514
+2025-08-04 21:02:51,930 - ClientAppLogger [Client 9] - INFO - ClientApp starting for partition_id: 9. Instance log dir: /app/logs/20250804_2100
+2025-08-04 21:02:51,930 - ClientAppLogger [Client 9] - INFO - ALLOCATED_CORES='1' found. Setting PyTorch threads to 1.
+2025-08-04 21:02:51,930 - ClientAppLogger [Client 9] - INFO - Called torch.set_num_threads(1). Current PyTorch intra-op threads: 1. Client will operate with 1 core(s).
+2025-08-04 21:02:51,930 - ClientAppLogger [Client 9] - INFO - Loading data for partition 9/10...
+2025-08-04 21:02:51,930 - ClientAppLogger [Client 9] - INFO - [LoadData 9] Starting load_data function.
+2025-08-04 21:02:51,931 - ClientAppLogger [Client 9] - INFO - [LoadData 9] Attempting to read CSV from src/datasets/Train_Test_datasets/Train_Test_Network_dataset/train_test_network.csv with columns: ['src_port', 'dst_port', 'duration', 'src_bytes', 'dst_bytes', 'missed_bytes', 'src_pkts', 'src_ip_bytes', 'dst_pkts', 'dst_ip_bytes', 'dns_qclass', 'dns_qtype', 'dns_rcode', 'http_trans_depth', 'http_request_body_len', 'http_response_body_len', 'http_status_code', 'label', 'type']
+2025-08-04 21:02:52,367 - ClientAppLogger [Client 9] - INFO - [LoadData 9] CSV read successfully. DataFrame shape: (211043, 19)
+2025-08-04 21:02:52,367 - ClientAppLogger [Client 9] - INFO - [LoadData 9] Starting '-' replacement and numeric conversion.
+2025-08-04 21:02:52,464 - ClientAppLogger [Client 9] - INFO - [LoadData 9] Numeric conversion completed.
+2025-08-04 21:02:52,526 - ClientAppLogger [Client 9] - INFO - [LoadData 9] NA values filled.
+2025-08-04 21:02:52,526 - ClientAppLogger [Client 9] - INFO - Splitting off 15.0% of data for global hold-out test set.
+2025-08-04 21:02:52,701 - ClientAppLogger [Client 9] - INFO - Proceeding with federated dataset of size 179386.
+2025-08-04 21:02:52,710 - ClientAppLogger [Client 9] - INFO - [LoadData 9] X and y created. X shape: (179386, 17), y shape: (179386,)
+2025-08-04 21:02:52,710 - ClientAppLogger [Client 9] - INFO - Fitting MinMaxScaler on X with shape (179386, 17)
+2025-08-04 21:02:52,718 - ClientAppLogger [Client 9] - INFO - [LoadData 9] Scaler fitting process completed.
+2025-08-04 21:02:52,727 - ClientAppLogger [Client 9] - INFO - [LoadData 9] X_scaled successfully. Shape: (179386, 17)
+2025-08-04 21:02:52,728 - ClientAppLogger [Client 9] - INFO - [LoadData 9] Starting semi-supervised data splitting logic.
+2025-08-04 21:02:52,729 - ClientAppLogger [Client 9] - INFO - Initial number of anomaly samples (positions in sampled data): 136886
+2025-08-04 21:02:52,729 - ClientAppLogger [Client 9] - INFO - [LoadData 9] Initial normal indices count: 42500, anomaly indices count: 136886
+2025-08-04 21:02:52,729 - ClientAppLogger [Client 9] - INFO - [LoadData 9] Starting anomaly reduction logic.
+2025-08-04 21:02:52,741 - ClientAppLogger [Client 9] - INFO - Found attack types in initial sampled anomalies: ['scanning' 'injection' 'ransomware' 'password' 'ddos' 'xss' 'dos'
+ 'backdoor' 'mitm']
+2025-08-04 21:02:52,744 - ClientAppLogger [Client 9] - INFO -   Attack type 'scanning': Had 16967 instances (in sampled), selected 5655 (target: 5655).
+2025-08-04 21:02:52,747 - ClientAppLogger [Client 9] - INFO -   Attack type 'injection': Had 17064 instances (in sampled), selected 5688 (target: 5688).
+2025-08-04 21:02:52,749 - ClientAppLogger [Client 9] - INFO -   Attack type 'ransomware': Had 17091 instances (in sampled), selected 5697 (target: 5697).
+2025-08-04 21:02:52,752 - ClientAppLogger [Client 9] - INFO -   Attack type 'password': Had 17013 instances (in sampled), selected 5671 (target: 5671).
+2025-08-04 21:02:52,755 - ClientAppLogger [Client 9] - INFO -   Attack type 'ddos': Had 16995 instances (in sampled), selected 5665 (target: 5665).
+2025-08-04 21:02:52,757 - ClientAppLogger [Client 9] - INFO -   Attack type 'xss': Had 16967 instances (in sampled), selected 5655 (target: 5655).
+2025-08-04 21:02:52,760 - ClientAppLogger [Client 9] - INFO -   Attack type 'dos': Had 16938 instances (in sampled), selected 5646 (target: 5646).
+2025-08-04 21:02:52,763 - ClientAppLogger [Client 9] - INFO -   Attack type 'backdoor': Had 16963 instances (in sampled), selected 5654 (target: 5654).
+2025-08-04 21:02:52,765 - ClientAppLogger [Client 9] - INFO -   Attack type 'mitm': Had 888 instances (in sampled), selected 296 (target: 296).
+2025-08-04 21:02:52,767 - ClientAppLogger [Client 9] - INFO - Total number of anomaly samples (positions) after reduction: 45627
+2025-08-04 21:02:52,780 - ClientAppLogger [Client 9] - INFO -   Distribution of remaining attack types: 
+type
+ransomware    5697
+injection     5688
+password      5671
+ddos          5665
+scanning      5655
+xss           5655
+backdoor      5654
+dos           5646
+mitm           296
+Name: count, dtype: int64
+2025-08-04 21:02:52,780 - ClientAppLogger [Client 9] - INFO - [LoadData 9] Anomaly reduction logic completed.
+2025-08-04 21:02:52,785 - ClientAppLogger [Client 9] - INFO - [LoadData 9] Normal and anomaly indices shuffled.
+2025-08-04 21:02:52,785 - ClientAppLogger [Client 9] - INFO - [LoadData 9] Creating unlabeled training base.
+2025-08-04 21:02:52,794 - ClientAppLogger [Client 9] - INFO - Unlabeled normal data for AE training base: 34000 samples.
+2025-08-04 21:02:52,795 - ClientAppLogger [Client 9] - INFO - [LoadData 9] Creating labeled pool.
+2025-08-04 21:02:52,820 - ClientAppLogger [Client 9] - INFO - Labeled Pool (for train augmentation, val, test): 54127 samples.
+2025-08-04 21:02:52,821 - ClientAppLogger [Client 9] - INFO - [LoadData 9] Labeled pool creation completed.
+2025-08-04 21:02:52,824 - ClientAppLogger [Client 9] - INFO - [LoadData 9] Splitting labeled pool for train_aug, val, test.
+2025-08-04 21:02:52,845 - ClientAppLogger [Client 9] - INFO - Labeled data for AE training augmentation: 37888 samples.
+2025-08-04 21:02:52,851 - ClientAppLogger [Client 9] - INFO - [LoadData 9] Combining data for final AE training set.
+2025-08-04 21:02:52,876 - ClientAppLogger [Client 9] - INFO - [LoadData 9] Final AE training data combination completed.
+2025-08-04 21:02:52,876 - ClientAppLogger [Client 9] - INFO - [LoadData 9] Logging final dataset sizes and distributions pre-partitioning.
+2025-08-04 21:02:52,877 - ClientAppLogger [Client 9] - INFO - Data Splitting Summary (Semi-Supervised AE):
+2025-08-04 21:02:52,877 - ClientAppLogger [Client 9] - INFO -   AE Training (X_train_combined): 71888 samples.
+2025-08-04 21:02:52,878 - ClientAppLogger [Client 9] - INFO -   Validation (X_val): 8119 samples.
+2025-08-04 21:02:52,878 - ClientAppLogger [Client 9] - INFO -   Test (X_test_final): 8120 samples.
+2025-08-04 21:02:52,879 - ClientAppLogger [Client 9] - INFO - [Partitioning Debug 9] START of partitioning block.
+2025-08-04 21:02:52,880 - ClientAppLogger [Client 9] - INFO - [LoadData 9] Starting Dirichlet-based partitioning with minimum sample guarantee.
+2025-08-04 21:02:52,880 - ClientAppLogger [Client 9] - INFO - [Partitioning Debug 9] Step 1: Full indices created.
+2025-08-04 21:02:52,880 - ClientAppLogger [Client 9] - INFO - [LoadData 9] Partitioning: Full train/val/test indices created.
+2025-08-04 21:02:52,882 - ClientAppLogger [Client 9] - INFO - [Partitioning Debug 9] Step 2: Full indices shuffled.
+2025-08-04 21:02:52,883 - ClientAppLogger [Client 9] - INFO - [LoadData 9] Partitioning: Full indices shuffled.
+2025-08-04 21:02:52,884 - ClientAppLogger [Client 9] - INFO - [Partitioning Debug 9] Step 5d: Counts calculated. Final sums: Train=71888, Val=8119, Test=8120
+2025-08-04 21:02:52,884 - ClientAppLogger [Client 9] - INFO - [LoadData 9] Partitioning: Remainder distribution completed.
+2025-08-04 21:02:52,884 - ClientAppLogger [Client 9] - INFO - [Partitioning Debug 9] Step 5e: Final train_counts example: [117, 38174, 12359, 1183, 1086]
+2025-08-04 21:02:52,885 - ClientAppLogger [Client 9] - INFO - [Partitioning Debug 9] Step 5f: Final val_counts example: [575, 417, 122, 132, 3018]
+2025-08-04 21:02:52,885 - ClientAppLogger [Client 9] - INFO - [Partitioning Debug 9] Step 5g: Final test_counts example: [161, 226, 392, 3433, 379]
+2025-08-04 21:02:52,885 - ClientAppLogger [Client 9] - INFO - [Partitioning Debug 9] Step 6: Start indices calculated. train_start=54318
+2025-08-04 21:02:52,885 - ClientAppLogger [Client 9] - INFO - [LoadData 9] Partitioning: Start indices calculated. Train_start=54318, Val_start=7543, Test_start=8016
+2025-08-04 21:02:52,886 - ClientAppLogger [Client 9] - INFO - [Partitioning Debug 9] Step 7: End indices calculated. train_end=71888
+2025-08-04 21:02:52,886 - ClientAppLogger [Client 9] - INFO - [LoadData 9] Partitioning: End indices calculated. Train_end=71888, Val_end=8119, Test_end=8120
+2025-08-04 21:02:52,886 - ClientAppLogger [Client 9] - INFO - [Partitioning Debug 9] Step 8: Partition-specific indices extracted. Num train indices: 17570
+2025-08-04 21:02:52,886 - ClientAppLogger [Client 9] - INFO - [LoadData 9] Partitioning: Specific indices extracted. Train idx: 17570, Val idx: 576, Test idx: 104
+2025-08-04 21:02:52,890 - ClientAppLogger [Client 9] - INFO - [Partitioning Debug 9] Step 9a: Train data sliced for partition. X_train_part_full shape: (17570, 17)
+2025-08-04 21:02:52,890 - ClientAppLogger [Client 9] - INFO - [LoadData 9] Partitioning: Train data sliced. Shape: (17570, 17)
+2025-08-04 21:02:52,891 - ClientAppLogger [Client 9] - INFO - [Partitioning Debug 9] Step 9b: Validation data sliced for partition. X_val_part shape: (576, 17)
+2025-08-04 21:02:52,891 - ClientAppLogger [Client 9] - INFO - [LoadData 9] Partitioning: Validation data sliced. Shape: (576, 17)
+2025-08-04 21:02:52,891 - ClientAppLogger [Client 9] - INFO - [Partitioning Debug 9] Step 9c: Test data sliced for partition. X_test_part shape: (104, 17)
+2025-08-04 21:02:52,892 - ClientAppLogger [Client 9] - INFO - [LoadData 9] Partitioning: Test data sliced. Shape: (104, 17)
+2025-08-04 21:02:52,892 - ClientAppLogger [Client 9] - INFO - [Partitioning Debug 9] Step 10: Creating TonIoTDataset for train_dataset_full_potential.
+2025-08-04 21:02:52,892 - ClientAppLogger [Client 9] - INFO - [LoadData 9] Creating TonIoTDataset objects.
+2025-08-04 21:02:52,893 - ClientAppLogger [Client 9] - INFO - [Partitioning Debug 9] Step 11: Creating TonIoTDataset for val_dataset_static.
+2025-08-04 21:02:52,894 - ClientAppLogger [Client 9] - INFO - [Partitioning Debug 9] Step 12: Creating TonIoTDataset for test_dataset_static.
+2025-08-04 21:02:52,894 - ClientAppLogger [Client 9] - INFO - [Partitioning Debug 9] Step 13: All TonIoTDataset objects created.
+2025-08-04 21:02:52,894 - ClientAppLogger [Client 9] - INFO - [LoadData 9] TonIoTDataset objects created.
+2025-08-04 21:02:52,895 - ClientAppLogger [Client 9] - INFO - Partition 9 (Static Datasets): Train Potential 17570, Val 576, Test 104
+2025-08-04 21:02:52,895 - ClientAppLogger [Client 9] - INFO - [Partitioning Debug 9] END of partitioning block, returning datasets.
+2025-08-04 21:02:52,895 - ClientAppLogger [Client 9] - INFO - [LoadData 9] load_data function completed.
+2025-08-04 21:02:52,906 - ClientAppLogger [Client 9] - INFO - Data loaded for partition 9: Train samples: 17570, Val samples: 576
+2025-08-04 21:02:52,907 - ClientAppLogger [Client 9] - INFO - Instantiating GAN models: G(latent_dim=100, h1=128, h2=32), D(h1=128, h2=32)
+2025-08-04 21:02:52,910 - ClientAppLogger [Client 9] - INFO - [Client] Generator model has 6 parameter tensors.
+2025-08-04 21:02:52,910 - ClientAppLogger [Client 9] - INFO - [Client] Initialized. Device: cpu. Operating with 1 allocated core(s) for PyTorch tasks. Current PyTorch intra-op threads: 1.
+2025-08-04 21:02:52,912 - ClientAppLogger [Client 9] - INFO - [Client] Evaluate method started for round -1 using Discriminator.
+2025-08-04 21:02:52,913 - ClientAppLogger [Client 9] - INFO - [Client] set_parameters called with 12 total parameter tensors.
+2025-08-04 21:02:52,913 - ClientAppLogger [Client 9] - INFO - [Client] Splitting parameters: 6 for G, 6 for D.
+2025-08-04 21:02:52,914 - ClientAppLogger [Client 9] - INFO - [Client] Starting evaluation with Discriminator...
+2025-08-04 21:02:52,935 - ClientAppLogger [Client 9] - INFO - [Task] Test Evaluation: Samples (valid for metrics)=576, Avg Anomaly Score (all samples)=0.5018, Threshold=0.5387, Accuracy=0.7344, F1=0.8159, Precision=0.9826, Recall=0.6975
+2025-08-04 21:02:52,936 - ClientAppLogger [Client 9] - INFO - [Client] Evaluation finished. Samples: 576, Acc: 0.7344, F1: 0.8159, Prec: 0.9826, Rec: 0.6975, Avg Anomaly Score: 0.5018
+2025-08-04 21:03:13,254 - ClientAppLogger [Client 9] - INFO - ClientApp starting for partition_id: 9. Instance log dir: /app/logs/20250804_2100
+2025-08-04 21:03:13,254 - ClientAppLogger [Client 9] - INFO - ALLOCATED_CORES='1' found. Setting PyTorch threads to 1.
+2025-08-04 21:03:13,254 - ClientAppLogger [Client 9] - INFO - Called torch.set_num_threads(1). Current PyTorch intra-op threads: 1. Client will operate with 1 core(s).
+2025-08-04 21:03:13,254 - ClientAppLogger [Client 9] - INFO - Loading data for partition 9/10...
+2025-08-04 21:03:13,254 - ClientAppLogger [Client 9] - INFO - [LoadData 9] Starting load_data function.
+2025-08-04 21:03:13,255 - ClientAppLogger [Client 9] - INFO - [LoadData 9] Attempting to read CSV from src/datasets/Train_Test_datasets/Train_Test_Network_dataset/train_test_network.csv with columns: ['src_port', 'dst_port', 'duration', 'src_bytes', 'dst_bytes', 'missed_bytes', 'src_pkts', 'src_ip_bytes', 'dst_pkts', 'dst_ip_bytes', 'dns_qclass', 'dns_qtype', 'dns_rcode', 'http_trans_depth', 'http_request_body_len', 'http_response_body_len', 'http_status_code', 'label', 'type']
+2025-08-04 21:03:13,615 - ClientAppLogger [Client 9] - INFO - [LoadData 9] CSV read successfully. DataFrame shape: (211043, 19)
+2025-08-04 21:03:13,616 - ClientAppLogger [Client 9] - INFO - [LoadData 9] Starting '-' replacement and numeric conversion.
+2025-08-04 21:03:13,713 - ClientAppLogger [Client 9] - INFO - [LoadData 9] Numeric conversion completed.
+2025-08-04 21:03:13,750 - ClientAppLogger [Client 9] - INFO - [LoadData 9] NA values filled.
+2025-08-04 21:03:13,751 - ClientAppLogger [Client 9] - INFO - Splitting off 15.0% of data for global hold-out test set.
+2025-08-04 21:03:13,851 - ClientAppLogger [Client 9] - INFO - Proceeding with federated dataset of size 179386.
+2025-08-04 21:03:13,859 - ClientAppLogger [Client 9] - INFO - [LoadData 9] X and y created. X shape: (179386, 17), y shape: (179386,)
+2025-08-04 21:03:13,859 - ClientAppLogger [Client 9] - INFO - Fitting MinMaxScaler on X with shape (179386, 17)
+2025-08-04 21:03:13,867 - ClientAppLogger [Client 9] - INFO - [LoadData 9] Scaler fitting process completed.
+2025-08-04 21:03:13,896 - ClientAppLogger [Client 9] - INFO - [LoadData 9] X_scaled successfully. Shape: (179386, 17)
+2025-08-04 21:03:13,897 - ClientAppLogger [Client 9] - INFO - [LoadData 9] Starting semi-supervised data splitting logic.
+2025-08-04 21:03:13,897 - ClientAppLogger [Client 9] - INFO - Initial number of anomaly samples (positions in sampled data): 136886
+2025-08-04 21:03:13,897 - ClientAppLogger [Client 9] - INFO - [LoadData 9] Initial normal indices count: 42500, anomaly indices count: 136886
+2025-08-04 21:03:13,898 - ClientAppLogger [Client 9] - INFO - [LoadData 9] Starting anomaly reduction logic.
+2025-08-04 21:03:13,908 - ClientAppLogger [Client 9] - INFO - Found attack types in initial sampled anomalies: ['scanning' 'injection' 'ransomware' 'password' 'ddos' 'xss' 'dos'
+ 'backdoor' 'mitm']
+2025-08-04 21:03:13,911 - ClientAppLogger [Client 9] - INFO -   Attack type 'scanning': Had 16967 instances (in sampled), selected 5655 (target: 5655).
+2025-08-04 21:03:13,913 - ClientAppLogger [Client 9] - INFO -   Attack type 'injection': Had 17064 instances (in sampled), selected 5688 (target: 5688).
+2025-08-04 21:03:13,915 - ClientAppLogger [Client 9] - INFO -   Attack type 'ransomware': Had 17091 instances (in sampled), selected 5697 (target: 5697).
+2025-08-04 21:03:13,919 - ClientAppLogger [Client 9] - INFO -   Attack type 'password': Had 17013 instances (in sampled), selected 5671 (target: 5671).
+2025-08-04 21:03:13,921 - ClientAppLogger [Client 9] - INFO -   Attack type 'ddos': Had 16995 instances (in sampled), selected 5665 (target: 5665).
+2025-08-04 21:03:13,924 - ClientAppLogger [Client 9] - INFO -   Attack type 'xss': Had 16967 instances (in sampled), selected 5655 (target: 5655).
+2025-08-04 21:03:13,926 - ClientAppLogger [Client 9] - INFO -   Attack type 'dos': Had 16938 instances (in sampled), selected 5646 (target: 5646).
+2025-08-04 21:03:13,930 - ClientAppLogger [Client 9] - INFO -   Attack type 'backdoor': Had 16963 instances (in sampled), selected 5654 (target: 5654).
+2025-08-04 21:03:13,932 - ClientAppLogger [Client 9] - INFO -   Attack type 'mitm': Had 888 instances (in sampled), selected 296 (target: 296).
+2025-08-04 21:03:13,934 - ClientAppLogger [Client 9] - INFO - Total number of anomaly samples (positions) after reduction: 45627
+2025-08-04 21:03:13,946 - ClientAppLogger [Client 9] - INFO -   Distribution of remaining attack types: 
+type
+ransomware    5697
+injection     5688
+password      5671
+ddos          5665
+scanning      5655
+xss           5655
+backdoor      5654
+dos           5646
+mitm           296
+Name: count, dtype: int64
+2025-08-04 21:03:13,946 - ClientAppLogger [Client 9] - INFO - [LoadData 9] Anomaly reduction logic completed.
+2025-08-04 21:03:13,952 - ClientAppLogger [Client 9] - INFO - [LoadData 9] Normal and anomaly indices shuffled.
+2025-08-04 21:03:13,952 - ClientAppLogger [Client 9] - INFO - [LoadData 9] Creating unlabeled training base.
+2025-08-04 21:03:13,959 - ClientAppLogger [Client 9] - INFO - Unlabeled normal data for AE training base: 34000 samples.
+2025-08-04 21:03:13,959 - ClientAppLogger [Client 9] - INFO - [LoadData 9] Creating labeled pool.
+2025-08-04 21:03:13,973 - ClientAppLogger [Client 9] - INFO - Labeled Pool (for train augmentation, val, test): 54127 samples.
+2025-08-04 21:03:13,973 - ClientAppLogger [Client 9] - INFO - [LoadData 9] Labeled pool creation completed.
+2025-08-04 21:03:13,973 - ClientAppLogger [Client 9] - INFO - [LoadData 9] Splitting labeled pool for train_aug, val, test.
+2025-08-04 21:03:13,993 - ClientAppLogger [Client 9] - INFO - Labeled data for AE training augmentation: 37888 samples.
+2025-08-04 21:03:13,999 - ClientAppLogger [Client 9] - INFO - [LoadData 9] Combining data for final AE training set.
+2025-08-04 21:03:14,006 - ClientAppLogger [Client 9] - INFO - [LoadData 9] Final AE training data combination completed.
+2025-08-04 21:03:14,006 - ClientAppLogger [Client 9] - INFO - [LoadData 9] Logging final dataset sizes and distributions pre-partitioning.
+2025-08-04 21:03:14,006 - ClientAppLogger [Client 9] - INFO - Data Splitting Summary (Semi-Supervised AE):
+2025-08-04 21:03:14,006 - ClientAppLogger [Client 9] - INFO -   AE Training (X_train_combined): 71888 samples.
+2025-08-04 21:03:14,007 - ClientAppLogger [Client 9] - INFO -   Validation (X_val): 8119 samples.
+2025-08-04 21:03:14,008 - ClientAppLogger [Client 9] - INFO -   Test (X_test_final): 8120 samples.
+2025-08-04 21:03:14,008 - ClientAppLogger [Client 9] - INFO - [Partitioning Debug 9] START of partitioning block.
+2025-08-04 21:03:14,008 - ClientAppLogger [Client 9] - INFO - [LoadData 9] Starting Dirichlet-based partitioning with minimum sample guarantee.
+2025-08-04 21:03:14,009 - ClientAppLogger [Client 9] - INFO - [Partitioning Debug 9] Step 1: Full indices created.
+2025-08-04 21:03:14,009 - ClientAppLogger [Client 9] - INFO - [LoadData 9] Partitioning: Full train/val/test indices created.
+2025-08-04 21:03:14,011 - ClientAppLogger [Client 9] - INFO - [Partitioning Debug 9] Step 2: Full indices shuffled.
+2025-08-04 21:03:14,011 - ClientAppLogger [Client 9] - INFO - [LoadData 9] Partitioning: Full indices shuffled.
+2025-08-04 21:03:14,012 - ClientAppLogger [Client 9] - INFO - [Partitioning Debug 9] Step 5d: Counts calculated. Final sums: Train=71888, Val=8119, Test=8120
+2025-08-04 21:03:14,012 - ClientAppLogger [Client 9] - INFO - [LoadData 9] Partitioning: Remainder distribution completed.
+2025-08-04 21:03:14,012 - ClientAppLogger [Client 9] - INFO - [Partitioning Debug 9] Step 5e: Final train_counts example: [117, 38174, 12359, 1183, 1086]
+2025-08-04 21:03:14,012 - ClientAppLogger [Client 9] - INFO - [Partitioning Debug 9] Step 5f: Final val_counts example: [575, 417, 122, 132, 3018]
+2025-08-04 21:03:14,013 - ClientAppLogger [Client 9] - INFO - [Partitioning Debug 9] Step 5g: Final test_counts example: [161, 226, 392, 3433, 379]
+2025-08-04 21:03:14,013 - ClientAppLogger [Client 9] - INFO - [Partitioning Debug 9] Step 6: Start indices calculated. train_start=54318
+2025-08-04 21:03:14,013 - ClientAppLogger [Client 9] - INFO - [LoadData 9] Partitioning: Start indices calculated. Train_start=54318, Val_start=7543, Test_start=8016
+2025-08-04 21:03:14,013 - ClientAppLogger [Client 9] - INFO - [Partitioning Debug 9] Step 7: End indices calculated. train_end=71888
+2025-08-04 21:03:14,014 - ClientAppLogger [Client 9] - INFO - [LoadData 9] Partitioning: End indices calculated. Train_end=71888, Val_end=8119, Test_end=8120
+2025-08-04 21:03:14,014 - ClientAppLogger [Client 9] - INFO - [Partitioning Debug 9] Step 8: Partition-specific indices extracted. Num train indices: 17570
+2025-08-04 21:03:14,014 - ClientAppLogger [Client 9] - INFO - [LoadData 9] Partitioning: Specific indices extracted. Train idx: 17570, Val idx: 576, Test idx: 104
+2025-08-04 21:03:14,018 - ClientAppLogger [Client 9] - INFO - [Partitioning Debug 9] Step 9a: Train data sliced for partition. X_train_part_full shape: (17570, 17)
+2025-08-04 21:03:14,018 - ClientAppLogger [Client 9] - INFO - [LoadData 9] Partitioning: Train data sliced. Shape: (17570, 17)
+2025-08-04 21:03:14,019 - ClientAppLogger [Client 9] - INFO - [Partitioning Debug 9] Step 9b: Validation data sliced for partition. X_val_part shape: (576, 17)
+2025-08-04 21:03:14,019 - ClientAppLogger [Client 9] - INFO - [LoadData 9] Partitioning: Validation data sliced. Shape: (576, 17)
+2025-08-04 21:03:14,019 - ClientAppLogger [Client 9] - INFO - [Partitioning Debug 9] Step 9c: Test data sliced for partition. X_test_part shape: (104, 17)
+2025-08-04 21:03:14,019 - ClientAppLogger [Client 9] - INFO - [LoadData 9] Partitioning: Test data sliced. Shape: (104, 17)
+2025-08-04 21:03:14,020 - ClientAppLogger [Client 9] - INFO - [Partitioning Debug 9] Step 10: Creating TonIoTDataset for train_dataset_full_potential.
+2025-08-04 21:03:14,020 - ClientAppLogger [Client 9] - INFO - [LoadData 9] Creating TonIoTDataset objects.
+2025-08-04 21:03:14,021 - ClientAppLogger [Client 9] - INFO - [Partitioning Debug 9] Step 11: Creating TonIoTDataset for val_dataset_static.
+2025-08-04 21:03:14,022 - ClientAppLogger [Client 9] - INFO - [Partitioning Debug 9] Step 12: Creating TonIoTDataset for test_dataset_static.
+2025-08-04 21:03:14,022 - ClientAppLogger [Client 9] - INFO - [Partitioning Debug 9] Step 13: All TonIoTDataset objects created.
+2025-08-04 21:03:14,022 - ClientAppLogger [Client 9] - INFO - [LoadData 9] TonIoTDataset objects created.
+2025-08-04 21:03:14,022 - ClientAppLogger [Client 9] - INFO - Partition 9 (Static Datasets): Train Potential 17570, Val 576, Test 104
+2025-08-04 21:03:14,023 - ClientAppLogger [Client 9] - INFO - [Partitioning Debug 9] END of partitioning block, returning datasets.
+2025-08-04 21:03:14,023 - ClientAppLogger [Client 9] - INFO - [LoadData 9] load_data function completed.
+2025-08-04 21:03:14,029 - ClientAppLogger [Client 9] - INFO - Data loaded for partition 9: Train samples: 17570, Val samples: 576
+2025-08-04 21:03:14,029 - ClientAppLogger [Client 9] - INFO - Instantiating GAN models: G(latent_dim=100, h1=128, h2=32), D(h1=128, h2=32)
+2025-08-04 21:03:14,031 - ClientAppLogger [Client 9] - INFO - [Client] Generator model has 6 parameter tensors.
+2025-08-04 21:03:14,031 - ClientAppLogger [Client 9] - INFO - [Client] Initialized. Device: cpu. Operating with 1 allocated core(s) for PyTorch tasks. Current PyTorch intra-op threads: 1.
+2025-08-04 21:03:14,033 - ClientAppLogger [Client 9] - INFO - [Client] Evaluate method started for round -1 using Discriminator.
+2025-08-04 21:03:14,034 - ClientAppLogger [Client 9] - INFO - [Client] set_parameters called with 12 total parameter tensors.
+2025-08-04 21:03:14,034 - ClientAppLogger [Client 9] - INFO - [Client] Splitting parameters: 6 for G, 6 for D.
+2025-08-04 21:03:14,035 - ClientAppLogger [Client 9] - INFO - [Client] Starting evaluation with Discriminator...
+2025-08-04 21:03:14,052 - ClientAppLogger [Client 9] - INFO - [Task] Test Evaluation: Samples (valid for metrics)=576, Avg Anomaly Score (all samples)=0.5543, Threshold=0.6062, Accuracy=0.7344, F1=0.8159, Precision=0.9826, Recall=0.6975
+2025-08-04 21:03:14,053 - ClientAppLogger [Client 9] - INFO - [Client] Evaluation finished. Samples: 576, Acc: 0.7344, F1: 0.8159, Prec: 0.9826, Rec: 0.6975, Avg Anomaly Score: 0.5543
+2025-08-04 21:03:31,354 - ClientAppLogger [Client 9] - INFO - ClientApp starting for partition_id: 9. Instance log dir: /app/logs/20250804_2100
+2025-08-04 21:03:31,354 - ClientAppLogger [Client 9] - INFO - ALLOCATED_CORES='1' found. Setting PyTorch threads to 1.
+2025-08-04 21:03:31,354 - ClientAppLogger [Client 9] - INFO - Called torch.set_num_threads(1). Current PyTorch intra-op threads: 1. Client will operate with 1 core(s).
+2025-08-04 21:03:31,355 - ClientAppLogger [Client 9] - INFO - Loading data for partition 9/10...
+2025-08-04 21:03:31,355 - ClientAppLogger [Client 9] - INFO - [LoadData 9] Starting load_data function.
+2025-08-04 21:03:31,355 - ClientAppLogger [Client 9] - INFO - [LoadData 9] Attempting to read CSV from src/datasets/Train_Test_datasets/Train_Test_Network_dataset/train_test_network.csv with columns: ['src_port', 'dst_port', 'duration', 'src_bytes', 'dst_bytes', 'missed_bytes', 'src_pkts', 'src_ip_bytes', 'dst_pkts', 'dst_ip_bytes', 'dns_qclass', 'dns_qtype', 'dns_rcode', 'http_trans_depth', 'http_request_body_len', 'http_response_body_len', 'http_status_code', 'label', 'type']
+2025-08-04 21:03:31,653 - ClientAppLogger [Client 9] - INFO - [LoadData 9] CSV read successfully. DataFrame shape: (211043, 19)
+2025-08-04 21:03:31,653 - ClientAppLogger [Client 9] - INFO - [LoadData 9] Starting '-' replacement and numeric conversion.
+2025-08-04 21:03:31,740 - ClientAppLogger [Client 9] - INFO - [LoadData 9] Numeric conversion completed.
+2025-08-04 21:03:31,781 - ClientAppLogger [Client 9] - INFO - [LoadData 9] NA values filled.
+2025-08-04 21:03:31,781 - ClientAppLogger [Client 9] - INFO - Splitting off 15.0% of data for global hold-out test set.
+2025-08-04 21:03:31,892 - ClientAppLogger [Client 9] - INFO - Proceeding with federated dataset of size 179386.
+2025-08-04 21:03:31,898 - ClientAppLogger [Client 9] - INFO - [LoadData 9] X and y created. X shape: (179386, 17), y shape: (179386,)
+2025-08-04 21:03:31,898 - ClientAppLogger [Client 9] - INFO - Fitting MinMaxScaler on X with shape (179386, 17)
+2025-08-04 21:03:31,903 - ClientAppLogger [Client 9] - INFO - [LoadData 9] Scaler fitting process completed.
+2025-08-04 21:03:31,909 - ClientAppLogger [Client 9] - INFO - [LoadData 9] X_scaled successfully. Shape: (179386, 17)
+2025-08-04 21:03:31,909 - ClientAppLogger [Client 9] - INFO - [LoadData 9] Starting semi-supervised data splitting logic.
+2025-08-04 21:03:31,910 - ClientAppLogger [Client 9] - INFO - Initial number of anomaly samples (positions in sampled data): 136886
+2025-08-04 21:03:31,910 - ClientAppLogger [Client 9] - INFO - [LoadData 9] Initial normal indices count: 42500, anomaly indices count: 136886
+2025-08-04 21:03:31,910 - ClientAppLogger [Client 9] - INFO - [LoadData 9] Starting anomaly reduction logic.
+2025-08-04 21:03:31,919 - ClientAppLogger [Client 9] - INFO - Found attack types in initial sampled anomalies: ['scanning' 'injection' 'ransomware' 'password' 'ddos' 'xss' 'dos'
+ 'backdoor' 'mitm']
+2025-08-04 21:03:31,922 - ClientAppLogger [Client 9] - INFO -   Attack type 'scanning': Had 16967 instances (in sampled), selected 5655 (target: 5655).
+2025-08-04 21:03:31,924 - ClientAppLogger [Client 9] - INFO -   Attack type 'injection': Had 17064 instances (in sampled), selected 5688 (target: 5688).
+2025-08-04 21:03:31,926 - ClientAppLogger [Client 9] - INFO -   Attack type 'ransomware': Had 17091 instances (in sampled), selected 5697 (target: 5697).
+2025-08-04 21:03:31,928 - ClientAppLogger [Client 9] - INFO -   Attack type 'password': Had 17013 instances (in sampled), selected 5671 (target: 5671).
+2025-08-04 21:03:31,930 - ClientAppLogger [Client 9] - INFO -   Attack type 'ddos': Had 16995 instances (in sampled), selected 5665 (target: 5665).
+2025-08-04 21:03:31,933 - ClientAppLogger [Client 9] - INFO -   Attack type 'xss': Had 16967 instances (in sampled), selected 5655 (target: 5655).
+2025-08-04 21:03:31,935 - ClientAppLogger [Client 9] - INFO -   Attack type 'dos': Had 16938 instances (in sampled), selected 5646 (target: 5646).
+2025-08-04 21:03:31,938 - ClientAppLogger [Client 9] - INFO -   Attack type 'backdoor': Had 16963 instances (in sampled), selected 5654 (target: 5654).
+2025-08-04 21:03:31,940 - ClientAppLogger [Client 9] - INFO -   Attack type 'mitm': Had 888 instances (in sampled), selected 296 (target: 296).
+2025-08-04 21:03:31,942 - ClientAppLogger [Client 9] - INFO - Total number of anomaly samples (positions) after reduction: 45627
+2025-08-04 21:03:31,952 - ClientAppLogger [Client 9] - INFO -   Distribution of remaining attack types: 
+type
+ransomware    5697
+injection     5688
+password      5671
+ddos          5665
+scanning      5655
+xss           5655
+backdoor      5654
+dos           5646
+mitm           296
+Name: count, dtype: int64
+2025-08-04 21:03:31,952 - ClientAppLogger [Client 9] - INFO - [LoadData 9] Anomaly reduction logic completed.
+2025-08-04 21:03:31,957 - ClientAppLogger [Client 9] - INFO - [LoadData 9] Normal and anomaly indices shuffled.
+2025-08-04 21:03:31,957 - ClientAppLogger [Client 9] - INFO - [LoadData 9] Creating unlabeled training base.
+2025-08-04 21:03:31,961 - ClientAppLogger [Client 9] - INFO - Unlabeled normal data for AE training base: 34000 samples.
+2025-08-04 21:03:31,962 - ClientAppLogger [Client 9] - INFO - [LoadData 9] Creating labeled pool.
+2025-08-04 21:03:31,969 - ClientAppLogger [Client 9] - INFO - Labeled Pool (for train augmentation, val, test): 54127 samples.
+2025-08-04 21:03:31,970 - ClientAppLogger [Client 9] - INFO - [LoadData 9] Labeled pool creation completed.
+2025-08-04 21:03:31,970 - ClientAppLogger [Client 9] - INFO - [LoadData 9] Splitting labeled pool for train_aug, val, test.
+2025-08-04 21:03:31,985 - ClientAppLogger [Client 9] - INFO - Labeled data for AE training augmentation: 37888 samples.
+2025-08-04 21:03:31,990 - ClientAppLogger [Client 9] - INFO - [LoadData 9] Combining data for final AE training set.
+2025-08-04 21:03:31,995 - ClientAppLogger [Client 9] - INFO - [LoadData 9] Final AE training data combination completed.
+2025-08-04 21:03:31,996 - ClientAppLogger [Client 9] - INFO - [LoadData 9] Logging final dataset sizes and distributions pre-partitioning.
+2025-08-04 21:03:31,996 - ClientAppLogger [Client 9] - INFO - Data Splitting Summary (Semi-Supervised AE):
+2025-08-04 21:03:31,996 - ClientAppLogger [Client 9] - INFO -   AE Training (X_train_combined): 71888 samples.
+2025-08-04 21:03:31,996 - ClientAppLogger [Client 9] - INFO -   Validation (X_val): 8119 samples.
+2025-08-04 21:03:31,997 - ClientAppLogger [Client 9] - INFO -   Test (X_test_final): 8120 samples.
+2025-08-04 21:03:31,997 - ClientAppLogger [Client 9] - INFO - [Partitioning Debug 9] START of partitioning block.
+2025-08-04 21:03:31,997 - ClientAppLogger [Client 9] - INFO - [LoadData 9] Starting Dirichlet-based partitioning with minimum sample guarantee.
+2025-08-04 21:03:31,997 - ClientAppLogger [Client 9] - INFO - [Partitioning Debug 9] Step 1: Full indices created.
+2025-08-04 21:03:31,997 - ClientAppLogger [Client 9] - INFO - [LoadData 9] Partitioning: Full train/val/test indices created.
+2025-08-04 21:03:31,999 - ClientAppLogger [Client 9] - INFO - [Partitioning Debug 9] Step 2: Full indices shuffled.
+2025-08-04 21:03:31,999 - ClientAppLogger [Client 9] - INFO - [LoadData 9] Partitioning: Full indices shuffled.
+2025-08-04 21:03:31,999 - ClientAppLogger [Client 9] - INFO - [Partitioning Debug 9] Step 5d: Counts calculated. Final sums: Train=71888, Val=8119, Test=8120
+2025-08-04 21:03:32,000 - ClientAppLogger [Client 9] - INFO - [LoadData 9] Partitioning: Remainder distribution completed.
+2025-08-04 21:03:32,000 - ClientAppLogger [Client 9] - INFO - [Partitioning Debug 9] Step 5e: Final train_counts example: [117, 38174, 12359, 1183, 1086]
+2025-08-04 21:03:32,000 - ClientAppLogger [Client 9] - INFO - [Partitioning Debug 9] Step 5f: Final val_counts example: [575, 417, 122, 132, 3018]
+2025-08-04 21:03:32,000 - ClientAppLogger [Client 9] - INFO - [Partitioning Debug 9] Step 5g: Final test_counts example: [161, 226, 392, 3433, 379]
+2025-08-04 21:03:32,000 - ClientAppLogger [Client 9] - INFO - [Partitioning Debug 9] Step 6: Start indices calculated. train_start=54318
+2025-08-04 21:03:32,000 - ClientAppLogger [Client 9] - INFO - [LoadData 9] Partitioning: Start indices calculated. Train_start=54318, Val_start=7543, Test_start=8016
+2025-08-04 21:03:32,000 - ClientAppLogger [Client 9] - INFO - [Partitioning Debug 9] Step 7: End indices calculated. train_end=71888
+2025-08-04 21:03:32,001 - ClientAppLogger [Client 9] - INFO - [LoadData 9] Partitioning: End indices calculated. Train_end=71888, Val_end=8119, Test_end=8120
+2025-08-04 21:03:32,001 - ClientAppLogger [Client 9] - INFO - [Partitioning Debug 9] Step 8: Partition-specific indices extracted. Num train indices: 17570
+2025-08-04 21:03:32,001 - ClientAppLogger [Client 9] - INFO - [LoadData 9] Partitioning: Specific indices extracted. Train idx: 17570, Val idx: 576, Test idx: 104
+2025-08-04 21:03:32,001 - ClientAppLogger [Client 9] - INFO - [Partitioning Debug 9] Step 9a: Train data sliced for partition. X_train_part_full shape: (17570, 17)
+2025-08-04 21:03:32,002 - ClientAppLogger [Client 9] - INFO - [LoadData 9] Partitioning: Train data sliced. Shape: (17570, 17)
+2025-08-04 21:03:32,002 - ClientAppLogger [Client 9] - INFO - [Partitioning Debug 9] Step 9b: Validation data sliced for partition. X_val_part shape: (576, 17)
+2025-08-04 21:03:32,002 - ClientAppLogger [Client 9] - INFO - [LoadData 9] Partitioning: Validation data sliced. Shape: (576, 17)
+2025-08-04 21:03:32,002 - ClientAppLogger [Client 9] - INFO - [Partitioning Debug 9] Step 9c: Test data sliced for partition. X_test_part shape: (104, 17)
+2025-08-04 21:03:32,002 - ClientAppLogger [Client 9] - INFO - [LoadData 9] Partitioning: Test data sliced. Shape: (104, 17)
+2025-08-04 21:03:32,002 - ClientAppLogger [Client 9] - INFO - [Partitioning Debug 9] Step 10: Creating TonIoTDataset for train_dataset_full_potential.
+2025-08-04 21:03:32,003 - ClientAppLogger [Client 9] - INFO - [LoadData 9] Creating TonIoTDataset objects.
+2025-08-04 21:03:32,003 - ClientAppLogger [Client 9] - INFO - [Partitioning Debug 9] Step 11: Creating TonIoTDataset for val_dataset_static.
+2025-08-04 21:03:32,003 - ClientAppLogger [Client 9] - INFO - [Partitioning Debug 9] Step 12: Creating TonIoTDataset for test_dataset_static.
+2025-08-04 21:03:32,004 - ClientAppLogger [Client 9] - INFO - [Partitioning Debug 9] Step 13: All TonIoTDataset objects created.
+2025-08-04 21:03:32,004 - ClientAppLogger [Client 9] - INFO - [LoadData 9] TonIoTDataset objects created.
+2025-08-04 21:03:32,004 - ClientAppLogger [Client 9] - INFO - Partition 9 (Static Datasets): Train Potential 17570, Val 576, Test 104
+2025-08-04 21:03:32,004 - ClientAppLogger [Client 9] - INFO - [Partitioning Debug 9] END of partitioning block, returning datasets.
+2025-08-04 21:03:32,004 - ClientAppLogger [Client 9] - INFO - [LoadData 9] load_data function completed.
+2025-08-04 21:03:32,009 - ClientAppLogger [Client 9] - INFO - Data loaded for partition 9: Train samples: 17570, Val samples: 576
+2025-08-04 21:03:32,009 - ClientAppLogger [Client 9] - INFO - Instantiating GAN models: G(latent_dim=100, h1=128, h2=32), D(h1=128, h2=32)
+2025-08-04 21:03:32,010 - ClientAppLogger [Client 9] - INFO - [Client] Generator model has 6 parameter tensors.
+2025-08-04 21:03:32,010 - ClientAppLogger [Client 9] - INFO - [Client] Initialized. Device: cpu. Operating with 1 allocated core(s) for PyTorch tasks. Current PyTorch intra-op threads: 1.
+2025-08-04 21:03:32,012 - ClientAppLogger [Client 9] - INFO - [Client] Evaluate method started for round -1 using Discriminator.
+2025-08-04 21:03:32,012 - ClientAppLogger [Client 9] - INFO - [Client] set_parameters called with 12 total parameter tensors.
+2025-08-04 21:03:32,012 - ClientAppLogger [Client 9] - INFO - [Client] Splitting parameters: 6 for G, 6 for D.
+2025-08-04 21:03:32,013 - ClientAppLogger [Client 9] - INFO - [Client] Starting evaluation with Discriminator...
+2025-08-04 21:03:32,026 - ClientAppLogger [Client 9] - INFO - [Task] Test Evaluation: Samples (valid for metrics)=576, Avg Anomaly Score (all samples)=0.5393, Threshold=0.5858, Accuracy=0.7344, F1=0.8159, Precision=0.9826, Recall=0.6975
+2025-08-04 21:03:32,026 - ClientAppLogger [Client 9] - INFO - [Client] Evaluation finished. Samples: 576, Acc: 0.7344, F1: 0.8159, Prec: 0.9826, Rec: 0.6975, Avg Anomaly Score: 0.5393
+2025-08-04 21:03:43,309 - ClientAppLogger [Client 9] - INFO - ClientApp starting for partition_id: 9. Instance log dir: /app/logs/20250804_2100
+2025-08-04 21:03:43,309 - ClientAppLogger [Client 9] - INFO - ALLOCATED_CORES='1' found. Setting PyTorch threads to 1.
+2025-08-04 21:03:43,309 - ClientAppLogger [Client 9] - INFO - Called torch.set_num_threads(1). Current PyTorch intra-op threads: 1. Client will operate with 1 core(s).
+2025-08-04 21:03:43,309 - ClientAppLogger [Client 9] - INFO - Loading data for partition 9/10...
+2025-08-04 21:03:43,309 - ClientAppLogger [Client 9] - INFO - [LoadData 9] Starting load_data function.
+2025-08-04 21:03:43,310 - ClientAppLogger [Client 9] - INFO - [LoadData 9] Attempting to read CSV from src/datasets/Train_Test_datasets/Train_Test_Network_dataset/train_test_network.csv with columns: ['src_port', 'dst_port', 'duration', 'src_bytes', 'dst_bytes', 'missed_bytes', 'src_pkts', 'src_ip_bytes', 'dst_pkts', 'dst_ip_bytes', 'dns_qclass', 'dns_qtype', 'dns_rcode', 'http_trans_depth', 'http_request_body_len', 'http_response_body_len', 'http_status_code', 'label', 'type']
+2025-08-04 21:03:43,664 - ClientAppLogger [Client 9] - INFO - [LoadData 9] CSV read successfully. DataFrame shape: (211043, 19)
+2025-08-04 21:03:43,664 - ClientAppLogger [Client 9] - INFO - [LoadData 9] Starting '-' replacement and numeric conversion.
+2025-08-04 21:03:43,752 - ClientAppLogger [Client 9] - INFO - [LoadData 9] Numeric conversion completed.
+2025-08-04 21:03:43,798 - ClientAppLogger [Client 9] - INFO - [LoadData 9] NA values filled.
+2025-08-04 21:03:43,798 - ClientAppLogger [Client 9] - INFO - Splitting off 15.0% of data for global hold-out test set.
+2025-08-04 21:03:43,909 - ClientAppLogger [Client 9] - INFO - Proceeding with federated dataset of size 179386.
+2025-08-04 21:03:43,914 - ClientAppLogger [Client 9] - INFO - [LoadData 9] X and y created. X shape: (179386, 17), y shape: (179386,)
+2025-08-04 21:03:43,915 - ClientAppLogger [Client 9] - INFO - Fitting MinMaxScaler on X with shape (179386, 17)
+2025-08-04 21:03:43,920 - ClientAppLogger [Client 9] - INFO - [LoadData 9] Scaler fitting process completed.
+2025-08-04 21:03:43,926 - ClientAppLogger [Client 9] - INFO - [LoadData 9] X_scaled successfully. Shape: (179386, 17)
+2025-08-04 21:03:43,926 - ClientAppLogger [Client 9] - INFO - [LoadData 9] Starting semi-supervised data splitting logic.
+2025-08-04 21:03:43,926 - ClientAppLogger [Client 9] - INFO - Initial number of anomaly samples (positions in sampled data): 136886
+2025-08-04 21:03:43,927 - ClientAppLogger [Client 9] - INFO - [LoadData 9] Initial normal indices count: 42500, anomaly indices count: 136886
+2025-08-04 21:03:43,927 - ClientAppLogger [Client 9] - INFO - [LoadData 9] Starting anomaly reduction logic.
+2025-08-04 21:03:43,935 - ClientAppLogger [Client 9] - INFO - Found attack types in initial sampled anomalies: ['scanning' 'injection' 'ransomware' 'password' 'ddos' 'xss' 'dos'
+ 'backdoor' 'mitm']
+2025-08-04 21:03:43,938 - ClientAppLogger [Client 9] - INFO -   Attack type 'scanning': Had 16967 instances (in sampled), selected 5655 (target: 5655).
+2025-08-04 21:03:43,940 - ClientAppLogger [Client 9] - INFO -   Attack type 'injection': Had 17064 instances (in sampled), selected 5688 (target: 5688).
+2025-08-04 21:03:43,942 - ClientAppLogger [Client 9] - INFO -   Attack type 'ransomware': Had 17091 instances (in sampled), selected 5697 (target: 5697).
+2025-08-04 21:03:43,945 - ClientAppLogger [Client 9] - INFO -   Attack type 'password': Had 17013 instances (in sampled), selected 5671 (target: 5671).
+2025-08-04 21:03:43,947 - ClientAppLogger [Client 9] - INFO -   Attack type 'ddos': Had 16995 instances (in sampled), selected 5665 (target: 5665).
+2025-08-04 21:03:43,949 - ClientAppLogger [Client 9] - INFO -   Attack type 'xss': Had 16967 instances (in sampled), selected 5655 (target: 5655).
+2025-08-04 21:03:43,952 - ClientAppLogger [Client 9] - INFO -   Attack type 'dos': Had 16938 instances (in sampled), selected 5646 (target: 5646).
+2025-08-04 21:03:43,954 - ClientAppLogger [Client 9] - INFO -   Attack type 'backdoor': Had 16963 instances (in sampled), selected 5654 (target: 5654).
+2025-08-04 21:03:43,956 - ClientAppLogger [Client 9] - INFO -   Attack type 'mitm': Had 888 instances (in sampled), selected 296 (target: 296).
+2025-08-04 21:03:43,959 - ClientAppLogger [Client 9] - INFO - Total number of anomaly samples (positions) after reduction: 45627
+2025-08-04 21:03:43,967 - ClientAppLogger [Client 9] - INFO -   Distribution of remaining attack types: 
+type
+ransomware    5697
+injection     5688
+password      5671
+ddos          5665
+scanning      5655
+xss           5655
+backdoor      5654
+dos           5646
+mitm           296
+Name: count, dtype: int64
+2025-08-04 21:03:43,967 - ClientAppLogger [Client 9] - INFO - [LoadData 9] Anomaly reduction logic completed.
+2025-08-04 21:03:43,972 - ClientAppLogger [Client 9] - INFO - [LoadData 9] Normal and anomaly indices shuffled.
+2025-08-04 21:03:43,972 - ClientAppLogger [Client 9] - INFO - [LoadData 9] Creating unlabeled training base.
+2025-08-04 21:03:43,976 - ClientAppLogger [Client 9] - INFO - Unlabeled normal data for AE training base: 34000 samples.
+2025-08-04 21:03:43,977 - ClientAppLogger [Client 9] - INFO - [LoadData 9] Creating labeled pool.
+2025-08-04 21:03:43,984 - ClientAppLogger [Client 9] - INFO - Labeled Pool (for train augmentation, val, test): 54127 samples.
+2025-08-04 21:03:43,985 - ClientAppLogger [Client 9] - INFO - [LoadData 9] Labeled pool creation completed.
+2025-08-04 21:03:43,985 - ClientAppLogger [Client 9] - INFO - [LoadData 9] Splitting labeled pool for train_aug, val, test.
+2025-08-04 21:03:43,999 - ClientAppLogger [Client 9] - INFO - Labeled data for AE training augmentation: 37888 samples.
+2025-08-04 21:03:44,004 - ClientAppLogger [Client 9] - INFO - [LoadData 9] Combining data for final AE training set.
+2025-08-04 21:03:44,008 - ClientAppLogger [Client 9] - INFO - [LoadData 9] Final AE training data combination completed.
+2025-08-04 21:03:44,008 - ClientAppLogger [Client 9] - INFO - [LoadData 9] Logging final dataset sizes and distributions pre-partitioning.
+2025-08-04 21:03:44,009 - ClientAppLogger [Client 9] - INFO - Data Splitting Summary (Semi-Supervised AE):
+2025-08-04 21:03:44,009 - ClientAppLogger [Client 9] - INFO -   AE Training (X_train_combined): 71888 samples.
+2025-08-04 21:03:44,009 - ClientAppLogger [Client 9] - INFO -   Validation (X_val): 8119 samples.
+2025-08-04 21:03:44,009 - ClientAppLogger [Client 9] - INFO -   Test (X_test_final): 8120 samples.
+2025-08-04 21:03:44,009 - ClientAppLogger [Client 9] - INFO - [Partitioning Debug 9] START of partitioning block.
+2025-08-04 21:03:44,010 - ClientAppLogger [Client 9] - INFO - [LoadData 9] Starting Dirichlet-based partitioning with minimum sample guarantee.
+2025-08-04 21:03:44,010 - ClientAppLogger [Client 9] - INFO - [Partitioning Debug 9] Step 1: Full indices created.
+2025-08-04 21:03:44,010 - ClientAppLogger [Client 9] - INFO - [LoadData 9] Partitioning: Full train/val/test indices created.
+2025-08-04 21:03:44,011 - ClientAppLogger [Client 9] - INFO - [Partitioning Debug 9] Step 2: Full indices shuffled.
+2025-08-04 21:03:44,011 - ClientAppLogger [Client 9] - INFO - [LoadData 9] Partitioning: Full indices shuffled.
+2025-08-04 21:03:44,011 - ClientAppLogger [Client 9] - INFO - [Partitioning Debug 9] Step 5d: Counts calculated. Final sums: Train=71888, Val=8119, Test=8120
+2025-08-04 21:03:44,011 - ClientAppLogger [Client 9] - INFO - [LoadData 9] Partitioning: Remainder distribution completed.
+2025-08-04 21:03:44,012 - ClientAppLogger [Client 9] - INFO - [Partitioning Debug 9] Step 5e: Final train_counts example: [117, 38174, 12359, 1183, 1086]
+2025-08-04 21:03:44,012 - ClientAppLogger [Client 9] - INFO - [Partitioning Debug 9] Step 5f: Final val_counts example: [575, 417, 122, 132, 3018]
+2025-08-04 21:03:44,012 - ClientAppLogger [Client 9] - INFO - [Partitioning Debug 9] Step 5g: Final test_counts example: [161, 226, 392, 3433, 379]
+2025-08-04 21:03:44,012 - ClientAppLogger [Client 9] - INFO - [Partitioning Debug 9] Step 6: Start indices calculated. train_start=54318
+2025-08-04 21:03:44,012 - ClientAppLogger [Client 9] - INFO - [LoadData 9] Partitioning: Start indices calculated. Train_start=54318, Val_start=7543, Test_start=8016
+2025-08-04 21:03:44,012 - ClientAppLogger [Client 9] - INFO - [Partitioning Debug 9] Step 7: End indices calculated. train_end=71888
+2025-08-04 21:03:44,012 - ClientAppLogger [Client 9] - INFO - [LoadData 9] Partitioning: End indices calculated. Train_end=71888, Val_end=8119, Test_end=8120
+2025-08-04 21:03:44,012 - ClientAppLogger [Client 9] - INFO - [Partitioning Debug 9] Step 8: Partition-specific indices extracted. Num train indices: 17570
+2025-08-04 21:03:44,012 - ClientAppLogger [Client 9] - INFO - [LoadData 9] Partitioning: Specific indices extracted. Train idx: 17570, Val idx: 576, Test idx: 104
+2025-08-04 21:03:44,013 - ClientAppLogger [Client 9] - INFO - [Partitioning Debug 9] Step 9a: Train data sliced for partition. X_train_part_full shape: (17570, 17)
+2025-08-04 21:03:44,014 - ClientAppLogger [Client 9] - INFO - [LoadData 9] Partitioning: Train data sliced. Shape: (17570, 17)
+2025-08-04 21:03:44,014 - ClientAppLogger [Client 9] - INFO - [Partitioning Debug 9] Step 9b: Validation data sliced for partition. X_val_part shape: (576, 17)
+2025-08-04 21:03:44,014 - ClientAppLogger [Client 9] - INFO - [LoadData 9] Partitioning: Validation data sliced. Shape: (576, 17)
+2025-08-04 21:03:44,014 - ClientAppLogger [Client 9] - INFO - [Partitioning Debug 9] Step 9c: Test data sliced for partition. X_test_part shape: (104, 17)
+2025-08-04 21:03:44,014 - ClientAppLogger [Client 9] - INFO - [LoadData 9] Partitioning: Test data sliced. Shape: (104, 17)
+2025-08-04 21:03:44,014 - ClientAppLogger [Client 9] - INFO - [Partitioning Debug 9] Step 10: Creating TonIoTDataset for train_dataset_full_potential.
+2025-08-04 21:03:44,014 - ClientAppLogger [Client 9] - INFO - [LoadData 9] Creating TonIoTDataset objects.
+2025-08-04 21:03:44,015 - ClientAppLogger [Client 9] - INFO - [Partitioning Debug 9] Step 11: Creating TonIoTDataset for val_dataset_static.
+2025-08-04 21:03:44,015 - ClientAppLogger [Client 9] - INFO - [Partitioning Debug 9] Step 12: Creating TonIoTDataset for test_dataset_static.
+2025-08-04 21:03:44,015 - ClientAppLogger [Client 9] - INFO - [Partitioning Debug 9] Step 13: All TonIoTDataset objects created.
+2025-08-04 21:03:44,015 - ClientAppLogger [Client 9] - INFO - [LoadData 9] TonIoTDataset objects created.
+2025-08-04 21:03:44,016 - ClientAppLogger [Client 9] - INFO - Partition 9 (Static Datasets): Train Potential 17570, Val 576, Test 104
+2025-08-04 21:03:44,016 - ClientAppLogger [Client 9] - INFO - [Partitioning Debug 9] END of partitioning block, returning datasets.
+2025-08-04 21:03:44,016 - ClientAppLogger [Client 9] - INFO - [LoadData 9] load_data function completed.
+2025-08-04 21:03:44,019 - ClientAppLogger [Client 9] - INFO - Data loaded for partition 9: Train samples: 17570, Val samples: 576
+2025-08-04 21:03:44,019 - ClientAppLogger [Client 9] - INFO - Instantiating GAN models: G(latent_dim=100, h1=128, h2=32), D(h1=128, h2=32)
+2025-08-04 21:03:44,021 - ClientAppLogger [Client 9] - INFO - [Client] Generator model has 6 parameter tensors.
+2025-08-04 21:03:44,021 - ClientAppLogger [Client 9] - INFO - [Client] Initialized. Device: cpu. Operating with 1 allocated core(s) for PyTorch tasks. Current PyTorch intra-op threads: 1.
+2025-08-04 21:03:44,022 - ClientAppLogger [Client 9] - INFO - [Client] Evaluate method started for round -1 using Discriminator.
+2025-08-04 21:03:44,022 - ClientAppLogger [Client 9] - INFO - [Client] set_parameters called with 12 total parameter tensors.
+2025-08-04 21:03:44,023 - ClientAppLogger [Client 9] - INFO - [Client] Splitting parameters: 6 for G, 6 for D.
+2025-08-04 21:03:44,023 - ClientAppLogger [Client 9] - INFO - [Client] Starting evaluation with Discriminator...
+2025-08-04 21:03:44,037 - ClientAppLogger [Client 9] - INFO - [Task] Test Evaluation: Samples (valid for metrics)=576, Avg Anomaly Score (all samples)=0.4924, Threshold=0.5079, Accuracy=0.7344, F1=0.8159, Precision=0.9826, Recall=0.6975
+2025-08-04 21:03:44,037 - ClientAppLogger [Client 9] - INFO - [Client] Evaluation finished. Samples: 576, Acc: 0.7344, F1: 0.8159, Prec: 0.9826, Rec: 0.6975, Avg Anomaly Score: 0.4924
+2025-08-04 21:03:58,327 - ClientAppLogger [Client 9] - INFO - ClientApp starting for partition_id: 9. Instance log dir: /app/logs/20250804_2100
+2025-08-04 21:03:58,328 - ClientAppLogger [Client 9] - INFO - ALLOCATED_CORES='1' found. Setting PyTorch threads to 1.
+2025-08-04 21:03:58,328 - ClientAppLogger [Client 9] - INFO - Called torch.set_num_threads(1). Current PyTorch intra-op threads: 1. Client will operate with 1 core(s).
+2025-08-04 21:03:58,328 - ClientAppLogger [Client 9] - INFO - Loading data for partition 9/10...
+2025-08-04 21:03:58,328 - ClientAppLogger [Client 9] - INFO - [LoadData 9] Starting load_data function.
+2025-08-04 21:03:58,328 - ClientAppLogger [Client 9] - INFO - [LoadData 9] Attempting to read CSV from src/datasets/Train_Test_datasets/Train_Test_Network_dataset/train_test_network.csv with columns: ['src_port', 'dst_port', 'duration', 'src_bytes', 'dst_bytes', 'missed_bytes', 'src_pkts', 'src_ip_bytes', 'dst_pkts', 'dst_ip_bytes', 'dns_qclass', 'dns_qtype', 'dns_rcode', 'http_trans_depth', 'http_request_body_len', 'http_response_body_len', 'http_status_code', 'label', 'type']
+2025-08-04 21:03:58,739 - ClientAppLogger [Client 9] - INFO - [LoadData 9] CSV read successfully. DataFrame shape: (211043, 19)
+2025-08-04 21:03:58,739 - ClientAppLogger [Client 9] - INFO - [LoadData 9] Starting '-' replacement and numeric conversion.
+2025-08-04 21:03:58,829 - ClientAppLogger [Client 9] - INFO - [LoadData 9] Numeric conversion completed.
+2025-08-04 21:03:58,875 - ClientAppLogger [Client 9] - INFO - [LoadData 9] NA values filled.
+2025-08-04 21:03:58,876 - ClientAppLogger [Client 9] - INFO - Splitting off 15.0% of data for global hold-out test set.
+2025-08-04 21:03:59,015 - ClientAppLogger [Client 9] - INFO - Proceeding with federated dataset of size 179386.
+2025-08-04 21:03:59,022 - ClientAppLogger [Client 9] - INFO - [LoadData 9] X and y created. X shape: (179386, 17), y shape: (179386,)
+2025-08-04 21:03:59,022 - ClientAppLogger [Client 9] - INFO - Fitting MinMaxScaler on X with shape (179386, 17)
+2025-08-04 21:03:59,027 - ClientAppLogger [Client 9] - INFO - [LoadData 9] Scaler fitting process completed.
+2025-08-04 21:03:59,033 - ClientAppLogger [Client 9] - INFO - [LoadData 9] X_scaled successfully. Shape: (179386, 17)
+2025-08-04 21:03:59,033 - ClientAppLogger [Client 9] - INFO - [LoadData 9] Starting semi-supervised data splitting logic.
+2025-08-04 21:03:59,034 - ClientAppLogger [Client 9] - INFO - Initial number of anomaly samples (positions in sampled data): 136886
+2025-08-04 21:03:59,034 - ClientAppLogger [Client 9] - INFO - [LoadData 9] Initial normal indices count: 42500, anomaly indices count: 136886
+2025-08-04 21:03:59,035 - ClientAppLogger [Client 9] - INFO - [LoadData 9] Starting anomaly reduction logic.
+2025-08-04 21:03:59,044 - ClientAppLogger [Client 9] - INFO - Found attack types in initial sampled anomalies: ['scanning' 'injection' 'ransomware' 'password' 'ddos' 'xss' 'dos'
+ 'backdoor' 'mitm']
+2025-08-04 21:03:59,046 - ClientAppLogger [Client 9] - INFO -   Attack type 'scanning': Had 16967 instances (in sampled), selected 5655 (target: 5655).
+2025-08-04 21:03:59,049 - ClientAppLogger [Client 9] - INFO -   Attack type 'injection': Had 17064 instances (in sampled), selected 5688 (target: 5688).
+2025-08-04 21:03:59,052 - ClientAppLogger [Client 9] - INFO -   Attack type 'ransomware': Had 17091 instances (in sampled), selected 5697 (target: 5697).
+2025-08-04 21:03:59,054 - ClientAppLogger [Client 9] - INFO -   Attack type 'password': Had 17013 instances (in sampled), selected 5671 (target: 5671).
+2025-08-04 21:03:59,056 - ClientAppLogger [Client 9] - INFO -   Attack type 'ddos': Had 16995 instances (in sampled), selected 5665 (target: 5665).
+2025-08-04 21:03:59,059 - ClientAppLogger [Client 9] - INFO -   Attack type 'xss': Had 16967 instances (in sampled), selected 5655 (target: 5655).
+2025-08-04 21:03:59,061 - ClientAppLogger [Client 9] - INFO -   Attack type 'dos': Had 16938 instances (in sampled), selected 5646 (target: 5646).
+2025-08-04 21:03:59,064 - ClientAppLogger [Client 9] - INFO -   Attack type 'backdoor': Had 16963 instances (in sampled), selected 5654 (target: 5654).
+2025-08-04 21:03:59,066 - ClientAppLogger [Client 9] - INFO -   Attack type 'mitm': Had 888 instances (in sampled), selected 296 (target: 296).
+2025-08-04 21:03:59,068 - ClientAppLogger [Client 9] - INFO - Total number of anomaly samples (positions) after reduction: 45627
+2025-08-04 21:03:59,080 - ClientAppLogger [Client 9] - INFO -   Distribution of remaining attack types: 
+type
+ransomware    5697
+injection     5688
+password      5671
+ddos          5665
+scanning      5655
+xss           5655
+backdoor      5654
+dos           5646
+mitm           296
+Name: count, dtype: int64
+2025-08-04 21:03:59,080 - ClientAppLogger [Client 9] - INFO - [LoadData 9] Anomaly reduction logic completed.
+2025-08-04 21:03:59,086 - ClientAppLogger [Client 9] - INFO - [LoadData 9] Normal and anomaly indices shuffled.
+2025-08-04 21:03:59,086 - ClientAppLogger [Client 9] - INFO - [LoadData 9] Creating unlabeled training base.
+2025-08-04 21:03:59,091 - ClientAppLogger [Client 9] - INFO - Unlabeled normal data for AE training base: 34000 samples.
+2025-08-04 21:03:59,091 - ClientAppLogger [Client 9] - INFO - [LoadData 9] Creating labeled pool.
+2025-08-04 21:03:59,100 - ClientAppLogger [Client 9] - INFO - Labeled Pool (for train augmentation, val, test): 54127 samples.
+2025-08-04 21:03:59,101 - ClientAppLogger [Client 9] - INFO - [LoadData 9] Labeled pool creation completed.
+2025-08-04 21:03:59,101 - ClientAppLogger [Client 9] - INFO - [LoadData 9] Splitting labeled pool for train_aug, val, test.
+2025-08-04 21:03:59,116 - ClientAppLogger [Client 9] - INFO - Labeled data for AE training augmentation: 37888 samples.
+2025-08-04 21:03:59,121 - ClientAppLogger [Client 9] - INFO - [LoadData 9] Combining data for final AE training set.
+2025-08-04 21:03:59,126 - ClientAppLogger [Client 9] - INFO - [LoadData 9] Final AE training data combination completed.
+2025-08-04 21:03:59,126 - ClientAppLogger [Client 9] - INFO - [LoadData 9] Logging final dataset sizes and distributions pre-partitioning.
+2025-08-04 21:03:59,126 - ClientAppLogger [Client 9] - INFO - Data Splitting Summary (Semi-Supervised AE):
+2025-08-04 21:03:59,127 - ClientAppLogger [Client 9] - INFO -   AE Training (X_train_combined): 71888 samples.
+2025-08-04 21:03:59,127 - ClientAppLogger [Client 9] - INFO -   Validation (X_val): 8119 samples.
+2025-08-04 21:03:59,127 - ClientAppLogger [Client 9] - INFO -   Test (X_test_final): 8120 samples.
+2025-08-04 21:03:59,127 - ClientAppLogger [Client 9] - INFO - [Partitioning Debug 9] START of partitioning block.
+2025-08-04 21:03:59,128 - ClientAppLogger [Client 9] - INFO - [LoadData 9] Starting Dirichlet-based partitioning with minimum sample guarantee.
+2025-08-04 21:03:59,128 - ClientAppLogger [Client 9] - INFO - [Partitioning Debug 9] Step 1: Full indices created.
+2025-08-04 21:03:59,128 - ClientAppLogger [Client 9] - INFO - [LoadData 9] Partitioning: Full train/val/test indices created.
+2025-08-04 21:03:59,130 - ClientAppLogger [Client 9] - INFO - [Partitioning Debug 9] Step 2: Full indices shuffled.
+2025-08-04 21:03:59,130 - ClientAppLogger [Client 9] - INFO - [LoadData 9] Partitioning: Full indices shuffled.
+2025-08-04 21:03:59,130 - ClientAppLogger [Client 9] - INFO - [Partitioning Debug 9] Step 5d: Counts calculated. Final sums: Train=71888, Val=8119, Test=8120
+2025-08-04 21:03:59,130 - ClientAppLogger [Client 9] - INFO - [LoadData 9] Partitioning: Remainder distribution completed.
+2025-08-04 21:03:59,130 - ClientAppLogger [Client 9] - INFO - [Partitioning Debug 9] Step 5e: Final train_counts example: [117, 38174, 12359, 1183, 1086]
+2025-08-04 21:03:59,130 - ClientAppLogger [Client 9] - INFO - [Partitioning Debug 9] Step 5f: Final val_counts example: [575, 417, 122, 132, 3018]
+2025-08-04 21:03:59,131 - ClientAppLogger [Client 9] - INFO - [Partitioning Debug 9] Step 5g: Final test_counts example: [161, 226, 392, 3433, 379]
+2025-08-04 21:03:59,131 - ClientAppLogger [Client 9] - INFO - [Partitioning Debug 9] Step 6: Start indices calculated. train_start=54318
+2025-08-04 21:03:59,131 - ClientAppLogger [Client 9] - INFO - [LoadData 9] Partitioning: Start indices calculated. Train_start=54318, Val_start=7543, Test_start=8016
+2025-08-04 21:03:59,131 - ClientAppLogger [Client 9] - INFO - [Partitioning Debug 9] Step 7: End indices calculated. train_end=71888
+2025-08-04 21:03:59,131 - ClientAppLogger [Client 9] - INFO - [LoadData 9] Partitioning: End indices calculated. Train_end=71888, Val_end=8119, Test_end=8120
+2025-08-04 21:03:59,131 - ClientAppLogger [Client 9] - INFO - [Partitioning Debug 9] Step 8: Partition-specific indices extracted. Num train indices: 17570
+2025-08-04 21:03:59,131 - ClientAppLogger [Client 9] - INFO - [LoadData 9] Partitioning: Specific indices extracted. Train idx: 17570, Val idx: 576, Test idx: 104
+2025-08-04 21:03:59,133 - ClientAppLogger [Client 9] - INFO - [Partitioning Debug 9] Step 9a: Train data sliced for partition. X_train_part_full shape: (17570, 17)
+2025-08-04 21:03:59,133 - ClientAppLogger [Client 9] - INFO - [LoadData 9] Partitioning: Train data sliced. Shape: (17570, 17)
+2025-08-04 21:03:59,133 - ClientAppLogger [Client 9] - INFO - [Partitioning Debug 9] Step 9b: Validation data sliced for partition. X_val_part shape: (576, 17)
+2025-08-04 21:03:59,134 - ClientAppLogger [Client 9] - INFO - [LoadData 9] Partitioning: Validation data sliced. Shape: (576, 17)
+2025-08-04 21:03:59,134 - ClientAppLogger [Client 9] - INFO - [Partitioning Debug 9] Step 9c: Test data sliced for partition. X_test_part shape: (104, 17)
+2025-08-04 21:03:59,134 - ClientAppLogger [Client 9] - INFO - [LoadData 9] Partitioning: Test data sliced. Shape: (104, 17)
+2025-08-04 21:03:59,134 - ClientAppLogger [Client 9] - INFO - [Partitioning Debug 9] Step 10: Creating TonIoTDataset for train_dataset_full_potential.
+2025-08-04 21:03:59,134 - ClientAppLogger [Client 9] - INFO - [LoadData 9] Creating TonIoTDataset objects.
+2025-08-04 21:03:59,135 - ClientAppLogger [Client 9] - INFO - [Partitioning Debug 9] Step 11: Creating TonIoTDataset for val_dataset_static.
+2025-08-04 21:03:59,135 - ClientAppLogger [Client 9] - INFO - [Partitioning Debug 9] Step 12: Creating TonIoTDataset for test_dataset_static.
+2025-08-04 21:03:59,135 - ClientAppLogger [Client 9] - INFO - [Partitioning Debug 9] Step 13: All TonIoTDataset objects created.
+2025-08-04 21:03:59,135 - ClientAppLogger [Client 9] - INFO - [LoadData 9] TonIoTDataset objects created.
+2025-08-04 21:03:59,136 - ClientAppLogger [Client 9] - INFO - Partition 9 (Static Datasets): Train Potential 17570, Val 576, Test 104
+2025-08-04 21:03:59,136 - ClientAppLogger [Client 9] - INFO - [Partitioning Debug 9] END of partitioning block, returning datasets.
+2025-08-04 21:03:59,136 - ClientAppLogger [Client 9] - INFO - [LoadData 9] load_data function completed.
+2025-08-04 21:03:59,141 - ClientAppLogger [Client 9] - INFO - Data loaded for partition 9: Train samples: 17570, Val samples: 576
+2025-08-04 21:03:59,141 - ClientAppLogger [Client 9] - INFO - Instantiating GAN models: G(latent_dim=100, h1=128, h2=32), D(h1=128, h2=32)
+2025-08-04 21:03:59,143 - ClientAppLogger [Client 9] - INFO - [Client] Generator model has 6 parameter tensors.
+2025-08-04 21:03:59,143 - ClientAppLogger [Client 9] - INFO - [Client] Initialized. Device: cpu. Operating with 1 allocated core(s) for PyTorch tasks. Current PyTorch intra-op threads: 1.
+2025-08-04 21:03:59,144 - ClientAppLogger [Client 9] - INFO - [Client] Evaluate method started for round -1 using Discriminator.
+2025-08-04 21:03:59,144 - ClientAppLogger [Client 9] - INFO - [Client] set_parameters called with 12 total parameter tensors.
+2025-08-04 21:03:59,145 - ClientAppLogger [Client 9] - INFO - [Client] Splitting parameters: 6 for G, 6 for D.
+2025-08-04 21:03:59,145 - ClientAppLogger [Client 9] - INFO - [Client] Starting evaluation with Discriminator...
+2025-08-04 21:03:59,158 - ClientAppLogger [Client 9] - INFO - [Task] Test Evaluation: Samples (valid for metrics)=576, Avg Anomaly Score (all samples)=0.5633, Threshold=0.6302, Accuracy=0.7344, F1=0.8159, Precision=0.9826, Recall=0.6975
+2025-08-04 21:03:59,159 - ClientAppLogger [Client 9] - INFO - [Client] Evaluation finished. Samples: 576, Acc: 0.7344, F1: 0.8159, Prec: 0.9826, Rec: 0.6975, Avg Anomaly Score: 0.5633
+2025-08-04 21:04:22,524 - ClientAppLogger [Client 9] - INFO - ClientApp starting for partition_id: 9. Instance log dir: /app/logs/20250804_2100
+2025-08-04 21:04:22,525 - ClientAppLogger [Client 9] - INFO - ALLOCATED_CORES='1' found. Setting PyTorch threads to 1.
+2025-08-04 21:04:22,537 - ClientAppLogger [Client 9] - INFO - Called torch.set_num_threads(1). Current PyTorch intra-op threads: 1. Client will operate with 1 core(s).
+2025-08-04 21:04:22,537 - ClientAppLogger [Client 9] - INFO - Loading data for partition 9/10...
+2025-08-04 21:04:22,537 - ClientAppLogger [Client 9] - INFO - [LoadData 9] Starting load_data function.
+2025-08-04 21:04:22,538 - ClientAppLogger [Client 9] - INFO - [LoadData 9] Attempting to read CSV from src/datasets/Train_Test_datasets/Train_Test_Network_dataset/train_test_network.csv with columns: ['src_port', 'dst_port', 'duration', 'src_bytes', 'dst_bytes', 'missed_bytes', 'src_pkts', 'src_ip_bytes', 'dst_pkts', 'dst_ip_bytes', 'dns_qclass', 'dns_qtype', 'dns_rcode', 'http_trans_depth', 'http_request_body_len', 'http_response_body_len', 'http_status_code', 'label', 'type']
